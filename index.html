@@ -1,0 +1,2406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STOTT PILATES® Certification Study App</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:#F7F3EE;--warm-white:#FDFBF8;--charcoal:#1C1C1C;--soft-black:#2A2A2A;
+    --sage:#7A9E7E;--sage-light:#A8C5AB;--sage-dark:#4A7350;
+    --terracotta:#C4715A;--terracotta-light:#E8A090;
+    --gold:#C9A84C;--gold-light:#E8D5A3;
+    --muted:#8A8A8A;--border:#E0D8CF;--card-bg:#FFFFFF;
+    --shadow:0 4px 24px rgba(28,28,28,0.08);--shadow-lg:0 12px 48px rgba(28,28,28,0.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);min-height:100vh;overflow-x:hidden;}
+  .header{background:var(--soft-black);color:var(--cream);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:2px solid var(--sage-dark);}
+  .header-brand span:first-child{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:3px;text-transform:uppercase;display:block;}
+  .header-brand span:last-child{font-size:10px;letter-spacing:2px;color:var(--sage-light);text-transform:uppercase;}
+  .header-badge{background:var(--sage-dark);color:white;font-size:11px;padding:4px 12px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;}
+  .nav-tabs{display:flex;gap:0;background:var(--warm-white);border-bottom:1px solid var(--border);padding:0 24px;overflow-x:auto;}
+  .nav-tab{padding:14px 20px;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
+  .nav-tab:hover{color:var(--charcoal);}
+  .nav-tab.active{color:var(--sage-dark);border-bottom-color:var(--sage-dark);font-weight:600;}
+  .container{max-width:1100px;margin:0 auto;padding:32px 24px;}
+  .panel{display:none;}.panel.active{display:block;}
+  .section-title{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--soft-black);margin-bottom:6px;}
+  .section-subtitle{font-size:13px;color:var(--muted);margin-bottom:28px;letter-spacing:.5px;}
+  .category-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+  .pill{padding:7px 16px;border-radius:24px;font-size:11px;font-weight:500;letter-spacing:.5px;cursor:pointer;border:1.5px solid var(--border);background:white;color:var(--charcoal);transition:all .2s;}
+  .pill:hover,.pill.active{background:var(--sage-dark);border-color:var(--sage-dark);color:white;}
+  .btn{padding:11px 26px;border-radius:8px;font-size:13px;font-weight:500;letter-spacing:.5px;cursor:pointer;border:none;transition:all .2s;}
+  .btn-primary{background:var(--sage-dark);color:white;}.btn-primary:hover{background:var(--sage);}
+  .btn-secondary{background:white;color:var(--charcoal);border:1.5px solid var(--border);}.btn-secondary:hover{border-color:var(--sage-dark);color:var(--sage-dark);}
+  .btn-terracotta{background:var(--terracotta);color:white;}.btn-terracotta:hover{background:#b3614b;}
+
+  /* FLASHCARD */
+  .flashcard-area{display:flex;flex-direction:column;align-items:center;gap:20px;}
+  .flashcard-counter{font-size:13px;color:var(--muted);letter-spacing:1px;}
+  .flashcard-scene{width:100%;max-width:660px;height:300px;perspective:1200px;cursor:pointer;}
+  .flashcard-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+  .flashcard-inner.flipped{transform:rotateY(180deg);}
+  .flashcard-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px;text-align:center;box-shadow:var(--shadow-lg);}
+  .flashcard-front{background:var(--soft-black);color:white;}
+  .flashcard-back{background:var(--warm-white);color:var(--charcoal);transform:rotateY(180deg);border:1.5px solid var(--border);}
+  .card-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;opacity:.6;}
+  .card-question{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;line-height:1.4;}
+  .card-answer{font-size:14px;line-height:1.7;color:var(--soft-black);}
+  .card-hint{margin-top:18px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1px;}
+  .flashcard-controls{display:flex;gap:14px;align-items:center;}
+  .progress-bar{width:100%;max-width:660px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--sage-dark);transition:width .3s ease;border-radius:4px;}
+
+  /* QUIZ */
+  .quiz-card{background:white;border-radius:16px;padding:36px;box-shadow:var(--shadow);max-width:700px;margin:0 auto;}
+  .quiz-q-num{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+  .quiz-question{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;line-height:1.4;margin-bottom:24px;color:var(--soft-black);}
+  .quiz-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+  .quiz-option{padding:14px 18px;border-radius:10px;border:1.5px solid var(--border);background:var(--warm-white);font-size:13px;cursor:pointer;transition:all .2s;text-align:left;display:flex;align-items:center;gap:12px;}
+  .quiz-option:hover:not([disabled]){border-color:var(--sage-dark);background:#f0f6f1;}
+  .quiz-option.correct{border-color:var(--sage-dark);background:#e8f4ea;color:var(--sage-dark);}
+  .quiz-option.wrong{border-color:var(--terracotta);background:#fdf0ed;color:var(--terracotta);}
+  .option-letter{width:26px;height:26px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;}
+  .quiz-feedback{padding:12px 16px;border-radius:10px;font-size:13px;line-height:1.6;margin-bottom:18px;display:none;}
+  .quiz-feedback.show{display:block;}
+  .quiz-feedback.correct{background:#e8f4ea;color:var(--sage-dark);border-left:4px solid var(--sage-dark);}
+  .quiz-feedback.wrong{background:#fdf0ed;color:#9b4030;border-left:4px solid var(--terracotta);}
+  .score-circle{width:130px;height:130px;border-radius:50%;background:var(--soft-black);color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 24px;}
+  .score-num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;line-height:1;}
+  .score-label{font-size:10px;letter-spacing:2px;opacity:.7;}
+
+  /* STUDY GUIDE */
+  .study-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:700px){.study-grid{grid-template-columns:1fr;}}
+  .study-card{background:white;border-radius:14px;padding:26px;box-shadow:var(--shadow);border-top:4px solid var(--sage-dark);}
+  .study-card.terracotta{border-top-color:var(--terracotta);}
+  .study-card.gold{border-top-color:var(--gold);}
+  .study-card.charcoal{border-top-color:var(--charcoal);}
+  .study-card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;margin-bottom:3px;}
+  .study-card-sub{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+  .study-item{padding:9px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.6;display:grid;grid-template-columns:1fr 1.5fr;gap:10px;}
+  .study-item:last-child{border-bottom:none;}
+  .study-item-key{font-weight:600;color:var(--soft-black);}
+  .study-item-val{color:#555;}
+  .study-list-item{padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.5;}
+  .study-list-item:last-child{border-bottom:none;}
+
+  /* ANATOMY TABLE */
+  .table-wrapper{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th{background:var(--soft-black);color:white;padding:11px 14px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+  td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+  tr:hover td{background:var(--cream);}
+  .tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500;letter-spacing:.5px;}
+  .tag-green{background:#e8f4ea;color:var(--sage-dark);}
+  .tag-red{background:#fdf0ed;color:var(--terracotta);}
+  .tag-gold{background:#fdf6e3;color:#8a6d15;}
+
+  /* BODY MAP */
+  .bodymap-layout{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start;}
+  @media(max-width:800px){.bodymap-layout{grid-template-columns:1fr;}}
+  .bodymap-views{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .body-svg-wrapper{position:relative;cursor:pointer;}
+  .body-svg-wrapper svg{display:block;}
+  .view-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px;width:fit-content;}
+  .view-btn{padding:8px 20px;font-size:12px;font-weight:500;letter-spacing:.5px;cursor:pointer;border:none;background:white;color:var(--muted);transition:all .2s;}
+  .view-btn.active{background:var(--soft-black);color:white;}
+  .muscle-info-panel{background:white;border-radius:14px;padding:24px;box-shadow:var(--shadow);border-left:4px solid var(--sage-dark);min-height:200px;}
+  .muscle-info-panel h3{font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:4px;}
+  .muscle-info-panel .group-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+  .muscle-info-row{margin-bottom:12px;}
+  .muscle-info-row .label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+  .muscle-info-row .value{font-size:13px;line-height:1.6;color:var(--soft-black);}
+  .muscle-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--muted);text-align:center;gap:10px;}
+  .muscle-placeholder svg{opacity:.3;}
+
+  /* VISUAL QUIZ */
+  .vquiz-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;max-width:900px;margin:0 auto;}
+  @media(max-width:700px){.vquiz-layout{grid-template-columns:1fr;}}
+  .vquiz-svg-box{background:white;border-radius:14px;padding:20px;box-shadow:var(--shadow);text-align:center;}
+  .vquiz-svg-box .hint-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+  .vquiz-question-box{background:white;border-radius:14px;padding:24px;box-shadow:var(--shadow);}
+
+  /* AI CHAT */
+  .ai-chat-container{max-width:700px;margin:0 auto;}
+  .chat-messages{min-height:280px;max-height:420px;overflow-y:auto;background:white;border-radius:14px;padding:22px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;flex-direction:column;gap:14px;}
+  .chat-msg{display:flex;gap:10px;align-items:flex-start;animation:fadeUp .3s ease;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .chat-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:600;}
+  .chat-avatar.ai{background:var(--soft-black);color:white;}
+  .chat-avatar.user{background:var(--sage-dark);color:white;}
+  .chat-bubble{background:var(--cream);border-radius:12px;padding:12px 16px;font-size:13px;line-height:1.7;max-width:90%;}
+  .chat-bubble.user{background:var(--sage-dark);color:white;}
+  .chat-input-row{display:flex;gap:10px;}
+  .chat-input{flex:1;padding:13px 16px;border-radius:10px;border:1.5px solid var(--border);font-size:13px;font-family:'DM Sans',sans-serif;background:white;outline:none;transition:border-color .2s;}
+  .chat-input:focus{border-color:var(--sage-dark);}
+  .chat-send{padding:13px 22px;background:var(--soft-black);color:white;border:none;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;transition:background .2s;}
+  .chat-send:hover{background:var(--sage-dark);}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:pulse 1.4s infinite;display:inline-block;}
+  .dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
+  @keyframes pulse{0%,80%,100%{transform:scale(.6);opacity:.4;}40%{transform:scale(1);opacity:1;}}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;}
+  @media(max-width:700px){.info-grid{grid-template-columns:1fr 1fr;}}
+  .info-card{background:white;border-radius:12px;padding:18px;box-shadow:var(--shadow);text-align:center;}
+  .info-card-num{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--sage-dark);}
+  .info-card-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">
+    <span>STOTT PILATES®</span>
+    <span>Certification Study App</span>
+  </div>
+  <div class="header-badge">Level 1 Prep</div>
+</div>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showPanel('flashcards',this)">Flashcards</button>
+  <button class="nav-tab" onclick="showPanel('quiz',this)">Quiz</button>
+  <button class="nav-tab" onclick="showPanel('bodymap',this)">🫀 Body Map</button>
+  <button class="nav-tab" onclick="showPanel('visualquiz',this)">👁 Visual Quiz</button>
+  <button class="nav-tab" onclick="showPanel('studyguide',this)">Study Guide</button>
+  <button class="nav-tab" onclick="showPanel('anatomy',this)">Anatomy Table</button>
+  <button class="nav-tab" onclick="showPanel('examinfo',this)">Exam Info</button>
+  <button class="nav-tab" onclick="showPanel('posturalanalysis',this)">📋 Postural Analysis</button>
+  <button class="nav-tab" onclick="showPanel('programming',this)">💪 Programming</button>
+  <button class="nav-tab" onclick="showPanel('aitutor',this)">AI Tutor</button>
+</div>
+
+<!-- ===== FLASHCARDS ===== -->
+<div id="panel-flashcards" class="panel active">
+  <div class="container">
+    <h1 class="section-title">Flashcards</h1>
+    <p class="section-subtitle">Click a card to reveal the answer.</p>
+    <div class="category-pills">
+      <button class="pill active" onclick="filterCards('all',this)">All</button>
+      <button class="pill" onclick="filterCards('5principles',this)">5 Principles</button>
+      <button class="pill" onclick="filterCards('anatomy',this)">Anatomy</button>
+      <button class="pill" onclick="filterCards('muscles',this)">Muscles</button>
+      <button class="pill" onclick="filterCards('exam',this)">Exam</button>
+      <button class="pill" onclick="filterCards('reformer',this)">Reformer</button>
+    </div>
+    <div class="flashcard-area">
+      <div class="flashcard-counter" id="fc-counter">Card 1 of 1</div>
+      <div class="progress-bar"><div class="progress-fill" id="fc-progress"></div></div>
+      <div class="flashcard-scene" onclick="flipCard()">
+        <div class="flashcard-inner" id="flashcard-inner">
+          <div class="flashcard-face flashcard-front">
+            <div class="card-tag" id="card-tag">Principle</div>
+            <div class="card-question" id="card-question">Loading...</div>
+            <div class="card-hint">Click to reveal answer</div>
+          </div>
+          <div class="flashcard-face flashcard-back">
+            <div class="card-tag">Answer</div>
+            <div class="card-answer" id="card-answer">...</div>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard-controls">
+        <button class="btn btn-secondary" onclick="prevCard()">← Prev</button>
+        <button class="btn btn-primary" onclick="flipCard()">Flip</button>
+        <button class="btn btn-secondary" onclick="nextCard()">Next →</button>
+      </div>
+      <button class="btn btn-terracotta" onclick="shuffleCards()" style="font-size:11px;padding:7px 18px;">🔀 Shuffle</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="panel-quiz" class="panel">
+  <div class="container">
+    <h1 class="section-title">Quiz Mode</h1>
+    <p class="section-subtitle">Multiple choice questions from your study materials.</p>
+    <div id="quiz-start" style="text-align:center;padding:32px 0;">
+      <div class="category-pills" style="justify-content:center;margin-bottom:24px;">
+        <button class="pill active" onclick="setQuizCat('all',this)">All Topics</button>
+        <button class="pill" onclick="setQuizCat('5principles',this)">5 Principles</button>
+        <button class="pill" onclick="setQuizCat('anatomy',this)">Anatomy</button>
+        <button class="pill" onclick="setQuizCat('exam',this)">Exam Process</button>
+        <button class="pill" onclick="setQuizCat('muscles',this)">Muscles</button>
+      </div>
+      <button class="btn btn-primary" style="font-size:14px;padding:14px 36px;" onclick="startQuiz()">Begin Quiz</button>
+    </div>
+    <div id="quiz-active" style="display:none;">
+      <div class="progress-bar" style="max-width:700px;margin:0 auto 20px;"><div class="progress-fill" id="quiz-progress"></div></div>
+      <div class="quiz-card">
+        <div class="quiz-q-num" id="quiz-qnum">Question 1 of 10</div>
+        <div class="quiz-question" id="quiz-question">...</div>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-feedback" id="quiz-feedback"></div>
+        <button class="btn btn-primary" id="quiz-next-btn" style="display:none;" onclick="nextQuestion()">Next →</button>
+      </div>
+    </div>
+    <div id="quiz-done" style="display:none;">
+      <div class="quiz-card" style="text-align:center;padding:50px 36px;">
+        <div class="score-circle"><div class="score-num" id="score-num">0%</div><div class="score-label">Score</div></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:6px;" id="score-msg">Great effort!</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:28px;" id="score-sub">0/10</div>
+        <div style="display:flex;gap:10px;justify-content:center;">
+          <button class="btn btn-primary" onclick="startQuiz()">Try Again</button>
+          <button class="btn btn-secondary" onclick="showQuizStart()">Change Category</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BODY MAP ===== -->
+<div id="panel-bodymap" class="panel">
+  <div class="container">
+    <h1 class="section-title">Anatomy Body Map</h1>
+    <p class="section-subtitle">Click any highlighted muscle region to see its details. Toggle front, back, and side views.</p>
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="setView('front',this)">Front</button>
+      <button class="view-btn" onclick="setView('back',this)">Back</button>
+      <button class="view-btn" onclick="setView('side',this)">Side</button>
+    </div>
+    <div class="bodymap-layout">
+      <div>
+        <div id="body-front" class="body-svg-wrapper"></div>
+        <div id="body-back" class="body-svg-wrapper" style="display:none;"></div>
+        <div id="body-side" class="body-svg-wrapper" style="display:none;"></div>
+      </div>
+      <div>
+        <div class="muscle-info-panel" id="muscle-info-panel">
+          <div class="muscle-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2zm0-8h2v6h-2z"/></svg>
+            <div style="font-size:13px;">Click a muscle region<br>to see details</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:14px;background:white;border-radius:10px;box-shadow:var(--shadow);">
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Legend</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:rgba(74,115,80,0.3);border:1.5px solid #4A7350;border-radius:3px;display:inline-block;"></span> Anterior (front) muscle</div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:rgba(196,113,90,0.3);border:1.5px solid #C4715A;border-radius:3px;display:inline-block;"></span> Posterior (back) muscle</div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:rgba(201,168,76,0.3);border:1.5px solid #C9A84C;border-radius:3px;display:inline-block;"></span> Deep / stabilizer muscle</div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:rgba(74,115,80,0.7);border:1.5px solid #4A7350;border-radius:3px;display:inline-block;"></span> Selected</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== VISUAL QUIZ ===== -->
+<div id="panel-visualquiz" class="panel">
+  <div class="container">
+    <h1 class="section-title">Visual Quiz</h1>
+    <p class="section-subtitle">A muscle region is highlighted on the body — identify it and answer questions about its origin, insertion & action. Just like the real exam.</p>
+    <div id="vquiz-start" style="text-align:center;padding:32px 0;">
+      <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">A body region will be highlighted. You must identify the muscle and its anatomical details.</p>
+      <button class="btn btn-primary" style="font-size:14px;padding:14px 36px;" onclick="startVisualQuiz()">Start Visual Quiz</button>
+    </div>
+    <div id="vquiz-active" style="display:none;">
+      <div style="max-width:900px;margin:0 auto;">
+        <div class="progress-bar" style="margin-bottom:20px;"><div class="progress-fill" id="vquiz-progress"></div></div>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:16px;" id="vquiz-qnum">Question 1 of 10</div>
+        <div class="vquiz-layout">
+          <div class="vquiz-svg-box">
+            <div class="hint-label" id="vquiz-view-hint">Front View</div>
+            <div id="vquiz-svg-container"></div>
+            <div style="margin-top:12px;padding:8px;background:var(--cream);border-radius:8px;font-size:11px;color:var(--muted);">The highlighted region contains the target muscle</div>
+          </div>
+          <div class="vquiz-question-box">
+            <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;" id="vquiz-q-type">Identify the Muscle</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;line-height:1.4;margin-bottom:20px;" id="vquiz-question">Which muscle is highlighted?</div>
+            <div id="vquiz-options"></div>
+            <div class="quiz-feedback" id="vquiz-feedback"></div>
+            <button class="btn btn-primary" id="vquiz-next-btn" style="display:none;" onclick="nextVisualQuestion()">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="vquiz-done" style="display:none;">
+      <div class="quiz-card" style="text-align:center;padding:50px 36px;max-width:700px;margin:0 auto;">
+        <div class="score-circle"><div class="score-num" id="vscore-num">0%</div><div class="score-label">Score</div></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:6px;" id="vscore-msg">Well done!</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:28px;" id="vscore-sub">0/10</div>
+        <div style="display:flex;gap:10px;justify-content:center;">
+          <button class="btn btn-primary" onclick="startVisualQuiz()">Try Again</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('vquiz-active').style.display='none';document.getElementById('vquiz-start').style.display='block';">Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STUDY GUIDE ===== -->
+<div id="panel-studyguide" class="panel">
+  <div class="container">
+    <h1 class="section-title">Study Guide</h1>
+    <p class="section-subtitle">Key concepts from your STOTT PILATES materials.</p>
+    <div class="study-grid">
+      <div class="study-card">
+        <div class="study-card-title">The 5 Basic Principles</div>
+        <div class="study-card-sub">Core of STOTT method</div>
+        <div class="study-list-item"><strong>1. Breathing</strong> — Inhale through nose, exhale through mouth. 3D breath into posterior & lateral rib cage. Activates transversus abdominis.</div>
+        <div class="study-list-item"><strong>2. Pelvic Placement</strong> — Neutral (natural lordosis) or Imprint (slight posterior tilt, obliques shortened, no glutes).</div>
+        <div class="study-list-item"><strong>3. Rib Cage Placement</strong> — Breathe into posterior/lateral ribs. Abdominals prevent "popping."</div>
+        <div class="study-list-item"><strong>4. Scapular Movement & Stabilization</strong> — Attaches only to clavicle. 6 movements. Stabilize before every exercise.</div>
+        <div class="study-list-item"><strong>5. Head & Cervical Placement</strong> — Natural cervical curve. Cranio-vertebral flexion initiates spinal flexion.</div>
+      </div>
+      <div class="study-card terracotta">
+        <div class="study-card-title">Pelvic Positions</div>
+        <div class="study-card-sub">Critical distinction</div>
+        <div class="study-item"><div class="study-item-key">Neutral</div><div class="study-item-val">Natural lordotic lumbar curve. ASIS & pubic symphysis in horizontal plane. Closed kinetic chain.</div></div>
+        <div class="study-item"><div class="study-item-key">Imprinted</div><div class="study-item-val">Slight posterior pelvic tilt. Obliques shortened — NO glute activation. Open kinetic chain.</div></div>
+      </div>
+      <div class="study-card gold">
+        <div class="study-card-title">Breathing Key Points</div>
+        <div class="study-card-sub">Principle 1</div>
+        <div class="study-list-item">Inhale: rib cage opens out and UP → spinal extension</div>
+        <div class="study-list-item">Exhale: rib cage closes in and DOWN → spinal flexion</div>
+        <div class="study-list-item">Deep exhale activates transversus abdominis</div>
+        <div class="study-list-item">Pelvic floor contraction fires transversus abdominis</div>
+        <div class="study-list-item">3D breath = anterior, lateral, AND posterior rib cage</div>
+      </div>
+      <div class="study-card charcoal">
+        <div class="study-card-title">Scapular Movements</div>
+        <div class="study-card-sub">Principle 4</div>
+        <div class="study-item"><div class="study-item-key">Protraction</div><div class="study-item-val">Away from spine</div></div>
+        <div class="study-item"><div class="study-item-key">Retraction</div><div class="study-item-val">Toward spine</div></div>
+        <div class="study-item"><div class="study-item-key">Elevation</div><div class="study-item-val">Toward ears</div></div>
+        <div class="study-item"><div class="study-item-key">Depression</div><div class="study-item-val">Away from ears</div></div>
+        <div class="study-item"><div class="study-item-key">Upward Rotation</div><div class="study-item-val">Glenoid faces up</div></div>
+        <div class="study-item"><div class="study-item-key">Downward Rotation</div><div class="study-item-val">Glenoid faces down</div></div>
+      </div>
+      <div class="study-card" style="grid-column:1/-1;">
+        <div class="study-card-title">Muscle Contraction Types</div>
+        <div class="study-card-sub">Essential for written exam</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:8px;">
+          <div><div style="font-weight:600;font-size:12px;color:var(--sage-dark);margin-bottom:5px;">Concentric</div><div style="font-size:12px;line-height:1.6;color:#555;">Muscle shortens while producing force. Prime mover actively shortening against resistance.</div></div>
+          <div><div style="font-weight:600;font-size:12px;color:var(--terracotta);margin-bottom:5px;">Eccentric</div><div style="font-size:12px;line-height:1.6;color:#555;">Muscle lengthens while producing force. Controls deceleration. Common in lowering phases.</div></div>
+          <div><div style="font-weight:600;font-size:12px;color:var(--gold);margin-bottom:5px;">Isometric</div><div style="font-size:12px;line-height:1.6;color:#555;">No change in length. Stabilization holds during Pilates exercises.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ANATOMY TABLE ===== -->
+<div id="panel-anatomy" class="panel">
+  <div class="container">
+    <h1 class="section-title">Muscular References</h1>
+    <p class="section-subtitle">All muscles from the STOTT PILATES Muscular References — with action, origin, insertion & nerve.</p>
+    <div class="category-pills">
+      <button class="pill active" onclick="filterMuscles('all',this)">All</button>
+      <button class="pill" onclick="filterMuscles('scapula',this)">Scapula</button>
+      <button class="pill" onclick="filterMuscles('shoulder',this)">Shoulder</button>
+      <button class="pill" onclick="filterMuscles('spine',this)">Spine</button>
+      <button class="pill" onclick="filterMuscles('trunk',this)">Trunk & Core</button>
+      <button class="pill" onclick="filterMuscles('hip',this)">Hip</button>
+      <button class="pill" onclick="filterMuscles('knee',this)">Hip & Knee</button>
+      <button class="pill" onclick="filterMuscles('leg',this)">Leg & Foot</button>
+      <button class="pill" onclick="filterMuscles('respiration',this)">Respiration</button>
+    </div>
+    <div class="table-wrapper"><table><thead><tr><th>Muscle</th><th>Group</th><th>Action</th><th>Origin</th><th>Insertion</th><th>Nerve</th></tr></thead><tbody id="muscle-tbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ===== EXAM INFO ===== -->
+<div id="panel-examinfo" class="panel">
+  <div class="container">
+    <h1 class="section-title">Exam Information</h1>
+    <p class="section-subtitle">Everything you need to know about the STOTT PILATES certification exam process.</p>
+    <div class="info-grid">
+      <div class="info-card"><div class="info-card-num">80%</div><div class="info-card-label">Minimum average</div></div>
+      <div class="info-card"><div class="info-card-num">75%</div><div class="info-card-label">Min per component</div></div>
+      <div class="info-card"><div class="info-card-num">6 mo</div><div class="info-card-label">Exam window</div></div>
+      <div class="info-card"><div class="info-card-num">7 days</div><div class="info-card-label">Written + practical</div></div>
+      <div class="info-card"><div class="info-card-num">4–6 wk</div><div class="info-card-label">Results turnaround</div></div>
+      <div class="info-card"><div class="info-card-num">2–3 hrs</div><div class="info-card-label">Written exam</div></div>
+    </div>
+    <div class="study-card" style="margin-bottom:18px;">
+      <div class="study-card-title">Reformer Exam — Level 1</div>
+      <div class="study-card-sub">Minimum requirements</div>
+      <div class="study-item"><div class="study-item-key">Duration</div><div class="study-item-val">40–50 minutes workout</div></div>
+      <div class="study-item"><div class="study-item-key">Essential exercises</div><div class="study-item-val">Minimum 6</div></div>
+      <div class="study-item"><div class="study-item-key">Intermediate exercises</div><div class="study-item-val">Minimum 4</div></div>
+      <div class="study-item"><div class="study-item-key">Opening</div><div class="study-item-val">5–10 min: client history, postural analysis (all sides, palpation + visual)</div></div>
+      <div class="study-item"><div class="study-item-key">5 Principles</div><div class="study-item-val">5–10 min: teach in sequence with imagery & cues; explain what, why, how</div></div>
+    </div>
+    <div class="study-card terracotta">
+      <div class="study-card-title">Practical Exam Evaluation Criteria</div>
+      <div class="study-card-sub">10 scored areas</div>
+      <div class="study-list-item"><strong>1. Postural Analysis</strong> — Full PA, all sections, palpation + visual</div>
+      <div class="study-list-item"><strong>2. Stated Focus of Workout</strong> — Clear focus with muscular & movement requirements</div>
+      <div class="study-list-item"><strong>3. Five Basic Principles</strong> — All points covered; what, why, how</div>
+      <div class="study-list-item"><strong>4. Programming Skills</strong> — Based on stated focus; well-rounded workout</div>
+      <div class="study-list-item"><strong>5. Ability to Cue</strong> — Imagery, verbal, kinesthetic; client-specific</div>
+      <div class="study-list-item"><strong>6. Ability to Correct</strong> — Combination of cue types; dynamically stabilized movement</div>
+      <div class="study-list-item"><strong>7. Ability to Modify</strong> — Appropriate modifications; props used well</div>
+      <div class="study-list-item"><strong>8. Knowledge of Content</strong> — Exercises, breath patterns, minimum numbers per level</div>
+      <div class="study-list-item"><strong>9. Teaching Manner & Energy</strong> — Rapport, attitude, motivation</div>
+      <div class="study-list-item"><strong>10. Rhythm & Pace</strong> — Fluidity, transitions, appropriate timing</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== POSTURAL ANALYSIS ===== -->
+<style>
+.pa-hero{background:var(--soft-black);color:white;border-radius:14px;padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.pa-hero-text h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:6px;}
+.pa-hero-text p{font-size:13px;opacity:.7;line-height:1.6;max-width:500px;}
+.pa-steps{display:flex;gap:8px;flex-shrink:0;}
+.pa-step{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;text-align:center;}
+.pa-step-num{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;line-height:1;color:var(--sage-light);}
+.pa-step-label{font-size:9px;letter-spacing:1px;text-transform:uppercase;opacity:.7;margin-top:2px;}
+.view-selector{display:flex;gap:0;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:24px;width:fit-content;}
+.view-sel-btn{padding:10px 24px;font-size:12px;font-weight:500;letter-spacing:.5px;cursor:pointer;border:none;background:white;color:var(--muted);transition:all .2s;text-transform:uppercase;}
+.view-sel-btn.active{background:var(--soft-black);color:white;}
+.pa-view-panel{display:none;}.pa-view-panel.active{display:block;}
+.pa-body-grid{display:grid;gap:14px;}
+.pa-region-card{background:white;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .2s;}
+.pa-region-card:hover{box-shadow:var(--shadow-lg);}
+.pa-region-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-left:4px solid var(--sage-dark);}
+.pa-region-header.terracotta{border-left-color:var(--terracotta);}
+.pa-region-header.gold{border-left-color:var(--gold);}
+.pa-region-title{font-weight:600;font-size:14px;color:var(--soft-black);}
+.pa-region-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.pa-chevron{font-size:12px;color:var(--muted);transition:transform .25s;}
+.pa-chevron.open{transform:rotate(180deg);}
+.pa-region-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border);}
+.pa-region-body.open{display:block;}
+.pa-4q-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+@media(max-width:600px){.pa-4q-grid{grid-template-columns:1fr;}}
+.pa-q-box{border-radius:10px;padding:14px 16px;}
+.pa-q-box.q1{background:#f0f6f1;border-left:3px solid var(--sage-dark);}
+.pa-q-box.q2{background:#fdf6e3;border-left:3px solid var(--gold);}
+.pa-q-box.q3{background:#fdf0ed;border-left:3px solid var(--terracotta);}
+.pa-q-box.q4{background:#f0f0f8;border-left:3px solid #7a7ab8;}
+.pa-q-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:6px;}
+.pa-q-label.q1{color:var(--sage-dark);}
+.pa-q-label.q2{color:#8a6d15;}
+.pa-q-label.q3{color:var(--terracotta);}
+.pa-q-label.q4{color:#5a5a9a;}
+.pa-q-content{font-size:12px;line-height:1.65;color:var(--soft-black);}
+.pa-checkboxes{margin-top:12px;padding:12px 14px;background:var(--cream);border-radius:8px;}
+.pa-checkboxes-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:600;}
+.pa-cb-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+.pa-cb-tag{font-size:11px;padding:3px 10px;border-radius:12px;background:white;border:1px solid var(--border);color:var(--charcoal);}
+.pa-landmark-tip{margin-top:12px;padding:10px 14px;background:#fffbe6;border-radius:8px;border-left:3px solid var(--gold);font-size:12px;line-height:1.6;color:#6b5200;}
+.pa-landmark-tip strong{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;color:var(--gold);}
+.pa-method-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.pa-method-tag{font-size:10px;padding:3px 10px;border-radius:10px;font-weight:500;}
+.pa-method-tag.look{background:#e8f4ea;color:var(--sage-dark);}
+.pa-method-tag.palpate{background:#fdf0ed;color:var(--terracotta);}
+.pa-tip-banner{background:var(--sage-dark);color:white;border-radius:10px;padding:14px 18px;font-size:13px;line-height:1.6;margin-bottom:20px;}
+.pa-tip-banner strong{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:.7;margin-bottom:4px;}
+</style>
+
+<div id="panel-posturalanalysis" class="panel">
+  <div class="container">
+
+    <div class="pa-hero">
+      <div class="pa-hero-text">
+        <h2>Postural Analysis Guide</h2>
+        <p>The PA is the <strong>first thing on your exam</strong> — memorize this. Use the 4 questions framework for every body region. Examine from Side → Front → Back views.</p>
+      </div>
+      <div class="pa-steps">
+        <div class="pa-step"><div class="pa-step-num">1</div><div class="pa-step-label">Side</div></div>
+        <div class="pa-step"><div class="pa-step-num">2</div><div class="pa-step-label">Front</div></div>
+        <div class="pa-step"><div class="pa-step-num">3</div><div class="pa-step-label">Back</div></div>
+      </div>
+    </div>
+
+    <div class="pa-tip-banner">
+      <strong>Your 4 exam questions for every body region</strong>
+      <span style="display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;margin-top:4px;">
+        <span>🔵 <strong>Q1 — What am I looking AT?</strong> Name the body part / region</span>
+        <span>🟡 <strong>Q2 — What am I looking FOR?</strong> The possible findings (checklist options)</span>
+        <span>🔴 <strong>Q3 — How am I going to find it?</strong> The examination technique</span>
+        <span>🟣 <strong>Q4 — What do I find?</strong> Your actual observation / verbalize to examiner</span>
+      </span>
+    </div>
+
+    <div class="view-selector">
+      <button class="view-sel-btn active" onclick="setPaView('side',this)">Side View</button>
+      <button class="view-sel-btn" onclick="setPaView('front',this)">Front View</button>
+      <button class="view-sel-btn" onclick="setPaView('back',this)">Back View</button>
+    </div>
+
+    <!-- SIDE VIEW -->
+    <div id="pa-side" class="pa-view-panel active">
+      <div class="pa-body-grid" id="pa-side-grid"></div>
+    </div>
+    <!-- FRONT VIEW -->
+    <div id="pa-front" class="pa-view-panel">
+      <div class="pa-body-grid" id="pa-front-grid"></div>
+    </div>
+    <!-- BACK VIEW -->
+    <div id="pa-back" class="pa-view-panel">
+      <div class="pa-body-grid" id="pa-back-grid"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== PROGRAMMING ===== -->
+<style>
+.prog-hero{background:linear-gradient(135deg,var(--soft-black) 60%,var(--sage-dark));color:white;border-radius:14px;padding:28px 32px;margin-bottom:28px;}
+.prog-hero h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:6px;}
+.prog-hero p{font-size:13px;opacity:.75;line-height:1.6;max-width:600px;}
+.prog-view-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:24px;width:fit-content;}
+.prog-view-btn{padding:10px 24px;font-size:12px;font-weight:500;letter-spacing:.5px;cursor:pointer;border:none;background:white;color:var(--muted);transition:all .2s;text-transform:uppercase;}
+.prog-view-btn.active{background:var(--soft-black);color:white;}
+.prog-view-panel{display:none;}.prog-view-panel.active{display:block;}
+.prog-region-block{margin-bottom:20px;}
+.prog-region-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--soft-black);padding:12px 0 8px;border-bottom:2px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.prog-region-title .region-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.prog-finding-card{background:white;border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px;}
+.prog-finding-header{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 20px;cursor:pointer;border-left:5px solid var(--sage-dark);transition:background .15s;}
+.prog-finding-header:hover{background:#fafafa;}
+.prog-finding-header.ankle{border-left-color:#4a8a9e;}
+.prog-finding-header.knee{border-left-color:#7a9e7e;}
+.prog-finding-header.hip{border-left-color:#9e4a7a;}
+.prog-finding-header.pelvis{border-left-color:#C4715A;}
+.prog-finding-header.lumbspine,.prog-finding-header.lthoracic,.prog-finding-header.uthoracic,.prog-finding-header.cervical{border-left-color:#C9A84C;}
+.prog-finding-header.shoulder{border-left-color:#7a7ab8;}
+.prog-finding-header.scapula{border-left-color:#5a7ab8;}
+.prog-finding-header.head{border-left-color:#a87a4a;}
+.prog-finding-header.ribcage{border-left-color:#7ab8a8;}
+.prog-finding-header.femur{border-left-color:#b87a9e;}
+.prog-finding-header.humeri{border-left-color:#8ab87a;}
+.prog-finding-name{font-weight:600;font-size:13px;color:var(--soft-black);margin-bottom:3px;}
+.prog-finding-sub{font-size:11px;color:var(--muted);}
+.prog-finding-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.prog-badge{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:500;}
+.prog-badge-e{background:#e8f4ea;color:var(--sage-dark);}
+.prog-badge-i{background:#fdf6e3;color:#8a6d15;}
+.prog-finding-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border);}
+.prog-finding-body.open{display:block;}
+.prog-summary{font-size:13px;line-height:1.7;color:#555;padding:12px 0 4px;}
+.prog-imb-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.prog-tight{background:#fdf0ed;border-radius:8px;padding:10px 12px;}
+.prog-weak{background:#e8f4ea;border-radius:8px;padding:10px 12px;}
+.prog-imb-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:5px;}
+.prog-imb-label.tight{color:var(--terracotta);}
+.prog-imb-label.weak{color:var(--sage-dark);}
+.prog-imb-list{font-size:11px;line-height:1.7;color:var(--soft-black);}
+.prog-ex-section-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;margin:14px 0 8px;}
+.prog-ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:700px){.prog-ex-grid{grid-template-columns:1fr;}}
+.prog-ex-card{border-radius:10px;padding:13px 15px;border:1.5px solid var(--border);background:var(--warm-white);transition:border-color .15s;}
+.prog-ex-card:hover{border-color:var(--sage-dark);background:white;}
+.prog-ex-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px;}
+.prog-ex-name{font-weight:600;font-size:12px;color:var(--soft-black);line-height:1.3;}
+.prog-ex-lvl{font-size:9px;padding:2px 7px;border-radius:7px;font-weight:700;white-space:nowrap;flex-shrink:0;}
+.prog-ex-lvl.essential{background:#e8f4ea;color:var(--sage-dark);}
+.prog-ex-lvl.intermediate{background:#fdf6e3;color:#8a6d15;}
+.prog-ex-equip{font-size:10px;color:var(--muted);margin-bottom:5px;}
+.prog-ex-body{font-size:11px;line-height:1.6;color:#555;}
+.prog-ex-body b{color:var(--soft-black);}
+.prog-ex-cue{margin-top:6px;padding:6px 9px;background:white;border-radius:6px;border-left:2px solid var(--sage-dark);font-size:10px;line-height:1.5;color:#444;font-style:italic;}
+.prog-ex-mod{margin-top:4px;padding:6px 9px;background:#fffbe6;border-radius:6px;border-left:2px solid var(--gold);font-size:10px;line-height:1.5;color:#6b5200;}
+.prog-avoid{margin-top:12px;padding:11px 14px;background:#fdf0ed;border-radius:9px;border-left:3px solid var(--terracotta);}
+.prog-avoid-title{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:4px;}
+.prog-avoid p{font-size:11px;line-height:1.6;color:#9b4030;}
+.prog-chev{font-size:11px;color:var(--muted);transition:transform .25s;flex-shrink:0;margin-top:3px;}
+.prog-chev.open{transform:rotate(180deg);}
+</style>
+
+<div id="panel-programming" class="panel">
+  <div class="container">
+    <div class="prog-hero">
+      <h2>Programming by Postural Finding</h2>
+      <p>Structured exactly like your Postural Analysis Checklist — Side, Front, Back view. Click any finding from the checklist to see the muscular imbalance and targeted STOTT Pilates exercises.</p>
+    </div>
+    <div class="prog-view-toggle">
+      <button class="prog-view-btn active" onclick="setProgView('side',this)">Side View</button>
+      <button class="prog-view-btn" onclick="setProgView('front',this)">Front View</button>
+      <button class="prog-view-btn" onclick="setProgView('back',this)">Back View</button>
+    </div>
+    <div id="prog-side" class="prog-view-panel active"></div>
+    <div id="prog-front" class="prog-view-panel"></div>
+    <div id="prog-back" class="prog-view-panel"></div>
+  </div>
+</div>
+
+<!-- ===== AI TUTOR ===== -->
+<div id="panel-aitutor" class="panel">
+  <div class="container">
+    <h1 class="section-title">AI Tutor</h1>
+    <p class="section-subtitle">Ask anything about STOTT Pilates, anatomy, or exam prep. Powered by Claude.</p>
+    <div class="ai-chat-container">
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg">
+          <div class="chat-avatar ai">S</div>
+          <div class="chat-bubble">Hello! I'm your STOTT PILATES study assistant. Ask me anything about the 5 Basic Principles, anatomy, muscle origins & insertions, reformer exercises, or the exam format. What would you like to review?</div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" type="text" placeholder="e.g. What is the origin of the transversus abdominis?" onkeypress="if(event.key==='Enter')sendChat()"/>
+        <button class="chat-send" onclick="sendChat()">Ask →</button>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">
+        <span style="font-size:10px;color:var(--muted);margin-right:4px;align-self:center;">Quick:</span>
+        <button class="pill" style="font-size:10px;" onclick="quickAsk('Explain neutral vs imprinted pelvic placement')">Neutral vs Imprinted</button>
+        <button class="pill" style="font-size:10px;" onclick="quickAsk('What are the origin, insertion and action of the multifidus?')">Multifidus O/I/A</button>
+        <button class="pill" style="font-size:10px;" onclick="quickAsk('How should I cue cranio-vertebral flexion?')">Cueing CVF</button>
+        <button class="pill" style="font-size:10px;" onclick="quickAsk('What muscles stabilize the scapula?')">Scapular stabilizers</button>
+        <button class="pill" style="font-size:10px;" onclick="quickAsk('Walk me through the first 10 minutes of my practical exam')">Exam opening</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// MUSCLE DATABASE
+// ============================================================
+const muscleData = [
+  {group:'scapula',name:'Trapezius (Upper)',action:'Elevates & upwardly rotates scapula; extends head',origin:'External occipital protuberance, nuchal ligament, C7',insertion:'Lateral clavicle, acromion',nerve:'Spinal accessory (CN XI)',view:'back',region:'upper_back'},
+  {group:'scapula',name:'Trapezius (Middle)',action:'Retracts scapula',origin:'T1–T5 spinous processes',insertion:'Medial acromion, superior scapular spine',nerve:'Spinal accessory (CN XI)',view:'back',region:'mid_back'},
+  {group:'scapula',name:'Trapezius (Lower)',action:'Depresses & upwardly rotates scapula',origin:'T6–T12 spinous processes',insertion:'Medial scapular spine',nerve:'Spinal accessory (CN XI)',view:'back',region:'lower_back'},
+  {group:'scapula',name:'Levator Scapulae',action:'Elevates scapula; downwardly rotates scapula',origin:'C1–C4 transverse processes',insertion:'Medial border of scapula (superior angle)',nerve:'C3–C4, dorsal scapular nerve',view:'back',region:'neck'},
+  {group:'scapula',name:'Rhomboid Major & Minor',action:'Retracts & downwardly rotates scapula',origin:'C7–T5 spinous processes',insertion:'Medial border of scapula',nerve:'Dorsal scapular nerve (C4–C5)',view:'back',region:'mid_back'},
+  {group:'scapula',name:'Serratus Anterior',action:'Protracts & upwardly rotates scapula; holds scapula flat',origin:'Ribs 1–8 (outer surfaces)',insertion:'Medial border of scapula (anterior)',nerve:'Long thoracic nerve (C5–C7)',view:'front',region:'lateral_trunk'},
+  {group:'scapula',name:'Pectoralis Minor',action:'Protracts & depresses scapula; downwardly rotates',origin:'Ribs 3–5',insertion:'Coracoid process of scapula',nerve:'Medial pectoral nerve (C8–T1)',view:'front',region:'chest'},
+  {group:'shoulder',name:'Deltoid (Anterior)',action:'Flexion & medial rotation of arm',origin:'Lateral clavicle',insertion:'Deltoid tuberosity of humerus',nerve:'Axillary nerve (C5–C6)',view:'front',region:'shoulder'},
+  {group:'shoulder',name:'Deltoid (Middle)',action:'Abduction of arm',origin:'Acromion process',insertion:'Deltoid tuberosity of humerus',nerve:'Axillary nerve (C5–C6)',view:'front',region:'shoulder'},
+  {group:'shoulder',name:'Deltoid (Posterior)',action:'Extension & lateral rotation of arm',origin:'Scapular spine',insertion:'Deltoid tuberosity of humerus',nerve:'Axillary nerve (C5–C6)',view:'back',region:'shoulder'},
+  {group:'shoulder',name:'Pectoralis Major',action:'Adducts, medially rotates arm; clavicular head flexes',origin:'Sternum, costal cartilages 1–6, medial clavicle',insertion:'Intertubercular groove of humerus',nerve:'Medial/lateral pectoral nerves (C5–T1)',view:'front',region:'chest'},
+  {group:'shoulder',name:'Latissimus Dorsi',action:'Extends, adducts & medially rotates arm; depresses shoulder',origin:'T7–L5 spinous processes, iliac crest, ribs 9–12',insertion:'Intertubercular groove of humerus',nerve:'Thoracodorsal nerve (C6–C8)',view:'back',region:'lower_back'},
+  {group:'shoulder',name:'Supraspinatus',action:'Initiates abduction (first 15°); stabilizes humeral head',origin:'Supraspinous fossa of scapula',insertion:'Superior greater tubercle of humerus',nerve:'Suprascapular nerve (C5–C6)',view:'back',region:'shoulder'},
+  {group:'shoulder',name:'Infraspinatus',action:'Lateral rotation of arm; stabilizes humeral head',origin:'Infraspinous fossa of scapula',insertion:'Middle greater tubercle',nerve:'Suprascapular nerve (C5–C6)',view:'back',region:'shoulder'},
+  {group:'shoulder',name:'Teres Minor',action:'Lateral rotation & adduction of arm',origin:'Lateral border of scapula',insertion:'Inferior greater tubercle',nerve:'Axillary nerve (C5–C6)',view:'back',region:'shoulder'},
+  {group:'shoulder',name:'Subscapularis',action:'Medial rotation of arm; stabilizes humeral head anteriorly',origin:'Subscapular fossa',insertion:'Lesser tubercle of humerus',nerve:'Upper/lower subscapular nerves (C5–C6)',view:'front',region:'shoulder'},
+  {group:'spine',name:'Multifidus',action:'Extends spine; ipsilateral rotation; deep stabilization',origin:'Sacrum, posterior iliac spine, transverse processes L1–C4',insertion:'Spinous processes 2–4 levels above',nerve:'Dorsal rami of spinal nerves',view:'back',region:'deep_spine'},
+  {group:'spine',name:'Iliocostalis',action:'Bilateral: extends spine. Unilateral: lateral flexion',origin:'Iliac crest, sacrum, lower ribs',insertion:'Ribs, cervical transverse processes',nerve:'Dorsal rami',view:'back',region:'lower_back'},
+  {group:'spine',name:'Longissimus',action:'Extends and laterally flexes spine and head',origin:'Sacrum, lumbar & thoracic transverse processes',insertion:'Ribs, cervical transverse processes, mastoid process',nerve:'Dorsal rami',view:'back',region:'mid_back'},
+  {group:'spine',name:'Quadratus Lumborum',action:'Elevates pelvis; lateral flexion of lumbar spine; fixes 12th rib',origin:'Posterior iliac crest, iliolumbar ligament',insertion:'12th rib, transverse processes L1–L4',nerve:'Ventral rami T12, L1–L4',view:'back',region:'lower_back'},
+  {group:'trunk',name:'Rectus Abdominis',action:'Flexes lumbar spine; posteriorly tilts pelvis',origin:'Pubic crest & symphysis',insertion:'Xiphoid process, costal cartilages 5–7',nerve:'Thoracoabdominal nerves (T7–T12)',view:'front',region:'abdomen'},
+  {group:'trunk',name:'External Oblique',action:'Contralateral rotation; lateral flexion; trunk flexion',origin:'External surfaces of ribs 5–12',insertion:'Iliac crest, inguinal ligament, linea alba',nerve:'Thoracoabdominal nerves (T8–T12)',view:'front',region:'lateral_trunk'},
+  {group:'trunk',name:'Internal Oblique',action:'Ipsilateral rotation; lateral flexion; compression',origin:'Thoracolumbar fascia, anterior iliac crest',insertion:'Ribs 10–12, linea alba, pubic crest',nerve:'Thoracoabdominal nerves (T10–L1)',view:'front',region:'lateral_trunk'},
+  {group:'trunk',name:'Transversus Abdominis',action:'Compresses abdomen; stabilizes lumbo-pelvic region',origin:'Thoracolumbar fascia, iliac crest, costal cartilages 7–12',insertion:'Linea alba, pubic crest',nerve:'Thoracoabdominal nerves (T7–T12), L1',view:'front',region:'abdomen'},
+  {group:'trunk',name:'Sternocleidomastoid',action:'Bilateral: flexes neck. Unilateral: lateral flexion + rotation',origin:'Sternum & medial clavicle',insertion:'Mastoid process, superior nuchal line',nerve:'Spinal accessory (CN XI), C2–C3',view:'front',region:'neck'},
+  {group:'hip',name:'Psoas Major',action:'Hip flexion; lumbar extension (pelvis fixed)',origin:'T12–L5 vertebral bodies, transverse processes',insertion:'Lesser trochanter of femur',nerve:'Femoral nerve, L1–L3',view:'front',region:'hip_flexors'},
+  {group:'hip',name:'Iliacus',action:'Hip flexion; stabilizes hip joint',origin:'Iliac fossa',insertion:'Lesser trochanter',nerve:'Femoral nerve (L2–L3)',view:'front',region:'hip_flexors'},
+  {group:'hip',name:'Gluteus Maximus',action:'Hip extension; lateral rotation; abduction (upper); adduction (lower)',origin:'Posterior ilium, sacrum, coccyx',insertion:'Iliotibial band, gluteal tuberosity of femur',nerve:'Inferior gluteal nerve (L5–S2)',view:'back',region:'glutes'},
+  {group:'hip',name:'Gluteus Medius',action:'Hip abduction; medial rotation; stabilizes pelvis in gait',origin:'External ilium (between gluteal lines)',insertion:'Greater trochanter of femur',nerve:'Superior gluteal nerve (L4–S1)',view:'back',region:'glutes'},
+  {group:'hip',name:'Gluteus Minimus',action:'Hip abduction; medial rotation; stabilizes pelvis',origin:'External ilium (below anterior gluteal line)',insertion:'Greater trochanter of femur',nerve:'Superior gluteal nerve (L4–S1)',view:'back',region:'glutes'},
+  {group:'hip',name:'Piriformis',action:'Lateral rotation (hip extended); abduction (hip flexed)',origin:'Anterior sacrum',insertion:'Greater trochanter of femur',nerve:'S1–S2',view:'back',region:'deep_hip'},
+  {group:'hip',name:'Tensor Fasciae Latae',action:'Hip flexion, abduction & medial rotation; tightens IT band',origin:'Anterior superior iliac spine (ASIS)',insertion:'Iliotibial band',nerve:'Superior gluteal nerve (L4–S1)',view:'front',region:'hip_lateral'},
+  {group:'knee',name:'Rectus Femoris',action:'Knee extension; hip flexion',origin:'Anterior inferior iliac spine (AIIS)',insertion:'Tibial tuberosity via patellar tendon',nerve:'Femoral nerve (L2–L4)',view:'front',region:'quads'},
+  {group:'knee',name:'Vastus Medialis',action:'Knee extension; VMO stabilizes patella medially',origin:'Medial lip of linea aspera',insertion:'Tibial tuberosity via patellar tendon',nerve:'Femoral nerve (L2–L4)',view:'front',region:'quads'},
+  {group:'knee',name:'Vastus Lateralis',action:'Knee extension',origin:'Lateral lip of linea aspera, greater trochanter',insertion:'Tibial tuberosity via patellar tendon',nerve:'Femoral nerve (L2–L4)',view:'front',region:'quads'},
+  {group:'knee',name:'Biceps Femoris',action:'Knee flexion; hip extension; lateral rotation of tibia',origin:'Long head: ischial tuberosity. Short head: linea aspera',insertion:'Head of fibula',nerve:'Tibial/common fibular nerves',view:'back',region:'hamstrings'},
+  {group:'knee',name:'Semitendinosus',action:'Knee flexion; hip extension; medial rotation of tibia',origin:'Ischial tuberosity',insertion:'Pes anserinus (medial tibia)',nerve:'Tibial nerve (L5–S2)',view:'back',region:'hamstrings'},
+  {group:'knee',name:'Semimembranosus',action:'Knee flexion; hip extension; medial rotation of tibia',origin:'Ischial tuberosity',insertion:'Medial tibial condyle',nerve:'Tibial nerve (L5–S2)',view:'back',region:'hamstrings'},
+  {group:'knee',name:'Sartorius',action:'Hip flexion, abduction & lateral rotation; knee flexion',origin:'ASIS',insertion:'Pes anserinus (medial tibia)',nerve:'Femoral nerve (L2–L3)',view:'front',region:'quads'},
+  {group:'leg',name:'Gastrocnemius',action:'Plantarflexion; assists knee flexion',origin:'Medial & lateral femoral condyles',insertion:'Calcaneus via Achilles tendon',nerve:'Tibial nerve (S1–S2)',view:'back',region:'calf'},
+  {group:'leg',name:'Soleus',action:'Plantarflexion (dominant during standing)',origin:'Posterior head of fibula, soleal line of tibia',insertion:'Calcaneus via Achilles tendon',nerve:'Tibial nerve (S1–S2)',view:'back',region:'calf'},
+  {group:'leg',name:'Tibialis Anterior',action:'Dorsiflexion; inversion of foot',origin:'Lateral tibia, interosseous membrane',insertion:'Medial cuneiform, base of 1st metatarsal',nerve:'Deep fibular nerve (L4–L5)',view:'front',region:'shin'},
+  {group:'leg',name:'Tibialis Posterior',action:'Plantarflexion; inversion; supports medial arch',origin:'Posterior tibia & fibula, interosseous membrane',insertion:'Navicular tuberosity, cuneiforms, metatarsals 2–4',nerve:'Tibial nerve (L4–L5)',view:'back',region:'calf'},
+  {group:'respiration',name:'Diaphragm',action:'Primary muscle of respiration — flattens on inhalation',origin:'Xiphoid process, costal cartilages 7–12, L1–L3',insertion:'Central tendon',nerve:'Phrenic nerve (C3–C5)',view:'front',region:'abdomen'},
+  {group:'respiration',name:'External Intercostals',action:'Elevates ribs during inhalation',origin:'Inferior border of upper rib',insertion:'Superior border of lower rib',nerve:'Intercostal nerves (T1–T11)',view:'front',region:'chest'},
+  {group:'respiration',name:'Internal Intercostals',action:'Depresses ribs during forced exhalation',origin:'Superior border of lower rib',insertion:'Inferior border of upper rib',nerve:'Intercostal nerves (T1–T11)',view:'front',region:'chest'},
+  {group:'respiration',name:'Transversus Abdominis',action:'Forced exhalation; core stabilization; compresses abdomen',origin:'Thoracolumbar fascia, iliac crest, costal cartilages 7–12',insertion:'Linea alba, pubic crest',nerve:'Thoracoabdominal nerves (T7–T12), L1',view:'front',region:'abdomen'},
+];
+
+// ============================================================
+// BODY MAP SVG DEFINITIONS
+// ============================================================
+// Each region maps to muscle groups
+const regionMuscleMap = {
+  neck: ['Sternocleidomastoid','Levator Scapulae'],
+  chest: ['Pectoralis Major','Pectoralis Minor','External Intercostals','Internal Intercostals'],
+  shoulder: ['Deltoid (Anterior)','Deltoid (Middle)','Deltoid (Posterior)','Supraspinatus','Infraspinatus','Teres Minor','Subscapularis'],
+  abdomen: ['Rectus Abdominis','Transversus Abdominis','Diaphragm'],
+  lateral_trunk: ['External Oblique','Internal Oblique','Serratus Anterior'],
+  hip_flexors: ['Psoas Major','Iliacus'],
+  hip_lateral: ['Tensor Fasciae Latae'],
+  quads: ['Rectus Femoris','Vastus Medialis','Vastus Lateralis','Sartorius'],
+  shin: ['Tibialis Anterior'],
+  upper_back: ['Trapezius (Upper)'],
+  mid_back: ['Trapezius (Middle)','Longissimus','Rhomboid Major & Minor'],
+  lower_back: ['Trapezius (Lower)','Latissimus Dorsi','Iliocostalis','Quadratus Lumborum'],
+  deep_spine: ['Multifidus'],
+  glutes: ['Gluteus Maximus','Gluteus Medius','Gluteus Minimus'],
+  deep_hip: ['Piriformis'],
+  hamstrings: ['Biceps Femoris','Semitendinosus','Semimembranosus'],
+  calf: ['Gastrocnemius','Soleus','Tibialis Posterior'],
+};
+
+// Color scheme per region type
+function regionColor(region, selected) {
+  const posteriorRegions = ['upper_back','mid_back','lower_back','deep_spine','glutes','deep_hip','hamstrings','calf'];
+  const deepRegions = ['deep_spine','deep_hip','hip_flexors'];
+  if (selected) return { fill:'rgba(74,115,80,0.75)', stroke:'#2d6b38', sw:2.5 };
+  if (deepRegions.includes(region)) return { fill:'rgba(201,168,76,0.25)', stroke:'#C9A84C', sw:1.5 };
+  if (posteriorRegions.includes(region)) return { fill:'rgba(196,113,90,0.25)', stroke:'#C4715A', sw:1.5 };
+  return { fill:'rgba(74,115,80,0.2)', stroke:'#4A7350', sw:1.5 };
+}
+
+// Build front SVG
+function buildFrontSVG(selectedRegion) {
+  const S = (region, paths) => {
+    const c = regionColor(region, region === selectedRegion);
+    const muscleNames = (regionMuscleMap[region]||[]).join(', ');
+    return `<g class="muscle-region" data-region="${region}" onclick="selectRegion('${region}')" style="cursor:pointer;" title="${muscleNames}">
+      ${paths.map(p => `<path d="${p}" fill="${c.fill}" stroke="${c.stroke}" stroke-width="${c.sw}" stroke-linejoin="round"/>`).join('')}
+      </g>`;
+  };
+  return `<svg viewBox="0 0 220 520" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:220px;margin:0 auto;display:block;">
+    <!-- Body outline -->
+    <g fill="#f0e8dc" stroke="#c8b89a" stroke-width="1.5">
+      <!-- Head -->
+      <ellipse cx="110" cy="36" rx="28" ry="34"/>
+      <!-- Neck -->
+      <rect x="100" y="66" width="20" height="18" rx="4"/>
+      <!-- Torso -->
+      <path d="M72 84 Q60 90 58 120 L55 200 Q54 215 60 220 L68 260 L152 260 L160 220 Q166 215 165 200 L162 120 Q160 90 148 84 Z"/>
+      <!-- Arms -->
+      <path d="M72 88 Q56 92 48 115 Q40 138 42 170 Q43 185 50 190 L58 190 Q62 185 60 170 Q58 138 64 115 Z"/>
+      <path d="M148 88 Q164 92 172 115 Q180 138 178 170 Q177 185 170 190 L162 190 Q158 185 160 170 Q162 138 156 115 Z"/>
+      <!-- Forearms -->
+      <path d="M42 170 Q38 200 40 230 L50 230 Q52 200 50 190 Z"/>
+      <path d="M178 170 Q182 200 180 230 L170 230 Q168 200 170 190 Z"/>
+      <!-- Hands -->
+      <ellipse cx="45" cy="238" rx="10" ry="13"/>
+      <ellipse cx="175" cy="238" rx="10" ry="13"/>
+      <!-- Upper legs -->
+      <path d="M68 258 Q58 275 56 310 Q54 340 58 370 L78 370 Q80 340 80 310 Q80 275 82 258 Z"/>
+      <path d="M152 258 Q162 275 164 310 Q166 340 162 370 L142 370 Q140 340 140 310 Q140 275 138 258 Z"/>
+      <!-- Lower legs -->
+      <path d="M58 370 Q54 400 56 430 L76 430 Q78 400 78 370 Z"/>
+      <path d="M162 370 Q166 400 164 430 L144 430 Q142 400 142 370 Z"/>
+      <!-- Feet -->
+      <ellipse cx="67" cy="436" rx="13" ry="9"/>
+      <ellipse cx="153" cy="436" rx="13" ry="9"/>
+    </g>
+    <!-- MUSCLE REGIONS - FRONT -->
+    ${S('neck',[
+      'M100 68 Q105 72 110 72 Q115 72 120 68 L118 84 Q110 88 102 84 Z'
+    ])}
+    ${S('chest',[
+      'M82 88 Q72 90 68 100 L66 130 Q80 138 110 136 Q140 138 154 130 L152 100 Q148 90 138 88 Q122 95 110 95 Q98 95 82 88 Z'
+    ])}
+    ${S('shoulder',[
+      'M72 88 Q60 90 56 110 L64 118 Q72 108 82 102 Z',
+      'M148 88 Q160 90 164 110 L156 118 Q148 108 138 102 Z'
+    ])}
+    ${S('lateral_trunk',[
+      'M60 136 L66 132 L68 178 L60 182 Z',
+      'M160 136 L154 132 L152 178 L160 182 Z'
+    ])}
+    ${S('abdomen',[
+      'M80 136 Q95 140 110 140 Q125 140 140 136 L142 200 Q125 206 110 206 Q95 206 78 200 Z'
+    ])}
+    ${S('hip_flexors',[
+      'M80 200 Q90 210 100 216 L98 252 Q88 255 80 252 L75 220 Z',
+      'M140 200 Q130 210 120 216 L122 252 Q132 255 140 252 L145 220 Z'
+    ])}
+    ${S('hip_lateral',[
+      'M68 220 L80 218 L82 252 L68 258 Z',
+      'M152 220 L140 218 L138 252 L152 258 Z'
+    ])}
+    ${S('quads',[
+      'M72 262 Q62 278 60 312 Q60 340 66 365 L82 362 Q84 336 82 308 Q80 280 82 262 Z',
+      'M148 262 Q158 278 160 312 Q160 340 154 365 L138 362 Q136 336 138 308 Q140 280 138 262 Z'
+    ])}
+    ${S('shin',[
+      'M62 368 Q58 400 60 428 L72 428 Q72 398 72 366 Z',
+      'M158 368 Q162 400 160 428 L148 428 Q148 398 148 366 Z'
+    ])}
+    <!-- Labels -->
+    <g font-family="DM Sans, sans-serif" font-size="7" fill="#2A2A2A" text-anchor="middle" pointer-events="none">
+      <text x="110" y="115">Pectorals</text>
+      <text x="110" y="168">Obliques</text>
+      <text x="110" y="185">Abs</text>
+      <text x="86" y="230">Hip Flex.</text>
+      <text x="134" y="230">Hip Flex.</text>
+      <text x="69" y="315">Quads</text>
+      <text x="151" y="315">Quads</text>
+      <text x="110" y="36" font-size="6" fill="#888"></text>
+    </g>
+  </svg>`;
+}
+
+function buildBackSVG(selectedRegion) {
+  const S = (region, paths) => {
+    const c = regionColor(region, region === selectedRegion);
+    return `<g class="muscle-region" data-region="${region}" onclick="selectRegion('${region}')" style="cursor:pointer;">
+      ${paths.map(p => `<path d="${p}" fill="${c.fill}" stroke="${c.stroke}" stroke-width="${c.sw}" stroke-linejoin="round"/>`).join('')}
+      </g>`;
+  };
+  return `<svg viewBox="0 0 220 520" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:220px;margin:0 auto;display:block;">
+    <g fill="#f0e8dc" stroke="#c8b89a" stroke-width="1.5">
+      <ellipse cx="110" cy="36" rx="28" ry="34"/>
+      <rect x="100" y="66" width="20" height="18" rx="4"/>
+      <path d="M72 84 Q60 90 58 120 L55 200 Q54 215 60 220 L68 260 L152 260 L160 220 Q166 215 165 200 L162 120 Q160 90 148 84 Z"/>
+      <path d="M72 88 Q56 92 48 115 Q40 138 42 170 Q43 185 50 190 L58 190 Q62 185 60 170 Q58 138 64 115 Z"/>
+      <path d="M148 88 Q164 92 172 115 Q180 138 178 170 Q177 185 170 190 L162 190 Q158 185 160 170 Q162 138 156 115 Z"/>
+      <path d="M42 170 Q38 200 40 230 L50 230 Q52 200 50 190 Z"/>
+      <path d="M178 170 Q182 200 180 230 L170 230 Q168 200 170 190 Z"/>
+      <ellipse cx="45" cy="238" rx="10" ry="13"/>
+      <ellipse cx="175" cy="238" rx="10" ry="13"/>
+      <path d="M68 258 Q58 275 56 310 Q54 340 58 370 L78 370 Q80 340 80 310 Q80 275 82 258 Z"/>
+      <path d="M152 258 Q162 275 164 310 Q166 340 162 370 L142 370 Q140 340 140 310 Q140 275 138 258 Z"/>
+      <path d="M58 370 Q54 400 56 430 L76 430 Q78 400 78 370 Z"/>
+      <path d="M162 370 Q166 400 164 430 L144 430 Q142 400 142 370 Z"/>
+      <ellipse cx="67" cy="436" rx="13" ry="9"/>
+      <ellipse cx="153" cy="436" rx="13" ry="9"/>
+    </g>
+    <!-- BACK MUSCLE REGIONS -->
+    ${S('neck',[
+      'M98 66 Q104 74 110 74 Q116 74 122 66 L120 84 Q110 90 100 84 Z'
+    ])}
+    ${S('upper_back',[
+      'M80 86 Q68 90 64 108 L82 118 Q96 112 110 112 Q124 112 138 118 L156 108 Q152 90 140 86 Q122 94 110 94 Q98 94 80 86 Z'
+    ])}
+    ${S('shoulder',[
+      'M64 108 L58 128 Q58 148 66 160 L72 152 Q68 138 70 118 Z',
+      'M156 108 L162 128 Q162 148 154 160 L148 152 Q152 138 150 118 Z'
+    ])}
+    ${S('mid_back',[
+      'M82 118 Q96 126 110 126 Q124 126 138 118 L140 172 Q124 178 110 178 Q96 178 80 172 Z'
+    ])}
+    ${S('lower_back',[
+      'M80 172 Q95 180 110 180 Q125 180 140 172 L142 220 Q126 228 110 228 Q94 228 78 220 Z'
+    ])}
+    ${S('deep_spine',[
+      'M104 118 Q108 122 110 122 Q112 122 116 118 L118 220 Q114 224 110 224 Q106 224 102 220 Z'
+    ])}
+    ${S('glutes',[
+      'M78 220 Q68 235 66 258 L88 262 Q92 240 110 238 Q128 240 132 262 L154 258 Q152 235 142 220 Q126 230 110 230 Q94 230 78 220 Z'
+    ])}
+    ${S('deep_hip',[
+      'M84 240 Q90 250 96 255 L98 268 Q90 264 84 256 Z',
+      'M136 240 Q130 250 124 255 L122 268 Q130 264 136 256 Z'
+    ])}
+    ${S('hamstrings',[
+      'M70 264 Q60 280 58 314 Q56 344 62 368 L80 364 Q82 338 82 310 Q82 280 84 264 Z',
+      'M150 264 Q160 280 162 314 Q164 344 158 368 L140 364 Q138 338 138 310 Q138 280 136 264 Z'
+    ])}
+    ${S('calf',[
+      'M62 368 Q56 402 58 428 L78 428 Q78 400 76 368 Z',
+      'M158 368 Q164 402 162 428 L142 428 Q142 400 144 368 Z'
+    ])}
+    <g font-family="DM Sans, sans-serif" font-size="7" fill="#2A2A2A" text-anchor="middle" pointer-events="none">
+      <text x="110" y="107">Upper Trap</text>
+      <text x="110" y="150">Mid Back</text>
+      <text x="110" y="202">Lower Back</text>
+      <text x="110" y="252">Glutes</text>
+      <text x="69" y="316">Hamstrings</text>
+      <text x="151" y="316">Hamstrings</text>
+      <text x="69" y="400">Calf</text>
+      <text x="151" y="400">Calf</text>
+    </g>
+  </svg>`;
+}
+
+function buildSideSVG(selectedRegion) {
+  const S = (region, paths) => {
+    const c = regionColor(region, region === selectedRegion);
+    return `<g class="muscle-region" data-region="${region}" onclick="selectRegion('${region}')" style="cursor:pointer;">
+      ${paths.map(p => `<path d="${p}" fill="${c.fill}" stroke="${c.stroke}" stroke-width="${c.sw}" stroke-linejoin="round"/>`).join('')}
+      </g>`;
+  };
+  return `<svg viewBox="0 0 180 520" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:180px;margin:0 auto;display:block;">
+    <g fill="#f0e8dc" stroke="#c8b89a" stroke-width="1.5">
+      <!-- Head side -->
+      <ellipse cx="92" cy="36" rx="26" ry="32"/>
+      <!-- Neck -->
+      <rect x="82" y="65" width="18" height="18" rx="3"/>
+      <!-- Torso side -->
+      <path d="M68 83 Q58 90 56 130 L55 210 Q56 225 62 240 L92 255 L118 240 Q126 225 126 210 L125 130 Q124 90 115 83 Z"/>
+      <!-- Arm -->
+      <path d="M64 90 Q50 100 44 130 Q38 160 42 190 L54 188 Q54 160 58 130 Q62 105 72 96 Z"/>
+      <!-- Forearm -->
+      <path d="M42 190 Q36 215 38 240 L50 238 Q50 215 54 188 Z"/>
+      <ellipse cx="44" cy="247" rx="9" ry="12"/>
+      <!-- Leg side -->
+      <path d="M68 254 Q56 272 54 315 Q52 350 58 380 L80 378 Q82 348 82 312 Q82 276 84 256 Z"/>
+      <path d="M90 254 Q100 272 102 315 Q104 350 98 380 L80 378 Q78 348 78 312 Q78 276 76 254 Z"/>
+      <path d="M58 380 Q54 410 56 438 L78 438 Q78 408 80 378 Z"/>
+      <path d="M98 380 Q102 410 100 438 L80 438 Q80 408 80 378 Z"/>
+      <ellipse cx="78" cy="444" rx="20" ry="9"/>
+    </g>
+    ${S('chest',['M80 86 Q70 90 65 110 L68 138 Q82 144 92 142 L96 110 Q92 88 80 86 Z'])}
+    ${S('abdomen',['M68 138 Q82 144 92 142 L94 210 Q82 216 72 210 L66 145 Z'])}
+    ${S('hip_flexors',['M72 210 Q76 225 80 234 L82 255 Q74 255 68 250 L64 225 Z'])}
+    ${S('quads',['M68 256 Q58 275 56 318 Q56 348 62 376 L80 374 Q80 346 80 316 Q80 278 82 257 Z'])}
+    ${S('glutes',['M90 256 Q100 272 102 295 Q100 320 94 340 L80 374 Q80 346 80 316 Q84 294 88 260 Z'])}
+    ${S('hamstrings',['M80 376 Q88 365 94 344 L98 380 Q96 408 94 438 L80 438 Z'])}
+    ${S('calf',['M58 380 Q54 410 56 438 L78 438 Q78 408 80 376 Z'])}
+    ${S('lower_back',['M112 140 Q120 150 122 185 L115 210 Q108 195 106 165 Z'])}
+    <g font-family="DM Sans, sans-serif" font-size="7" fill="#2A2A2A" text-anchor="middle" pointer-events="none">
+      <text x="82" y="116">Chest</text>
+      <text x="82" y="178">Abdomen</text>
+      <text x="82" y="232">Hip Flex.</text>
+      <text x="68" y="320">Quad</text>
+      <text x="94" y="320">Glute</text>
+      <text x="88" y="408">Calf</text>
+    </g>
+  </svg>`;
+}
+
+// ============================================================
+// BODY MAP STATE
+// ============================================================
+let currentView = 'front';
+let selectedRegion = null;
+
+function setView(view, btn) {
+  currentView = view;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('body-front').style.display = view === 'front' ? 'block' : 'none';
+  document.getElementById('body-back').style.display = view === 'back' ? 'block' : 'none';
+  document.getElementById('body-side').style.display = view === 'side' ? 'block' : 'none';
+  renderBodyView();
+}
+
+function renderBodyView() {
+  const front = document.getElementById('body-front');
+  const back = document.getElementById('body-back');
+  const side = document.getElementById('body-side');
+  front.innerHTML = buildFrontSVG(currentView === 'front' ? selectedRegion : null);
+  back.innerHTML = buildBackSVG(currentView === 'back' ? selectedRegion : null);
+  side.innerHTML = buildSideSVG(currentView === 'side' ? selectedRegion : null);
+}
+
+function selectRegion(region) {
+  selectedRegion = region;
+  renderBodyView();
+  showMuscleInfo(region);
+}
+
+function showMuscleInfo(region) {
+  const panel = document.getElementById('muscle-info-panel');
+  const muscles = (regionMuscleMap[region] || []).map(name => muscleData.find(m => m.name === name)).filter(Boolean);
+  if (!muscles.length) { panel.innerHTML = '<div class="muscle-placeholder"><div style="font-size:13px;">No muscles mapped to this region.</div></div>'; return; }
+  const groupLabels = { scapula:'Scapula',shoulder:'Shoulder',spine:'Spine',trunk:'Trunk & Core',hip:'Hip',knee:'Hip & Knee',leg:'Leg & Foot',respiration:'Respiration' };
+  const regionLabel = region.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  let html = `<div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Region: ${regionLabel}</div>`;
+  muscles.forEach((m,i) => {
+    if (i > 0) html += '<hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">';
+    html += `<h3>${m.name}</h3>
+    <div class="group-tag"><span class="tag tag-green">${groupLabels[m.group]||m.group}</span></div>
+    <div class="muscle-info-row"><div class="label">Action</div><div class="value">${m.action}</div></div>
+    <div class="muscle-info-row"><div class="label">Origin</div><div class="value">${m.origin}</div></div>
+    <div class="muscle-info-row"><div class="label">Insertion</div><div class="value">${m.insertion}</div></div>
+    <div class="muscle-info-row"><div class="label">Nerve</div><div class="value">${m.nerve}</div></div>`;
+  });
+  panel.innerHTML = html;
+}
+
+// ============================================================
+// VISUAL QUIZ
+// ============================================================
+const visualQuizData = [
+  { region:'quads', view:'front', question:'Which muscle group is highlighted?', correctAnswer:'Quadriceps (Rectus Femoris, Vastus Medialis, Vastus Lateralis, Sartorius)', options:['Hamstrings','Quadriceps (Rectus Femoris, Vastus Medialis, Vastus Lateralis, Sartorius)','Hip Flexors (Iliopsoas)','Adductors'], explanation:'The quadriceps group covers the anterior thigh. Rectus femoris also crosses the hip (hip flexion); the vasti only cross the knee (extension).' },
+  { region:'glutes', view:'back', question:'What is the primary action of the highlighted muscle group?', correctAnswer:'Hip extension and lateral rotation', options:['Hip flexion and medial rotation','Hip extension and lateral rotation','Knee flexion and plantarflexion','Trunk rotation and lateral flexion'], explanation:'Gluteus maximus is the primary hip extensor and lateral rotator. Glutes medius and minimus abduct the hip and medially rotate it.' },
+  { region:'abdomen', view:'front', question:'Which deep core muscle in this region stabilizes the lumbo-pelvic region?', correctAnswer:'Transversus Abdominis', options:['Rectus Abdominis','External Oblique','Transversus Abdominis','Diaphragm'], explanation:'The transversus abdominis (TA) is the deepest abdominal layer. It compresses the abdomen and creates intra-abdominal pressure, stabilizing the lumbo-pelvic region — central to STOTT Pilates.' },
+  { region:'chest', view:'front', question:'What is the origin of the Pectoralis Major (sternal head)?', correctAnswer:'Sternum and costal cartilages 1–6', options:['Coracoid process of scapula','Lateral clavicle','Sternum and costal cartilages 1–6','Ribs 3–5'], explanation:'The sternal head of pectoralis major originates at the sternum and costal cartilages 1–6. It inserts at the intertubercular groove of the humerus.' },
+  { region:'upper_back', view:'back', question:'The highlighted upper trapezius is innervated by which nerve?', correctAnswer:'Spinal accessory nerve (CN XI)', options:['Dorsal scapular nerve (C4–C5)','Long thoracic nerve (C5–C7)','Spinal accessory nerve (CN XI)','Axillary nerve (C5–C6)'], explanation:'All three parts of the trapezius are innervated by the spinal accessory nerve (cranial nerve XI), which is unique as a cranial nerve supplying a muscle of the back.' },
+  { region:'hamstrings', view:'back', question:'Which hamstring muscle originates from the LINEA ASPERA rather than the ischial tuberosity?', correctAnswer:'Biceps Femoris (short head)', options:['Semitendinosus','Semimembranosus','Biceps Femoris (short head)','Gracilis'], explanation:'The biceps femoris has TWO heads: the long head from the ischial tuberosity, and the short head from the linea aspera of the femur. This is a commonly tested distinction.' },
+  { region:'shoulder', view:'front', question:'Which rotator cuff muscle is shown from the FRONT and is responsible for MEDIAL rotation?', correctAnswer:'Subscapularis', options:['Supraspinatus','Infraspinatus','Teres Minor','Subscapularis'], explanation:'Subscapularis is the only rotator cuff muscle that medially (internally) rotates the arm. It originates in the subscapular fossa and inserts on the lesser tubercle.' },
+  { region:'calf', view:'back', question:'What is the difference between gastrocnemius and soleus?', correctAnswer:'Gastrocnemius crosses the knee; soleus does not', options:['Gastrocnemius crosses the knee; soleus does not','Soleus crosses the knee; gastrocnemius does not','Both cross the knee joint','Neither cross the knee joint'], explanation:'The gastrocnemius originates on the femoral condyles so it crosses BOTH the knee and ankle. Soleus only crosses the ankle. Both insert via the Achilles tendon.' },
+  { region:'mid_back', view:'back', question:'What is the PRIMARY action of the middle trapezius?', correctAnswer:'Retraction of the scapula', options:['Elevation of the scapula','Retraction of the scapula','Depression of the scapula','Upward rotation of the scapula'], explanation:'The middle trapezius retracts (pulls back) the scapula. Upper traps elevate and upwardly rotate; lower traps depress and also upwardly rotate.' },
+  { region:'hip_flexors', view:'front', question:'Where does the psoas major INSERT?', correctAnswer:'Lesser trochanter of the femur', options:['Greater trochanter of the femur','ASIS (anterior superior iliac spine)','Lesser trochanter of the femur','Iliotibial band'], explanation:'Psoas major (with iliacus forming the iliopsoas) inserts at the LESSER trochanter of the femur. The lesser trochanter is on the medial/posterior femur, just below the femoral neck.' },
+  { region:'lateral_trunk', view:'front', question:'What action do the obliques perform during imprinted pelvic placement?', correctAnswer:'Shortening (without glute activation)', options:['Lengthening eccentrically','Shortening (without glute activation)','Isometric hold only','Full concentric activation with glutes'], explanation:'In the imprinted position, the obliques shorten to create the slight posterior pelvic tilt — critically, WITHOUT activating the gluteals. This is a key STOTT distinction.' },
+  { region:'deep_spine', view:'back', question:'How many vertebral levels does the multifidus typically span?', correctAnswer:'2–4 vertebral levels', options:['1 vertebral level only','2–4 vertebral levels','5–7 vertebral levels','The entire lumbar spine'], explanation:'The multifidus spans 2–4 vertebral levels. This short span makes it ideal for fine segmental control and deep spinal stabilization rather than gross movement.' },
+];
+
+let vqIndex = 0;
+let vqScore = 0;
+let vqQuestions = [];
+let vqAnswered = false;
+
+function startVisualQuiz() {
+  vqQuestions = [...visualQuizData].sort(() => Math.random() - 0.5).slice(0, 10);
+  vqIndex = 0; vqScore = 0; vqAnswered = false;
+  document.getElementById('vquiz-start').style.display = 'none';
+  document.getElementById('vquiz-done').style.display = 'none';
+  document.getElementById('vquiz-active').style.display = 'block';
+  renderVisualQuestion();
+}
+
+function renderVisualQuestion() {
+  if (vqIndex >= vqQuestions.length) { showVisualScore(); return; }
+  vqAnswered = false;
+  const q = vqQuestions[vqIndex];
+  document.getElementById('vquiz-qnum').textContent = `Question ${vqIndex+1} of ${vqQuestions.length}`;
+  document.getElementById('vquiz-progress').style.width = `${(vqIndex/vqQuestions.length)*100}%`;
+  document.getElementById('vquiz-view-hint').textContent = q.view.charAt(0).toUpperCase()+q.view.slice(1)+' View';
+  document.getElementById('vquiz-question').textContent = q.question;
+  document.getElementById('vquiz-q-type').textContent = 'Identify from Body Map';
+  const fb = document.getElementById('vquiz-feedback');
+  fb.classList.remove('show','correct','wrong');
+  document.getElementById('vquiz-next-btn').style.display = 'none';
+
+  // Render body SVG with highlighted region
+  const svgFns = { front: buildFrontSVG, back: buildBackSVG, side: buildSideSVG };
+  const svgFn = svgFns[q.view] || buildFrontSVG;
+  document.getElementById('vquiz-svg-container').innerHTML = svgFn(q.region);
+
+  // Render options
+  const opts = document.getElementById('vquiz-options');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.style.fontSize = '12px';
+    btn.style.padding = '10px 14px';
+    btn.innerHTML = `<span class="option-letter">${'ABCD'[i]}</span> ${opt}`;
+    btn.onclick = () => selectVisualAnswer(i);
+    opts.appendChild(btn);
+  });
+}
+
+function selectVisualAnswer(idx) {
+  if (vqAnswered) return;
+  vqAnswered = true;
+  const q = vqQuestions[vqIndex];
+  const correctIdx = q.options.indexOf(q.correctAnswer);
+  const opts = document.querySelectorAll('#vquiz-options .quiz-option');
+  opts.forEach(o => o.setAttribute('disabled', true));
+  const isCorrect = idx === correctIdx;
+  opts[idx].classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) opts[correctIdx].classList.add('correct');
+  if (isCorrect) vqScore++;
+  const fb = document.getElementById('vquiz-feedback');
+  fb.className = `quiz-feedback show ${isCorrect ? 'correct' : 'wrong'}`;
+  fb.textContent = (isCorrect ? '✓ Correct! ' : '✗ Not quite. ') + q.explanation;
+  document.getElementById('vquiz-next-btn').style.display = 'inline-block';
+}
+
+function nextVisualQuestion() { vqIndex++; renderVisualQuestion(); }
+
+function showVisualScore() {
+  document.getElementById('vquiz-active').style.display = 'none';
+  document.getElementById('vquiz-done').style.display = 'block';
+  const pct = Math.round((vqScore/vqQuestions.length)*100);
+  document.getElementById('vscore-num').textContent = pct + '%';
+  document.getElementById('vscore-sub').textContent = `${vqScore} correct out of ${vqQuestions.length}`;
+  document.getElementById('vscore-msg').textContent = pct >= 80 ? '🎉 Exam-ready!' : pct >= 60 ? '💪 Keep practicing!' : '📚 More review needed!';
+}
+
+// ============================================================
+// FLASHCARD DATA
+// ============================================================
+const flashcardData = [
+  {cat:'5principles',q:'What is the STOTT PILATES breathing pattern?',a:'Inhale through the nose, exhale through the mouth with pursed lips. Emphasis on 3D breath especially into the posterior and lateral rib cage. Deep exhale activates the transversus abdominis.'},
+  {cat:'5principles',q:'What happens to the rib cage during inhalation?',a:'The rib cage opens out and UP during an inhale, promoting spinal EXTENSION.'},
+  {cat:'5principles',q:'What happens to the rib cage during exhalation?',a:'The rib cage closes in and DOWN during exhale, promoting spinal FLEXION.'},
+  {cat:'5principles',q:'Describe NEUTRAL pelvic placement.',a:'The natural lordotic curve of the lumbar spine is present. ASIS and pubic symphysis lie in a horizontal plane parallel to the floor (supine). Used during closed kinetic chain activities.'},
+  {cat:'5principles',q:'Describe IMPRINTED pelvic placement.',a:'Slight posterior pelvic tilt with slight lumbar flexion. Shortening of obliques WITHOUT activation of glutes. Used when neutral cannot be maintained; often open kinetic chain activities.'},
+  {cat:'5principles',q:'Why is rib cage placement important?',a:'Abdominal wall attaches to lower ribs. Abdominals stabilize the rib cage and spine during arm movement. Helps keep the spine neutral and stable.'},
+  {cat:'5principles',q:'How does the scapula attach to the skeleton?',a:'The scapula attaches ONLY to the clavicle. This provides mobility to the upper limb, which must be counterbalanced with stability.'},
+  {cat:'5principles',q:'Name the 6 movements of the scapula.',a:'1. Protraction  2. Retraction  3. Elevation  4. Depression  5. Upward Rotation  6. Downward Rotation'},
+  {cat:'5principles',q:'What is cranio-vertebral flexion?',a:'Flexing the cranium on the first two vertebrae of the cervical spine — NOT jamming the chin into chest. Initiates upper torso flexion from supine.'},
+  {cat:'5principles',q:'How does the pelvic floor relate to the transversus abdominis?',a:'A gentle contraction of the deep pelvic floor muscles aids in firing (activating) the transversus abdominis.'},
+  {cat:'anatomy',q:'What is the sagittal plane?',a:'Divides body into LEFT and RIGHT. Flexion and extension movements occur here.'},
+  {cat:'anatomy',q:'What is the frontal (coronal) plane?',a:'Divides body into FRONT and BACK. Abduction and adduction occur here.'},
+  {cat:'anatomy',q:'What is the transverse plane?',a:'Divides body into UPPER and LOWER. Rotation movements occur here.'},
+  {cat:'anatomy',q:'Ligament vs. Tendon?',a:'Ligament: connects BONE to BONE, stabilizes joints. Tendon: connects MUSCLE to BONE, transmits force.'},
+  {cat:'anatomy',q:'Define eccentric contraction.',a:'Muscle LENGTHENS while producing force. Controls deceleration. Common in lowering phases of Pilates.'},
+  {cat:'anatomy',q:'Define isometric contraction.',a:'No change in muscle length. Used for stabilization holds during Pilates.'},
+  {cat:'muscles',q:'Primary function of transversus abdominis?',a:'Deep stabilization of the lumbo-pelvic region. Activated by deep exhalation and pelvic floor contraction.'},
+  {cat:'muscles',q:'Name the 4 rotator cuff muscles (SITS).',a:'Supraspinatus, Infraspinatus, Teres Minor, Subscapularis.'},
+  {cat:'muscles',q:'What does the multifidus do?',a:'Deep spinal stabilizer spanning 2–4 vertebrae. Extends and rotates spine. Key lumbar stabilizer.'},
+  {cat:'muscles',q:'Origin and insertion of rectus abdominis?',a:'Origin: pubic crest & symphysis. Insertion: xiphoid process & costal cartilages 5–7.'},
+  {cat:'muscles',q:'What does serratus anterior do and which nerve?',a:'Protracts and upwardly rotates scapula; holds it flat to rib cage. Long thoracic nerve (C5–C7).'},
+  {cat:'muscles',q:'What is the primary action of gluteus maximus?',a:'Hip extension and lateral rotation. Stabilizes pelvis during standing.'},
+  {cat:'exam',q:'What score is required to pass?',a:'Average of 80% overall AND minimum 75% on each component (written and practical). Both must be met.'},
+  {cat:'exam',q:'How long after course must you take the exam?',a:'Within 6 months of completing your last STOTT PILATES Education course.'},
+  {cat:'exam',q:'What is the Reformer Level 1 exam workout duration?',a:'40–50 minutes, including minimum 6 Essential and 4 Intermediate exercises.'},
+  {cat:'exam',q:'What happens in the first 5–10 minutes of the practical exam?',a:'Information gathering: ask client about history, physical condition and goals.'},
+  {cat:'reformer',q:'What is a closed kinetic chain exercise?',a:'Distal limb is in contact with a fixed surface (e.g., feet on footbar). Neutral pelvic placement is usually preferred.'},
+  {cat:'reformer',q:'What is an open kinetic chain exercise?',a:'Distal end moves freely. Imprinted position is often used for greater stability.'},
+];
+
+const quizData = [
+  {cat:'5principles',q:'In STOTT PILATES, where should the breath emphasis be directed?',options:['Anterior chest and neck','Posterior and lateral aspects of the rib cage','Only into the belly','Upper trapezius area'],correct:1,explanation:'STOTT PILATES emphasizes 3D breathing, especially into the posterior and lateral rib cage, as these are under-utilized areas.'},
+  {cat:'5principles',q:'What distinguishes imprinted from neutral pelvic placement?',options:['Imprint activates the glutes','Imprint is a slight posterior tilt with shortened obliques and NO glute activation','Imprint is a full posterior tilt with glute activation','Imprint uses anterior pelvic tilt'],correct:1,explanation:'Imprint is a SLIGHT posterior tilt involving shortening of obliques WITHOUT activating glutes.'},
+  {cat:'5principles',q:'What happens to the rib cage during inhalation?',options:['Closes in and down','Stays neutral','Opens out and up (promoting spinal extension)','Compresses toward the spine'],correct:2,explanation:'Inhale: rib cage opens out and UP → spinal extension. Exhale: closes in and DOWN → spinal flexion.'},
+  {cat:'5principles',q:'The scapula has bony attachment to which structure only?',options:['The rib cage (ribs 1–4)','The thoracic spine','The clavicle only','The humerus'],correct:2,explanation:'The scapula lacks bony attachment to ribs and spine — only the clavicle. This provides mobility that must be counterbalanced with stability.'},
+  {cat:'anatomy',q:'What type of contraction occurs when a muscle lengthens while producing force?',options:['Concentric','Isometric','Eccentric','Isotonic'],correct:2,explanation:'Eccentric = muscle lengthens while producing force. Controls deceleration in the lowering phases of Pilates.'},
+  {cat:'anatomy',q:'Which plane do flexion and extension occur in?',options:['Frontal plane','Transverse plane','Sagittal plane','Oblique plane'],correct:2,explanation:'Flexion and extension occur in the sagittal plane, which divides the body left and right.'},
+  {cat:'muscles',q:'Which muscle is the PRIMARY muscle of respiration?',options:['External intercostals','Transversus abdominis','Diaphragm','Serratus posterior'],correct:2,explanation:'The diaphragm is the primary muscle of respiration. It contracts (flattens) on inhalation. Phrenic nerve (C3–C5).'},
+  {cat:'muscles',q:'What are the 4 rotator cuff muscles?',options:['Supraspinatus, Infraspinatus, Teres Minor, Subscapularis','Supraspinatus, Infraspinatus, Teres Major, Subscapularis','Deltoid, Infraspinatus, Teres Minor, Subscapularis','Supraspinatus, Pec Minor, Teres Minor, Subscapularis'],correct:0,explanation:'SITS: Supraspinatus, Infraspinatus, Teres Minor, Subscapularis. They stabilize the humeral head in the glenoid.'},
+  {cat:'muscles',q:'The serratus anterior is innervated by which nerve?',options:['Axillary nerve','Long thoracic nerve','Dorsal scapular nerve','Suprascapular nerve'],correct:1,explanation:'Serratus anterior = long thoracic nerve (C5–C7). Damage causes winging of the scapula.'},
+  {cat:'muscles',q:'Which is NOT an action of the transversus abdominis?',options:['Compresses abdomen','Stabilizes lumbo-pelvic region','Trunk rotation (prime mover)','Forced exhalation'],correct:2,explanation:'TA compresses and stabilizes — it is NOT a prime mover for rotation. That is the obliques.'},
+  {cat:'exam',q:'What is the passing score for the STOTT PILATES exam?',options:['75% overall, 70% per section','80% overall AND 75% minimum per component','90% overall','70% overall'],correct:1,explanation:'80% average AND 75% minimum per component. Both requirements must be met.'},
+  {cat:'exam',q:'How long after your last course must you take the exam?',options:['3 months','12 months','6 months','9 months'],correct:2,explanation:'You must take your exam within 6 months of completing your last STOTT PILATES Education course.'},
+  {cat:'exam',q:'Minimum exercise requirement for Level 1 Reformer exam?',options:['4 Essential, 2 Intermediate','8 Essential, 4 Intermediate','6 Essential, 4 Intermediate','5 Essential, 5 Intermediate'],correct:2,explanation:'Level 1 Reformer: minimum 6 Essential and 4 Intermediate exercises in a 40–50 minute workout.'},
+];
+
+// ============================================================
+// PANEL NAV
+// ============================================================
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else document.querySelectorAll('.nav-tab')[0].classList.add('active');
+}
+
+// ============================================================
+// FLASHCARDS
+// ============================================================
+let filteredCards = [...flashcardData];
+let currentCardIndex = 0;
+let isFlipped = false;
+
+function filterCards(cat, btn) {
+  document.querySelectorAll('#panel-flashcards .pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  filteredCards = cat === 'all' ? [...flashcardData] : flashcardData.filter(c => c.cat === cat);
+  currentCardIndex = 0; isFlipped = false;
+  document.getElementById('flashcard-inner').classList.remove('flipped');
+  renderCard();
+}
+
+function renderCard() {
+  if (!filteredCards.length) return;
+  const card = filteredCards[currentCardIndex];
+  document.getElementById('card-tag').textContent = card.cat.replace('5principles','5 Principles');
+  document.getElementById('card-question').textContent = card.q;
+  document.getElementById('card-answer').textContent = card.a;
+  const total = filteredCards.length, current = currentCardIndex + 1;
+  document.getElementById('fc-counter').textContent = `Card ${current} of ${total}`;
+  document.getElementById('fc-progress').style.width = `${(current/total)*100}%`;
+}
+
+function flipCard() { isFlipped = !isFlipped; document.getElementById('flashcard-inner').classList.toggle('flipped', isFlipped); }
+function nextCard() { currentCardIndex = (currentCardIndex+1)%filteredCards.length; isFlipped=false; document.getElementById('flashcard-inner').classList.remove('flipped'); renderCard(); }
+function prevCard() { currentCardIndex = (currentCardIndex-1+filteredCards.length)%filteredCards.length; isFlipped=false; document.getElementById('flashcard-inner').classList.remove('flipped'); renderCard(); }
+function shuffleCards() { filteredCards=filteredCards.sort(()=>Math.random()-.5); currentCardIndex=0; isFlipped=false; document.getElementById('flashcard-inner').classList.remove('flipped'); renderCard(); }
+
+// ============================================================
+// QUIZ
+// ============================================================
+let quizCategory = 'all';
+let quizQuestions = [], quizIndex = 0, quizScore = 0, quizAnswered = false;
+
+function setQuizCat(cat, btn) { quizCategory = cat; document.querySelectorAll('#quiz-start .pill').forEach(p=>p.classList.remove('active')); btn.classList.add('active'); }
+
+function startQuiz() {
+  const pool = quizCategory === 'all' ? [...quizData] : quizData.filter(q => q.cat === quizCategory);
+  quizQuestions = pool.sort(()=>Math.random()-.5).slice(0, Math.min(10, pool.length));
+  quizIndex = 0; quizScore = 0; quizAnswered = false;
+  document.getElementById('quiz-start').style.display='none';
+  document.getElementById('quiz-done').style.display='none';
+  document.getElementById('quiz-active').style.display='block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (quizIndex >= quizQuestions.length) { showScore(); return; }
+  quizAnswered = false;
+  const q = quizQuestions[quizIndex];
+  document.getElementById('quiz-qnum').textContent = `Question ${quizIndex+1} of ${quizQuestions.length}`;
+  document.getElementById('quiz-question').textContent = q.q;
+  document.getElementById('quiz-progress').style.width = `${(quizIndex/quizQuestions.length)*100}%`;
+  document.getElementById('quiz-feedback').classList.remove('show','correct','wrong');
+  document.getElementById('quiz-next-btn').style.display='none';
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='quiz-option';
+    btn.innerHTML=`<span class="option-letter">${'ABCD'[i]}</span> ${opt}`;
+    btn.onclick=()=>selectAnswer(i);
+    opts.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizQuestions[quizIndex];
+  const opts = document.querySelectorAll('#quiz-options .quiz-option');
+  opts.forEach(o=>o.setAttribute('disabled',true));
+  const isCorrect = idx===q.correct;
+  opts[idx].classList.add(isCorrect?'correct':'wrong');
+  if (!isCorrect) opts[q.correct].classList.add('correct');
+  if (isCorrect) quizScore++;
+  const fb = document.getElementById('quiz-feedback');
+  fb.className=`quiz-feedback show ${isCorrect?'correct':'wrong'}`;
+  fb.textContent=(isCorrect?'✓ Correct! ':'✗ Not quite. ')+q.explanation;
+  document.getElementById('quiz-next-btn').style.display='inline-block';
+}
+
+function nextQuestion() { quizIndex++; renderQuestion(); }
+
+function showScore() {
+  document.getElementById('quiz-active').style.display='none';
+  document.getElementById('quiz-done').style.display='block';
+  const pct=Math.round((quizScore/quizQuestions.length)*100);
+  document.getElementById('score-num').textContent=pct+'%';
+  document.getElementById('score-sub').textContent=`${quizScore} correct out of ${quizQuestions.length}`;
+  document.getElementById('score-msg').textContent=pct>=80?'🎉 Exam-ready!':pct>=60?'💪 Keep studying!':'📚 More review needed!';
+}
+
+function showQuizStart() {
+  document.getElementById('quiz-active').style.display='none';
+  document.getElementById('quiz-done').style.display='none';
+  document.getElementById('quiz-start').style.display='block';
+}
+
+// ============================================================
+// ANATOMY TABLE
+// ============================================================
+function filterMuscles(group, btn) {
+  document.querySelectorAll('#panel-anatomy .pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const data = group==='all'?muscleData:muscleData.filter(m=>m.group===group);
+  renderMuscleTable(data);
+}
+
+function renderMuscleTable(data) {
+  const tbody=document.getElementById('muscle-tbody');
+  tbody.innerHTML='';
+  const gl={scapula:'Scapula',shoulder:'Shoulder',spine:'Spine',trunk:'Trunk & Core',hip:'Hip',knee:'Hip & Knee',leg:'Leg & Foot',respiration:'Respiration'};
+  const gc={scapula:'tag-green',shoulder:'tag-gold',spine:'tag-red',trunk:'tag-green',hip:'tag-gold',knee:'tag-red',leg:'tag-green',respiration:'tag-gold'};
+  data.forEach(m=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>${m.name}</strong></td><td><span class="tag ${gc[m.group]||'tag-green'}">${gl[m.group]||m.group}</span></td><td>${m.action}</td><td>${m.origin}</td><td>${m.insertion}</td><td>${m.nerve}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================
+// AI TUTOR
+// ============================================================
+const chatHistory = [];
+
+async function sendChat() {
+  const input=document.getElementById('chat-input');
+  const msg=input.value.trim();
+  if (!msg) return;
+  input.value='';
+  appendMsg('user',msg);
+  chatHistory.push({role:'user',content:msg});
+  const loadingId=appendLoading();
+  try {
+    const response=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:`You are a STOTT PILATES expert tutor helping a student prepare for their Level 1 Reformer certification exam. You have deep knowledge of the 5 Basic STOTT Principles, anatomy (muscle origins, insertions, actions, nerve innervations), the certification exam format (80% overall, 75% per section), reformer exercises at Essential and Intermediate levels, postural analysis, and cueing techniques. Be concise but thorough. When asked about a specific muscle, always provide origin, insertion, action, and nerve innervation.`,
+        messages:chatHistory
+      })
+    });
+    const data=await response.json();
+    removeLoading(loadingId);
+    const reply=data.content?.map(b=>b.text||'').join('\n')||'Sorry, could not get a response.';
+    appendMsg('ai',reply);
+    chatHistory.push({role:'assistant',content:reply});
+  } catch(e) { removeLoading(loadingId); appendMsg('ai','Connection error. Please try again.'); }
+}
+
+function appendMsg(role,text) {
+  const container=document.getElementById('chat-messages');
+  const div=document.createElement('div');
+  div.className='chat-msg';
+  div.innerHTML=`<div class="chat-avatar ${role}">${role==='ai'?'S':'Me'}</div><div class="chat-bubble ${role==='user'?'user':''}">${text.replace(/\n/g,'<br>')}</div>`;
+  container.appendChild(div);
+  container.scrollTop=container.scrollHeight;
+}
+
+function appendLoading() {
+  const id='loading-'+Date.now();
+  const container=document.getElementById('chat-messages');
+  const div=document.createElement('div');
+  div.className='chat-msg'; div.id=id;
+  div.innerHTML=`<div class="chat-avatar ai">S</div><div class="chat-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+  container.appendChild(div);
+  container.scrollTop=container.scrollHeight;
+  return id;
+}
+
+function removeLoading(id) { const el=document.getElementById(id); if(el) el.remove(); }
+function quickAsk(text) { document.getElementById('chat-input').value=text; sendChat(); }
+
+// ============================================================
+// POSTURAL ANALYSIS DATA
+// ============================================================
+const paData = {
+  side: [
+    {
+      id:'ankle_side', title:'Ankle Joints', color:'sage',
+      methods:['look','palpate'],
+      q1:'The ankle joint — the junction between the shin (tibia/fibula) and the foot',
+      q2_checkboxes:{
+        'Neutral (90°)': 'Ankle at approximately 90° — shin perpendicular to foot',
+        'Plantar Flexed': 'Foot pointing downward — angle GREATER than 90°',
+        'Dorsiflexed': 'Foot pulled upward — angle LESS than 90°'
+      },
+      q3:'Examine the angle of the ankle joint created by the front of the shin and the top of the foot. Look at the line from femur to tibia compared to the foot. If the angle is greater than 90° → plantar flexed. If less than 90° → dorsiflexed.',
+      landmark:'Examine the angle formed between the anterior shin and the dorsum of the foot from a true lateral view. Stand to the side and sight down the line of the lower leg to the foot.',
+      q4:'State: "The right/left ankle appears neutral / plantar flexed / dorsiflexed. I will confirm from the front and back view."',
+      examNote:'Your instructor note: What am I looking at → ankle. What I\'m looking for → plantar vs. dorsiflexed. How I find it → look at the angle of the ankle. What I find → greater than 90° = plantar flexed.'
+    },
+    {
+      id:'knees_side', title:'Knees', color:'terracotta',
+      methods:['look','palpate'],
+      q1:'The knee joint — the articulation between the femur and tibia',
+      q2_checkboxes:{
+        'Neutral': 'Knee in line with hip and ankle, slight natural curve',
+        'Hyperextended': 'Knee pushed back behind the plumb line — genu recurvatum',
+        'Flexed': 'Knee slightly bent forward in standing'
+      },
+      q3:'Use the greater trochanter (hip) and anterior lateral malleolus (ankle) as reference points and relate them to the plumb line. A hyperextended knee will be behind the plumb line; a flexed knee will be in front.',
+      landmark:'Palpate the greater trochanter (lateral hip) and the lateral malleolus (outer ankle). The plumb line should bisect through these points. If the knee is behind this line → hyperextended.',
+      q4:'State: "The right/left knee appears neutral / hyperextended / flexed. I will note this and check for associated hip and lumbar compensations."',
+      examNote:'If the greater trochanter is in FRONT of the ilium — note this as a finding related to hip joint positioning.'
+    },
+    {
+      id:'hips_side', title:'Hip Joints', color:'gold',
+      methods:['look','palpate'],
+      q1:'The hip joint — ball and socket joint between the femoral head and acetabulum; relationship of ASIS to PSIS',
+      q2_checkboxes:{
+        'Neutral': 'ASIS and PSIS approximately level — natural lumbar lordosis present',
+        'Flexed': 'ASIS drops lower than PSIS — anterior pelvic tilt with increased lordosis',
+        'Extended': 'PSIS drops lower than ASIS — posterior pelvic tilt with decreased lordosis'
+      },
+      q3:'Palpate the ASIS (anterior superior iliac spine — the front hip bone) and PSIS (posterior superior iliac spine — the dimples of the back). Find the midpoint of the iliac crest. Compare ASIS vs PSIS height. Also palpate the greater trochanter and compare.',
+      landmark:'Place thumbs on ASIS (front) and fingers on PSIS (back) simultaneously. If ASIS is lower → hip is flexed (anterior tilt). If ASIS is higher → hip extended (posterior tilt). Neutral = ASIS and PSIS roughly level or ASIS slightly lower.',
+      q4:'State: "The pelvis appears to be in a neutral position / anteriorly tilted / posteriorly tilted based on the relationship of ASIS to PSIS."',
+      examNote:'ASIS to hip is like PSIS to hip — if they\'re level you\'re in neutral. If ASIS is lower → anterior tilt → increased lumbar curve.'
+    },
+    {
+      id:'pelvis_side', title:'Pelvis', color:'sage',
+      methods:['look','palpate'],
+      q1:'The pelvis as a whole — its position in the sagittal plane relative to the lumbar spine and legs',
+      q2_checkboxes:{
+        'Neutral': 'Natural lordotic curve maintained; ASIS and pubic symphysis in vertical line',
+        'Anterior Pelvic Tilt': 'Top of pelvis tilts forward, increasing lumbar lordosis; hip flexors tight',
+        'Posterior Pelvic Tilt': 'Top of pelvis tilts back, flattening lumbar spine; hip extensors/abdominals dominant'
+      },
+      q3:'Palpate ASIS and PSIS and compare to the horizontal plane. Look for the natural lumbar curve from the side. Note the relationship between the pelvis and the lumbar spine above it.',
+      landmark:'From the side, place one thumb on ASIS and one on pubic symphysis — in neutral these are in a vertical line. Sight the lumbar curve: neutral shows a gentle lordosis (inward curve).',
+      q4:'State: "The pelvis appears to be in a neutral position with a natural lumbar lordosis / shows an anterior tilt with increased lumbar lordosis / shows a posterior tilt with a reduced lumbar curve."',
+      examNote:'The pelvis dictates the lumbar spine. Anterior tilt → increased lordosis → potential tight hip flexors. Posterior tilt → flat lumbar → potential tight hamstrings/abdominals.'
+    },
+    {
+      id:'lumbar_side', title:'Lumbar Spine', color:'terracotta',
+      methods:['look','palpate'],
+      q1:'The lumbar spine — L1 through L5, the lower back region',
+      q2_checkboxes:{
+        'Neutral': 'Gentle anterior convex curve (lordosis) present',
+        'Flat (decreased curve)': 'Decreased convex curve anteriorly — flattened lumbar spine',
+        'Excessive Extension': 'Increased convex curve anteriorly — hyperlordosis'
+      },
+      q3:'Feel L1 to L5 to get an idea of the curvature. Visually look for the natural inward curve of the lower back from the side. A flat lumbar spine will show minimal curve; hyperlordosis will show an exaggerated inward curve.',
+      landmark:'Run fingers along the spinous processes L1–L5. The lumbar spine should have a gentle anterior concavity (lordosis) when viewed from the side. Feel for the curve depth.',
+      q4:'State: "The lumbar spine shows a neutral lordotic curve / appears flat with reduced lordosis / shows excessive lordosis with an increased anterior curve."',
+      examNote:'Lumbar spine is directly influenced by pelvic position. Always assess in conjunction with pelvic findings.'
+    },
+    {
+      id:'lthoracic_side', title:'Lower Thoracic Spine', color:'gold',
+      methods:['look','palpate'],
+      q1:'The lower thoracic spine — T6 through T12, the mid-lower back',
+      q2_checkboxes:{
+        'Neutral': 'Normal posterior convex curve (kyphosis) maintained',
+        'Flat (decreased curve posteriorly)': 'Reduced kyphosis — flattened mid back',
+        'Excessive Flexion': 'Increased convex curve posteriorly — increased kyphosis / rounded mid back'
+      },
+      q3:'Feel T6 to T12 to get an idea of the curvature. Look for normal posterior curve from the side. Excessive rounding here may indicate tight thoracic extensors or weak core.',
+      landmark:'Palpate the spinous processes T6–T12. Normal thoracic = gentle posterior convexity. Flat = reduced curve. Excessive flexion = exaggerated rounding, often with forward head posture.',
+      q4:'State: "The lower thoracic spine shows a normal posterior curve / appears flat / shows excessive kyphosis with increased posterior curve."',
+      examNote:'Thoracic kyphosis and lumbar lordosis are reciprocal — if one increases, the other often compensates.'
+    },
+    {
+      id:'uthoracic_side', title:'Upper Thoracic Spine', color:'sage',
+      methods:['look','palpate'],
+      q1:'The upper thoracic spine — T1 through T6, the upper back between shoulder blades',
+      q2_checkboxes:{
+        'Neutral': 'Normal gentle posterior curve present',
+        'Flat (decreased curve posteriorly)': 'Reduced posterior curve — military posture',
+        'Excessive Flexion': 'Increased posterior curve — hyperkyphosis, rounded upper back'
+      },
+      q3:'Feel T1 to T6 to get an idea of the curvature. View from the side and look at the upper back contour. Excessive flexion here is often seen with protracted scapulae and forward head.',
+      landmark:'Palpate T1–T6 spinous processes. Normal = slight posterior convexity. Excessive flexion = pronounced rounding at upper back often with elevated/protracted scapulae.',
+      q4:'State: "The upper thoracic spine appears neutral / flat / shows increased kyphosis with rounded upper back."',
+      examNote:'Upper thoracic findings always connect to scapular and shoulder findings. Note both together.'
+    },
+    {
+      id:'cervical_side', title:'Cervical Spine', color:'terracotta',
+      methods:['look','palpate'],
+      q1:'The cervical spine — C1 through C7, the neck region',
+      q2_checkboxes:{
+        'Neutral': 'Natural anterior convex curve (cervical lordosis) present',
+        'Flat (decreased curve anteriorly)': 'Reduced cervical lordosis — straight/flat neck',
+        'Excessive Extension': 'Increased cervical lordosis — hyperextended neck with chin poke'
+      },
+      q3:'Feel C1 to C7 to get an idea of the curvature. The cervical spine should have a gentle anterior convexity (lordosis). From the side, the ear should be over the shoulder. Chin-poke = excessive extension.',
+      landmark:'Use the ear (auditory meatus) and the acromion process and relate to the plumb line. The ear should be directly above the shoulder. Ear in front of shoulder = forward head posture = cervical extension/flexion compensation.',
+      q4:'State: "The cervical spine shows a neutral lordotic curve with ear over shoulder / appears flat / shows excessive extension with a forward head posture."',
+      examNote:'The cervical spine should continue the line of the thoracic spine. Assess together — a kyphotic thoracic spine almost always produces a compensatory cervical extension.'
+    },
+    {
+      id:'head_side', title:'Head', color:'gold',
+      methods:['look'],
+      q1:'The head position relative to the cervical spine and the overall body plumb line',
+      q2_checkboxes:{
+        'Neutral': 'Ear over shoulder, skull balanced over the body',
+        'Forward': 'Head translated forward in front of the plumb line',
+        'Retracted': 'Head pushed back behind the plumb line — chin tucked'
+      },
+      q3:'Use the ear (auditory meatus) and acromion process as reference points. Relate to the plumb line. The ear should be directly over the shoulder (acromion). If the ear is anterior to the shoulder → forward head.',
+      landmark:'Sight from the side: draw an imaginary vertical line from the ear straight down. It should pass through the shoulder, hip, knee, and ankle. Ear in front = forward head posture.',
+      q4:'State: "The head appears to be in a neutral position / shows a forward head posture with ear anterior to shoulder / appears retracted."',
+      examNote:'Forward head posture = for every inch the head is forward, the effective weight on the cervical spine increases by ~10 lbs. Always cue cervical placement in the 5 Principles.'
+    },
+  ],
+  front: [
+    {
+      id:'feet_front', title:'Feet', color:'sage',
+      methods:['look'],
+      q1:'The feet — the base of support, observing position and weight distribution',
+      q2_checkboxes:{
+        'Neutral': 'Feet pointing straight ahead, parallel or slight outward angle',
+        'Inverted/Supinated': 'Feet rolled to the outside, weight on the outer edge',
+        'Everted/Pronated': 'Feet rolled inward, arches collapsed, weight on inner edge'
+      },
+      q3:'Look at the feet from the front. Distinguish where the weight is distributed on the foot — look at the line from femur to tibia. Are the feet toeing in, toeing out? Is the medial arch collapsed (pronation) or raised (supination)?',
+      landmark:'Look at the line from femur to tibia to the foot. Supinated = weight on outer edge, arch raised. Pronated = arch collapsed, weight on inner border (supernated/pronated effect on whole lower limb chain).',
+      q4:'State: "The feet appear to be in a neutral position / appear inverted/supinated with weight on the outer border / appear everted/pronated with collapsed medial arches."',
+      examNote:'Foot position affects the entire kinetic chain up through knees, hips, and pelvis. Note foot findings alongside knee and hip findings.'
+    },
+    {
+      id:'knees_front', title:'Knees', color:'terracotta',
+      methods:['look'],
+      q1:'The knee joints from the front — alignment of femur, patella, and tibia',
+      q2_checkboxes:{
+        'Neutral': 'Kneecap pointing straight ahead, femur and tibia aligned',
+        'Knock-kneed (genu valgum)': 'Knees cave inward, space between ankles when feet together',
+        'Bow-legged (genu varum)': 'Knees bow outward, space between knees when feet together'
+      },
+      q3:'Examine alignment of femurs and tibias with feet together. Look at where the kneecap (patella) points — straight = neutral. If knees touch but ankles are apart = genu valgum (knock-kneed). If ankles touch but knees are apart = genu varum (bow-legged). Is it bow-kneed (space) or knock-kneed?',
+      landmark:'With feet together (or hip-width apart): draw imaginary line from hip to ankle. Patella should face forward. Knees caving inward = valgus. Knees bowing out = varum.',
+      q4:'State: "The knees appear to be in a neutral position / show genu valgum (knock-kneed) bilaterally / show genu varum (bow-legged)."',
+      examNote:'Genu valgum is often associated with hip medial rotation and pronated feet — assess the whole lower limb chain together.'
+    },
+    {
+      id:'pelvis_front', title:'Pelvis', color:'gold',
+      methods:['look','palpate'],
+      q1:'The pelvis from the front — looking at lateral (side-to-side) level and rotation',
+      q2_checkboxes:{
+        'Level': 'Both iliac crests at the same height',
+        'Elevated': 'One side of the pelvis is higher than the other (R or L)',
+        'Rotated Clockwise': 'Pelvis rotated so one ASIS is more anterior',
+        'Rotated Counter-clockwise': 'Pelvis rotated the other direction'
+      },
+      q3:'Palpate each ASIS and compare height. Place hands on top of iliac crests with hands parallel to the floor and compare. Look for one side being higher. For rotation, compare which ASIS appears more forward.',
+      landmark:'Palpate both ASIS simultaneously with thumbs. Are they level? Place hands on top of iliac crests — are hands parallel to the floor? Uneven = elevated pelvis. One ASIS more anterior = rotated pelvis.',
+      q4:'State: "The pelvis appears level bilaterally / appears elevated on the right/left / appears rotated."',
+      examNote:'A lateral pelvic shift here often connects to a leg length discrepancy or tight hip abductors/quadratus lumborum on the elevated side.'
+    },
+    {
+      id:'ribcage_front', title:'Rib Cage', color:'sage',
+      methods:['look','palpate'],
+      q1:'The rib cage from the front — its position relative to the pelvis and whether it is shifted or rotated',
+      q2_checkboxes:{
+        'Neutral': 'Rib cage sits centered over the pelvis',
+        'Elevated': 'Rib cage elevated on one side (R or L)',
+        'Shifted': 'Rib cage shifted laterally to one side (R or L)',
+        'Rotated Clockwise': 'Rib cage rotated one direction',
+        'Rotated Counter-clockwise': 'Rib cage rotated opposite direction'
+      },
+      q3:'Palpate the ASIS and rib cage and compare — are they aligned? Look at the sternum to check for rotation. The sternum-clavicular joint should be in line with the cranium (in your shoulder). Note if one side of the rib cage appears more prominent.',
+      landmark:'Look at the sternum: it should face directly forward. Palpate the lower ribs bilaterally and compare. Compare the distance from the iliac crest to the lower ribs on each side.',
+      q4:'State: "The rib cage appears neutral and centered over the pelvis / appears elevated on the right / appears shifted to the left / appears rotated."',
+      examNote:'A shifted or elevated rib cage affects breathing mechanics, scapular position, and arm movement — connect these findings to the 5 Principles, especially Rib Cage Placement and Breathing.'
+    },
+    {
+      id:'shoulders_front', title:'Shoulders', color:'terracotta',
+      methods:['look','palpate'],
+      q1:'The shoulders (glenohumeral/shoulder girdle complex) from the front — height and symmetry',
+      q2_checkboxes:{
+        'Level': 'Both shoulders at the same height',
+        'Elevated': 'One shoulder is higher (R or L)',
+        'Depressed': 'One shoulder is lower (R or L)'
+      },
+      q3:'Palpate along the clavicle to the acromion process on each side and compare height. Look at the shoulder girdle level. The sternum-clavicular joint should be in line with the cranium (think: "in your shoulder"). Compare bilaterally.',
+      landmark:'Palpate along the clavicle from sternoclavicular joint to the acromion. Compare both sides. Elevated shoulder = often upper trapezius dominance. Depressed shoulder = possibly lower trapezius dominance or structural asymmetry.',
+      q4:'State: "The shoulders appear level bilaterally / the right/left shoulder appears elevated / the right/left shoulder appears depressed."',
+      examNote:'Shoulder elevation is very common — correlates with upper trapezius overuse and levator scapulae tightness. Connect to scapular findings in the back view.'
+    },
+    {
+      id:'head_front', title:'Head (Front View)', color:'gold',
+      methods:['look'],
+      q1:'The head from the front — looking at lateral tilt, rotation, and shift',
+      q2_checkboxes:{
+        'Neutral': 'Head centered, nose pointing straight ahead',
+        'Rotated Clockwise': 'Head turned to the right',
+        'Rotated Counter-clockwise': 'Head turned to the left',
+        'Tilted': 'Head tilted to one side (ear toward shoulder) R or L',
+        'Shifted': 'Head shifted laterally off-center R or L'
+      },
+      q3:'Examine the alignment of the cranium on the cervical spine. Look at the nose — is it pointing straight ahead? Is there a lateral tilt (one ear closer to shoulder)? Is the head shifted off center?',
+      landmark:'Look at the nose as a midline indicator. Then look at the ear levels — are they equal? Check that the head is centered over the shoulders and not shifted right or left.',
+      q4:'State: "The head appears neutral and centered / shows a tilt to the right/left / shows rotation / appears shifted."',
+      examNote:'Head position directly affects cervical spine loading and the 5th Basic Principle. Any deviation here should be noted and addressed in your session focus.'
+    },
+  ],
+  back: [
+    {
+      id:'feet_back', title:'Feet', color:'sage',
+      methods:['look','palpate'],
+      q1:'The feet from the back — Achilles tendon alignment and calcaneal position',
+      q2_checkboxes:{
+        'Neutral': 'Achilles tendon vertical, calcaneus neutral',
+        'Inverted/Supinated': 'Calcaneus tilts outward, Achilles tendon bows inward',
+        'Everted/Pronated': 'Calcaneus tilts inward, Achilles tendon bows outward'
+      },
+      q3:'Look at the Achilles tendon and calcaneus from behind. Distinguish where weight is distributed on the foot. Examine the common calcaneal tendon — is it vertical (neutral), bowing inward (supinated), or bowing outward (pronated)?',
+      landmark:'Look at the Achilles tendon line from behind: neutral = vertical straight line. Supinated = tendon angles inward (foot rolled out). Pronated = tendon angles outward (foot rolled in, arch collapsed).',
+      q4:'State: "The Achilles tendons appear vertical and neutral / the right/left shows inward bowing consistent with supination / outward bowing consistent with pronation."',
+      examNote:'The Achilles tendon is your best indicator of foot position from the back view. Supinated vs pronated (supernated/pronated effect).'
+    },
+    {
+      id:'femurs_back', title:'Femurs', color:'terracotta',
+      methods:['look','palpate'],
+      q1:'The femurs (thigh bones) from the back — looking at medial vs. lateral rotation',
+      q2_checkboxes:{
+        'Neutral': 'Femoral condyles pointing straight back, patella facing forward',
+        'Medial Rotation': 'Femur rolled inward — patella faces slightly inward, often with genu valgum',
+        'Lateral Rotation': 'Femur rolled outward — patella faces outward, feet may toe out'
+      },
+      q3:'Palpate the femoral condyles from behind. Look at where the popliteal crease (back of knee) faces — straight back = neutral. Inward = medial rotation. Outward = lateral rotation. Also observe foot position as a clue.',
+      landmark:'Palpate the medial and lateral femoral condyles. From the back, the popliteal fossa (soft area behind knee) should face directly posterior. Lateral rotation = feet toeing out. Medial rotation = feet toeing in, often with pronation.',
+      q4:'State: "The femurs appear to be in a neutral position / show medial rotation bilaterally / show lateral rotation."',
+      examNote:'Lateral vs. medial rotation of the femur is a KEY exam distinction. Medially rotated = often associated with pronated feet, genu valgum. Laterally rotated = often associated with tight external rotators (piriformis).'
+    },
+    {
+      id:'pelvis_back', title:'Pelvis', color:'gold',
+      methods:['look','palpate'],
+      q1:'The pelvis from the back — level, rotation, and symmetry via PSIS landmarks',
+      q2_checkboxes:{
+        'Level': 'Both PSIS at the same height, iliac crests level',
+        'Elevated': 'One side of pelvis is higher (R or L)',
+        'Rotated Clockwise': 'One PSIS is more posterior',
+        'Rotated Counter-clockwise': 'Opposite PSIS is more posterior'
+      },
+      q3:'Palpate each PSIS (the dimples in the lower back) and compare. Palpate the top of the iliac crests with hands parallel to the floor. Are they level? Note which side is higher.',
+      landmark:'Find the PSISs (posterior superior iliac spines — the "dimples"). Place thumbs on each PSIS simultaneously. Level hands = neutral pelvis. One thumb higher = that side elevated. Also place hands on top of iliac crests.',
+      q4:'State: "The pelvis appears level bilaterally from the back / shows an elevation on the right/left / appears rotated."',
+      examNote:'Compare PSIS findings from the back with ASIS findings from the front to confirm pelvic position and rule out rotation.'
+    },
+    {
+      id:'scapulae_back', title:'Scapulae', color:'sage',
+      methods:['look','palpate'],
+      q1:'The scapulae (shoulder blades) from the back — position and movement quality on the rib cage',
+      q2_checkboxes:{
+        'Neutral': 'Scapulae flat against rib cage, medial border parallel to spine',
+        'Protracted': 'Scapulae moved away from spine (rounded forward)',
+        'Retracted': 'Scapulae pulled toward spine',
+        'Elevated': 'Scapulae pulled up toward ears (R or L)',
+        'Depressed': 'Scapulae pulled down away from ears',
+        'Upwardly Rotated': 'Inferior angle moves laterally, glenoid faces up',
+        'Downwardly Rotated': 'Inferior angle moves medially',
+        'Winging': 'Medial border lifts off rib cage',
+        'Anteriorly Tipped': 'Inferior angle lifts away from rib cage posteriorly'
+      },
+      q3:'Palpate the inferior angle, superior angle, and medial border of each scapula. Compare distance from medial border to spinous processes (T2 in line with superior angle). Look for winging (medial border lifting). Compare left and right.',
+      landmark:'Palpate: inferior angle (bottom tip), superior angle (top inner), medial border. Distance from medial border to nearest spinous process should be about 2 finger-widths. T2 spinous process should be in line with the superior angle of the scapula.',
+      q4:'State: "The scapulae appear to be in a neutral position / the right scapula appears protracted and elevated / winging is noted on the right."',
+      examNote:'Scapular findings directly connect to Principle 4 (Scapular Movement & Stabilization). ANY deviation here must be addressed. Winging = serratus anterior weakness. Elevation = upper trapezius dominance.'
+    },
+    {
+      id:'humeri_back', title:'Humeri', color:'terracotta',
+      methods:['look','palpate'],
+      q1:'The humeri (upper arm bones) from the back — looking at rotation of the shoulder',
+      q2_checkboxes:{
+        'Neutral': 'Olecranon (elbow point) pointing straight back, hands facing the thighs',
+        'Medially Rotated': 'Olecranon pointing outward, palms facing back'
+      },
+      q3:'Palpate the olecranon process (the pointy bone of the elbow, sometimes called the "funny bone"). In neutral, the olecranon should face directly posterior and the palm faces the thigh. If the olecranon faces laterally and the palm faces backward → medial humeral rotation.',
+      landmark:'Look at the olecranon process — it should point directly backward. Also look at where the palms face: neutral = palms face the thighs. Medially rotated = palms face backward. The olecranon is the "funny bone" at the back of the elbow.',
+      q4:'State: "The humeri appear to be in a neutral position / show medial rotation bilaterally with the olecranon facing laterally."',
+      examNote:'Medial humeral rotation is extremely common and connects to protracted scapulae and pectoralis major tightness. Note both humerus and scapula findings together.'
+    },
+    {
+      id:'spine_back', title:'Sequencing Through the Spine', color:'gold',
+      methods:['look','palpate'],
+      q1:'The overall spinal alignment from the back — looking for lateral curves (scoliosis), rotations, and imbalances',
+      q2_checkboxes:{
+        'No flat areas': 'Spine appears to sequence evenly with no abrupt flat segments',
+        'Flat areas present': 'Note where flat areas appear',
+        'No imbalances': 'Both sides of the spine appear symmetrical',
+        'Imbalances present': 'Note side and location of imbalance'
+      },
+      q3:'Watch from the side: are there flat areas in the spine? Where? Watch and palpate from the back: are there imbalances? Palpate either side of the spine and feel for any irregular curvature, rotation, or imbalances. Run thumbs along either side of the spinous processes.',
+      landmark:'Run thumbs or fingers along the paraspinal muscles on either side of the spine from sacrum to cervical spine. Feel for: one side more prominent than the other (rotation), any abrupt changes in curve direction, muscle tension asymmetry.',
+      q4:'State: "The spine sequences evenly with no apparent flat areas or imbalances / shows a flat segment at [level] / shows a lateral shift/rotation at [level]."',
+      examNote:'This is your scoliosis screen. A functional scoliosis (correctable with movement) differs from a structural one. Note findings and address in programming.'
+    },
+  ]
+};
+
+function setPaView(view, btn) {
+  document.querySelectorAll('.view-sel-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pa-view-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('pa-' + view).classList.add('active');
+}
+
+function togglePaRegion(id) {
+  const body = document.getElementById('pa-body-' + id);
+  const chevron = document.getElementById('pa-chev-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+}
+
+function renderPaView(viewKey, gridId) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  const regions = paData[viewKey];
+  const colorClass = { sage:'', terracotta:'terracotta', gold:'gold' };
+  grid.innerHTML = regions.map(r => {
+    const methodTags = r.methods.map(m =>
+      `<span class="pa-method-tag ${m}">${m === 'look' ? '👁 Look' : '✋ Palpate'}</span>`
+    ).join('');
+    const cbItems = Object.entries(r.q2_checkboxes).map(([k,v]) =>
+      `<span class="pa-cb-tag" title="${v}">□ ${k}</span>`
+    ).join('');
+    return `
+    <div class="pa-region-card">
+      <div class="pa-region-header ${colorClass[r.color]}" onclick="togglePaRegion('${r.id}')">
+        <div>
+          <div class="pa-region-title">${r.title}</div>
+          <div class="pa-region-sub">
+            <span style="margin-right:8px;">${methodTags}</span>
+            <span style="color:var(--muted);font-size:10px;">${Object.keys(r.q2_checkboxes).length} possible findings</span>
+          </div>
+        </div>
+        <div class="pa-chevron" id="pa-chev-${r.id}">▼</div>
+      </div>
+      <div class="pa-region-body" id="pa-body-${r.id}">
+        <div class="pa-4q-grid">
+          <div class="pa-q-box q1">
+            <div class="pa-q-label q1">🔵 Q1 — What am I looking AT?</div>
+            <div class="pa-q-content">${r.q1}</div>
+          </div>
+          <div class="pa-q-box q3">
+            <div class="pa-q-label q3">🔴 Q3 — How am I going to find it?</div>
+            <div class="pa-q-content">${r.q3}</div>
+          </div>
+          <div class="pa-q-box q2" style="grid-column:1/-1;">
+            <div class="pa-q-label q2">🟡 Q2 — What am I looking FOR? (Checklist)</div>
+            <div class="pa-checkboxes">
+              <div class="pa-checkboxes-label">Possible findings to check off:</div>
+              <div class="pa-cb-row">${cbItems}</div>
+            </div>
+          </div>
+          <div class="pa-q-box q4" style="grid-column:1/-1;">
+            <div class="pa-q-label q4">🟣 Q4 — What do I find? (How to verbalize)</div>
+            <div class="pa-q-content">${r.q4}</div>
+          </div>
+        </div>
+        <div class="pa-landmark-tip">
+          <strong>🦴 Bony Landmark Technique</strong>
+          ${r.landmark}
+        </div>
+        ${r.examNote ? `<div style="margin-top:10px;padding:10px 14px;background:#f8f4ee;border-radius:8px;font-size:12px;line-height:1.6;color:#555;border-left:3px solid var(--muted);">📝 <strong>Exam note:</strong> ${r.examNote}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// PROGRAMMING DATA — BY VIEW (matches Postural Analysis Checklist)
+// ============================================================
+const progViewData = {
+  side: [
+    {
+      region: 'Ankle Joints', regionColor: 'ankle',
+      findings: [
+        {
+          id:'pf_plantar_flexed', name:'Plantar Flexed', sub:'Angle > 90° — foot pointing down',
+          tight:['Gastrocnemius','Soleus','Plantaris','Posterior joint capsule'],
+          weak:['Tibialis anterior','Extensor digitorum longus','Extensor hallucis longus','Peroneals'],
+          exercises:[
+            {name:'Footwork — Calf Raises (Eccentric Focus)',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, balls of feet on footbar',goal:'Lengthen gastroc/soleus eccentrically; restore dorsiflexion range',cue:'"Lower heels SLOWLY below the bar — 4 counts down. Feel the calf lengthening under control."',mod:'Reduce springs. Place rolled towel under balls of feet to increase calf stretch at bottom.'},
+            {name:'Tendon Stretch',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Standing on footbar, heels hanging',goal:'Active dorsiflexion mobility; eccentric calf and ankle stabilizer work',cue:'"Lower heels below bar — keep arches lifted. Push through the heel to come up."',mod:'Hold the shoulder rests initially. Progress to hands-free for balance challenge.'},
+            {name:'Footwork — Parallel Heels',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Activate tibialis anterior; reinforce ankle in neutral during leg press',cue:'"Keep the ankle at 90° — don\'t allow the heel to drop or the toes to point."',mod:'Use a theraband over the dorsum of the foot for tibialis anterior proprioception.'},
+          ],
+          avoid:'Avoid loading plantarflexion further until range is restored. Do not allow the ankle to remain in plantarflexion during footwork — cue neutral throughout.'
+        },
+        {
+          id:'pf_dorsiflexed', name:'Dorsiflexed', sub:'Angle < 90° — foot pulled up',
+          tight:['Tibialis anterior','Extensor digitorum longus','Anterior joint capsule'],
+          weak:['Gastrocnemius','Soleus','Plantaris','Intrinsic foot flexors'],
+          exercises:[
+            {name:'Footwork — Calf Raises (Concentric Focus)',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, balls of feet on footbar',goal:'Strengthen gastrocnemius and soleus concentrically; restore plantarflexion',cue:'"Rise slowly onto tiptoes — full plantarflexion at top. Feel the calf fully contracting."',mod:'Progress from two-leg to single-leg calf raises as strength improves.'},
+            {name:'Point and Flex Footwork',level:'essential',equip:'Reformer · 2 springs',pos:'Supine, feet in straps',goal:'Active range of motion through full ankle joint; calf activation',cue:'"Point fully — feel length through the arch. Flex fully — feel the shin working."',mod:'Use straps to remove weight-bearing and isolate the ankle movement.'},
+          ],
+          avoid:'Avoid forcing plantarflexion passively. Ensure the calf is properly warmed up before loading.'
+        },
+      ]
+    },
+    {
+      region: 'Knees', regionColor: 'knee',
+      findings: [
+        {
+          id:'pf_hyperextended', name:'Hyperextended (Genu Recurvatum)', sub:'Knee pushed behind plumb line',
+          tight:['Quadriceps (rectus femoris)','Gastrocnemius','Anterior knee capsule','Hip flexors'],
+          weak:['Hamstrings (all three)','Gluteus maximus','Popliteus','Deep hip stabilizers'],
+          exercises:[
+            {name:'Footwork — Parallel Heels (Micro-bend)',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Reinforce soft knee at full extension; hamstring co-activation',cue:'"Keep a small space behind your knee at the top. Imagine holding a folded piece of paper there."',mod:'Place a small ball behind the knee to give tactile feedback against hyperextension.'},
+            {name:'Bridging / Pelvic Curl',level:'essential',equip:'Reformer / Mat · 2–3 springs',pos:'Supine, feet on footbar',goal:'Hamstring and glute activation; posterior chain strengthening',cue:'"Press through the heels — feel the hamstrings firing before you lift. Keep weight in the heels."',mod:'Add a ball squeeze between knees to cue deeper posterior chain engagement.'},
+            {name:'Hamstring Curls',level:'intermediate',equip:'Reformer prone box · 1 light spring',pos:'Prone on long box, straps on ankles',goal:'Isolated hamstring strengthening; correct quad/hamstring imbalance',cue:'"Curl slowly — don\'t let the hip hike. Lower the leg with control — eccentric is just as important."',mod:'Start with partial range. Ensure pelvis stays neutral throughout.'},
+            {name:'Single Leg Press',level:'intermediate',equip:'Reformer · 2 springs',pos:'Supine, one foot on footbar',goal:'Single-leg posterior chain challenge; knee stability under load',cue:'"Soft knee at the top — never snap. Press through the heel, not the ball of the foot."',mod:'Master bilateral before single leg. Monitor pelvis for hiking.'},
+          ],
+          avoid:'Never cue "straighten the leg completely." Avoid any exercise where the knee snaps into terminal extension. Do not use heavy spring loading until the soft-knee pattern is established.'
+        },
+        {
+          id:'pf_knee_flexed', name:'Knee Flexed (in Standing)', sub:'Knee slightly bent in standing',
+          tight:['Hamstrings','Posterior capsule','Gastrocnemius'],
+          weak:['Quadriceps (all vasti)','Hip extensors','Tibialis anterior'],
+          exercises:[
+            {name:'Footwork — Full Extension Emphasis',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Quadriceps strengthening through full range; hamstring lengthening',cue:'"Press fully to extension — feel the quads working hard at the end range. Hold briefly."',mod:'Use medium-heavy springs to provide load at full extension.'},
+            {name:'Leg Circles in Straps',level:'essential',equip:'Reformer · 1–2 springs',pos:'Supine, legs in straps',goal:'Hamstring lengthening; hip mobility',cue:'"Lower the leg — feel the hamstring releasing. Keep the pelvis still."',mod:'Reduce circle size if hamstring pull is excessive.'},
+            {name:'Short Box — Flat Back',level:'intermediate',equip:'Reformer short box · 2 springs',pos:'Seated on box, feet in strap',goal:'Hamstring lengthening through hip hinge; quad activation in upright',cue:'"Hinge from the hip — feel the hamstrings lengthening at the back of the leg. Press feet into strap."',mod:'Use hands on thighs before extending arms.'},
+          ],
+          avoid:'Avoid forcing the knee into extension passively. Address hamstring tightness gradually. Do not load heavy quad exercises without first restoring range.'
+        },
+      ]
+    },
+    {
+      region: 'Hip Joints', regionColor: 'hip',
+      findings: [
+        {
+          id:'pf_hip_flexed', name:'Hip Flexed', sub:'ASIS lower than PSIS — anterior tilt',
+          tight:['Psoas major / Iliacus','Rectus femoris','TFL','Lumbar erectors'],
+          weak:['Gluteus maximus','Hamstrings','Transversus abdominis','Rectus abdominis'],
+          exercises:[
+            {name:'Pelvic Curl',level:'essential',equip:'Reformer / Mat · 2–3 springs',pos:'Supine, feet on footbar',goal:'Glute and hamstring activation; hip flexor stretch',cue:'"Curl the tailbone first. Press through heels. Feel the front of the hip opening as you rise."',mod:'Focus on pelvic curl only (not height). Add a ball between knees.'},
+            {name:'Knee Folds / Leg Lifts',level:'essential',equip:'Mat · bodyweight',pos:'Supine, neutral or imprint',goal:'Test and build ability to hold pelvis against hip flexor pull',cue:'"Fold one knee — does the lower back arch? Scoop deeper to resist it."',mod:'Begin with one leg only, alternating slowly.'},
+            {name:'Hip Flexor Lunge Stretch',level:'essential',equip:'Reformer short box / Mat',pos:'Half-kneeling, back knee on box',goal:'Direct psoas and rectus femoris lengthening',cue:'"Tuck tailbone slightly — feel the front of the hip opening. Do not lean forward."',mod:'Use hands on box for balance. Hold 30–45 seconds.'},
+            {name:'Stomach Massage — Round Back',level:'intermediate',equip:'Reformer · 3–4 springs',pos:'Seated, rounded, feet on footbar',goal:'Hip flexor lengthening through hip extension; core stabilization',cue:'"As carriage goes back — feel front of hip lengthening. Keep abdominals hollowed."',mod:'Start round back before progressing to flat back.'},
+          ],
+          avoid:'Avoid loading hip flexion exercises without abdominal co-activation. Do not reinforce anterior pelvic tilt by cueing "press back" without first establishing neutral/imprint.'
+        },
+        {
+          id:'pf_hip_extended', name:'Hip Extended', sub:'PSIS lower than ASIS — posterior tilt',
+          tight:['Hamstrings','Gluteus maximus','Rectus abdominis','External obliques'],
+          weak:['Psoas major / Iliacus','Rectus femoris','Lumbar multifidus','Thoracic extensors'],
+          exercises:[
+            {name:'Swan / Chest Lift',level:'essential',equip:'Mat / Reformer · 1 spring',pos:'Prone, hands under shoulders',goal:'Hip flexor opening; lumbar extension restoration',cue:'"Lift from the sternum. Feel the front of the hip lengthening into the mat."',mod:'Begin with mini swan (small range). Use sphinx (forearms) position first.'},
+            {name:'Single Leg Kick',level:'essential',equip:'Mat · bodyweight',pos:'Prone, forearms down',goal:'Hip flexor stretch through rectus femoris; reinforce extension pattern',cue:'"Kick heel to seat — feel the rectus femoris lengthening. Then press the leg long."',mod:'Keep movements small. Pelvis stays neutral.'},
+            {name:'Footwork (Neutral Lumbar Cue)',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, feet on footbar',goal:'Teach neutral lumbar curve; proprioceptive awareness of lordosis',cue:'"Allow a small natural space between your lower back and the carriage — that is neutral, not flat."',mod:'Place a small rolled towel under the lumbar spine for feedback.'},
+          ],
+          avoid:'Avoid excessive abdominal curl exercises without balancing extension work. Do not cue "press back flat" — restore the natural curve. Never load hip extension before mobility is addressed.'
+        },
+      ]
+    },
+    {
+      region: 'Pelvis', regionColor: 'pelvis',
+      findings: [
+        {
+          id:'pf_ant_tilt', name:'Anterior Pelvic Tilt', sub:'Top of pelvis tips forward — increased lordosis',
+          tight:['Psoas major / Iliacus','Rectus femoris','Lumbar erectors','TFL'],
+          weak:['Transversus abdominis','Gluteus maximus','Hamstrings','Rectus abdominis'],
+          exercises:[
+            {name:'Hundred (Imprint)',level:'essential',equip:'Reformer / Mat · 2 springs',pos:'Supine, tabletop or extended legs',goal:'Deep abdominal endurance; train core to oppose anterior tilt',cue:'"Scoop in and up. Feel the lower back heavy. Do not let the ribs pop."',mod:'Keep legs at tabletop (90°) to reduce hip flexor tension.'},
+            {name:'Coordination',level:'essential',equip:'Reformer · 1–2 light springs',pos:'Supine, feet in straps, knees to chest',goal:'Dynamic core with hip flexor lengthening; imprint maintenance',cue:'"Extend legs — hold the imprint. Only go as far as you can maintain it."',mod:'Reduce extension range if lower back arches.'},
+            {name:'Long Stretch',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Plank on reformer',goal:'Full anterior chain challenge; core against gravity in extension',cue:'"Long line from head to heel. Do not sag in the lower back."',mod:'Begin with knees down (modified plank) before full position.'},
+          ],
+          avoid:'Avoid reinforcing hip flexor tightness without abdominal engagement. Do not load lumbar extension without core support. Avoid prone extension early if acute.'
+        },
+        {
+          id:'pf_post_tilt', name:'Posterior Pelvic Tilt', sub:'Top of pelvis tips back — flat lumbar',
+          tight:['Hamstrings','Rectus abdominis','External obliques'],
+          weak:['Psoas / Iliacus','Lumbar multifidus','Erector spinae','Thoracic extensors'],
+          exercises:[
+            {name:'Swan Dive Prep',level:'essential',equip:'Mat · bodyweight',pos:'Prone, hands under shoulders',goal:'Restore lumbar lordosis; activate erectors and multifidus',cue:'"Lift from the sternum — feel the natural curve returning to the lower back."',mod:'Use a small cushion under the abdomen initially.'},
+            {name:'Short Box — Flat Back',level:'intermediate',equip:'Reformer short box · 2 springs',pos:'Seated, feet in strap, arms extended',goal:'Hip hinge with neutral lumbar; reinforce lordosis under load',cue:'"Hinge from the hip — keep the lower back curve as you go back. Do not let it round."',mod:'Use a dowel on back (3 contact points) for feedback.'},
+            {name:'Long Box Pulling Straps',level:'intermediate',equip:'Reformer long box · 1–2 springs',pos:'Prone on box, holding straps overhead',goal:'Posterior chain strengthening; thoracic and lumbar extension',cue:'"Lift chest and arms together. Feel the whole back working."',mod:'Arms in T position before overhead.'},
+          ],
+          avoid:'Avoid excessive abdominal curl without extension balance. Do not cue "press back flat" — always restore neutral. Do not load hamstrings heavily before addressing tightness.'
+        },
+      ]
+    },
+    {
+      region: 'Lumbar Spine', regionColor: 'lumbspine',
+      findings: [
+        {
+          id:'pf_lumbar_flat', name:'Flat Lumbar (Decreased Curve)', sub:'Reduced anterior convex curve',
+          tight:['Hamstrings','Rectus abdominis','External obliques'],
+          weak:['Multifidus','Lumbar erectors (iliocostalis, longissimus)','Psoas (deep stabilizer role)'],
+          exercises:[
+            {name:'Cat/Cow on Reformer',level:'essential',equip:'Reformer · 1 light spring',pos:'Quadruped on carriage',goal:'Restore lumbar mobility into extension; erector activation',cue:'"Arch into extension — feel the lower back curve. Breathe in. Then exhale and round."',mod:'Focus on the extension (cow) phase to counter the flat pattern.'},
+            {name:'Swimming / Back Extension on Box',level:'intermediate',equip:'Reformer long box · 1 spring',pos:'Prone on box, alternating limbs',goal:'Multifidus and erector endurance; spinal extension stability',cue:'"Small lifts — quality over height. Feel the lower back gently curving."',mod:'Begin arms-only or legs-only.'},
+          ],
+          avoid:'Avoid cueing "press the back flat" ever — this reinforces the dysfunction. Always work toward restoring the natural lordotic curve.'
+        },
+        {
+          id:'pf_lumbar_hyper', name:'Excessive Extension (Hyperlordosis)', sub:'Increased anterior convex curve',
+          tight:['Lumbar erectors','Psoas major','Quadratus lumborum','Rectus femoris'],
+          weak:['Transversus abdominis','Rectus abdominis','Gluteus maximus','Hamstrings'],
+          exercises:[
+            {name:'Imprinted Footwork',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, feet on footbar, pelvis imprinted',goal:'Reduce excessive lordosis; abdominal endurance against hip flexor dominance',cue:'"Feel the lower back gently pressing into the carriage — maintain as you press away."',mod:'Begin with imprint (not neutral) until core can maintain neutral.'},
+            {name:'Cat Stretch',level:'essential',equip:'Reformer · 1 spring',pos:'Quadruped on carriage',goal:'Lumbar flexion mobility; erector lengthening',cue:'"Round from the tailbone — Halloween cat. Breathe out and hollow the belly."',mod:'Gentle oscillation into flexion. Avoid returning to hyperextension.'},
+          ],
+          avoid:'Avoid loading the lumbar spine in further extension. Do not use neutral pelvis cue if client cannot maintain it — use imprint as a bridge.'
+        },
+      ]
+    },
+    {
+      region: 'Lower Thoracic Spine', regionColor: 'lthoracic',
+      findings: [
+        {
+          id:'pf_lthor_flat', name:'Flat Lower Thoracic (Decreased Posterior Curve)', sub:'Reduced kyphosis — flat mid back',
+          tight:['Thoracic extensors (overactive causing compression)','Anterior longitudinal ligament'],
+          weak:['Thoracic flexors','Serratus anterior','Deep spinal stabilizers'],
+          exercises:[
+            {name:'Spine Stretch Forward',level:'essential',equip:'Mat / Reformer · 1 spring',pos:'Seated, legs extended',goal:'Thoracic flexion mobility; articulation through each segment',cue:'"Round forward from the crown of the head — let each vertebra in the mid-back participate."',mod:'Sit on a prop if hamstrings limit upright sitting.'},
+            {name:'Rolling Like a Ball',level:'essential',equip:'Mat · bodyweight',pos:'Seated, knees to chest',goal:'Thoracic mobility and articulation',cue:'"Roll back — feel each vertebra touching the mat. Use the abdominals to control."',mod:'Small range initially. Stay in lower thoracic region.'},
+          ],
+          avoid:'Avoid over-extending the mid-back without addressing mobility first. Balance flexion and extension work.'
+        },
+        {
+          id:'pf_lthor_kyphosis', name:'Excessive Flexion (Increased Kyphosis)', sub:'Rounded mid-lower back',
+          tight:['Thoracic erectors (in shortened position)','Anterior intercostals','Pectoralis major'],
+          weak:['Thoracic extensors (erector spinae)','Rhomboids','Middle/lower trapezius'],
+          exercises:[
+            {name:'Long Box — Pulling Straps',level:'intermediate',equip:'Reformer long box · 1–2 springs',pos:'Prone on box, arms overhead or in T',goal:'Thoracic extension activation; posterior chain strengthening',cue:'"Lift from the sternum and arms — feel the mid-back opening and extending."',mod:'Arms in T before overhead. Lighter springs to start.'},
+            {name:'Swan (Mid-Thoracic Focus)',level:'essential',equip:'Mat · bodyweight',pos:'Prone, hands under shoulders',goal:'Thoracic extension against gravity',cue:'"Think of the sternum lifting toward the ceiling. The movement comes from the upper/mid back."',mod:'Mini swan first. Forearms (sphinx) if full position is too much.'},
+          ],
+          avoid:'Avoid loading thoracic flexion further without balancing with extension. Connect to scapular findings.'
+        },
+      ]
+    },
+    {
+      region: 'Upper Thoracic Spine', regionColor: 'uthoracic',
+      findings: [
+        {
+          id:'pf_uthor_flat', name:'Flat Upper Thoracic', sub:'Military posture — reduced posterior curve',
+          tight:['Posterior cervical muscles','Thoracic extensors (causing rigidity)'],
+          weak:['Thoracic flexors','Deep cervical flexors','Scapular stabilizers'],
+          exercises:[
+            {name:'Chest Lift / Curl',level:'essential',equip:'Mat / Reformer · 1 spring',pos:'Supine, knees bent',goal:'Upper thoracic flexion mobility; deep cervical flexor activation',cue:'"Nod first (cranio-vertebral flexion), then curl the upper back. Feel the upper thoracic participating."',mod:'Keep feet on floor. Focus on articulation through upper thoracic, not just cervical.'},
+          ],
+          avoid:'Avoid rigid upper back in all exercises. Cue mobility through thoracic in both flexion and extension.'
+        },
+        {
+          id:'pf_uthor_hyper', name:'Excessive Upper Thoracic Kyphosis', sub:'Pronounced rounded upper back',
+          tight:['Pectoralis major/minor','Subscapularis','Anterior deltoid','Anterior intercostals'],
+          weak:['Middle and lower trapezius','Rhomboids','Posterior deltoid','Deep cervical flexors'],
+          exercises:[
+            {name:'Chest Expansion',level:'essential',equip:'Reformer · 1–2 springs',pos:'Kneeling or seated, holding straps',goal:'Open anterior chest; strengthen posterior shoulder and scapular retractors',cue:'"Pull straps back — chest lifts. Shoulder blades draw together AND down. Chin level."',mod:'Seated version first. Reduce spring weight for cleaner movement.'},
+            {name:'Rowing — From the Chest',level:'intermediate',equip:'Reformer · 1 spring',pos:'Seated upright, holding straps',goal:'Thoracic extension through full shoulder girdle range; pec stretch',cue:'"Open wide — chest cracking open. Squeeze blades together then draw them down."',mod:'Ensure spine is upright before adding arm movement.'},
+          ],
+          avoid:'Avoid loading thoracic flexion further. Do not allow forward head to go uncorrected during any chest-opening work.'
+        },
+      ]
+    },
+    {
+      region: 'Cervical Spine', regionColor: 'cervical',
+      findings: [
+        {
+          id:'pf_cerv_flat', name:'Flat Cervical Spine', sub:'Reduced cervical lordosis — straight neck',
+          tight:['Anterior cervical muscles (longus colli if overactive)','SCM inferior fibers'],
+          weak:['Cervical extensors','Deep posterior cervical stabilizers'],
+          exercises:[
+            {name:'CV Flexion with Cervical Extension Awareness',level:'essential',equip:'Mat · bodyweight',pos:'Supine, head on mat',goal:'Restore cervical curve awareness; teach neutral cervical',cue:'"Allow a small space under your neck — feel the natural curve. Do not flatten it into the mat."',mod:'Place small rolled towel under cervical spine for proprioception.'},
+          ],
+          avoid:'Avoid cueing "press neck into mat" — this reinforces the flat cervical pattern. Always maintain neutral curve.'
+        },
+        {
+          id:'pf_cerv_hyper', name:'Excessive Cervical Extension', sub:'Chin poke — forward head + hyperextended neck',
+          tight:['Suboccipitals','Cervical extensors (semispinalis, splenius)','Upper trapezius','Levator scapulae'],
+          weak:['Deep cervical flexors (longus colli, longus capitis)','Deep cervical stabilizers'],
+          exercises:[
+            {name:'Cranio-Vertebral Flexion (CV Nod)',level:'essential',equip:'Mat · bodyweight',pos:'Supine, head on mat',goal:'Activate deep cervical flexors; correct forward head pattern',cue:'"Tiny nod — like saying a small yes. Feel the back of the neck lengthen. NOT chin to chest."',mod:'This is the 5th Principle movement. Practice every session.'},
+            {name:'Chest Expansion with Head Retraction',level:'essential',equip:'Reformer · 1 spring',pos:'Kneeling or seated',goal:'Cervical retraction combined with thoracic extension',cue:'"As you open the chest — slide the head back over the shoulders. Chin level. Back of neck long."',mod:'Add head retraction cue before adding arm movement.'},
+          ],
+          avoid:'Avoid loading cervical extension further. Never cue "chin to chest" — always "nod then curl." Do not allow chin poke under any load.'
+        },
+      ]
+    },
+    {
+      region: 'Head', regionColor: 'head',
+      findings: [
+        {
+          id:'pf_head_forward', name:'Head Forward', sub:'Ear anterior to shoulder',
+          tight:['Suboccipitals','Upper trapezius','Cervical extensors','Levator scapulae'],
+          weak:['Deep cervical flexors','Lower cervical stabilizers','Scapular depressors'],
+          exercises:[
+            {name:'CV Nod / Head Placement Drills',level:'essential',equip:'Mat · bodyweight',pos:'Supine',goal:'Deep cervical flexor activation; restore head over shoulder alignment',cue:'"Imagine a string pulling the crown of your head toward the wall behind you. Feel the neck lengthen."',mod:'Use a mirror for visual feedback in seated/standing position.'},
+            {name:'Neck Stretch Series',level:'essential',equip:'Mat · bodyweight',pos:'Seated or standing',goal:'Release suboccipitals and upper trapezius; improve cervical mobility',cue:'"Ear toward shoulder — feel the opposite side lengthening. Breathe into the stretch."',mod:'30–45 seconds per side. Perform at session start.'},
+          ],
+          avoid:'Avoid any exercise that encourages chin poking. Establish CV flexion pattern before loading cervical region.'
+        },
+        {
+          id:'pf_head_retracted', name:'Head Retracted', sub:'Head pushed back — chin tucked',
+          tight:['Deep cervical flexors (if overactive)','Anterior cervical structures'],
+          weak:['Cervical extensors','Deep posterior stabilizers'],
+          exercises:[
+            {name:'Cervical Extension Awareness',level:'essential',equip:'Mat · bodyweight',pos:'Supine, small pillow removed',goal:'Restore neutral cervical curve; gentle cervical extension mobility',cue:'"Allow the neck to find its natural curve — slight space under the neck, not pressed flat."',mod:'Use a small rolled towel to support neutral cervical lordosis.'},
+          ],
+          avoid:'Avoid excessive cervical flexion loading. Balance all flexion work with extension awareness.'
+        },
+      ]
+    },
+  ],
+
+  front: [
+    {
+      region: 'Feet', regionColor: 'ankle',
+      findings: [
+        {
+          id:'ff_pronated', name:'Everted / Pronated (Flat Arches)', sub:'Arches collapsed, weight on inner border',
+          tight:['Peroneals (fibularis longus/brevis)','Gastrocnemius/Soleus','Hip adductors'],
+          weak:['Tibialis posterior (primary arch supporter)','Tibialis anterior','Intrinsic foot muscles','Gluteus medius'],
+          exercises:[
+            {name:'Footwork — Arch Lift Cue',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Tibialis posterior activation; teach arch lift under load',cue:'"Lift the inner arch as you press — imagine a grape under your arch, do not crush it."',mod:'Place thin roll under medial arch for tactile feedback.'},
+            {name:'Calf Raises with Arch Control',level:'essential',equip:'Reformer · 3 springs',pos:'Balls of feet on footbar',goal:'Eccentric arch and ankle stabilizer control',cue:'"Lower heels — maintain arch lift. Do not let the ankle roll inward."',mod:'Slow the eccentric phase to 4 counts.'},
+            {name:'Tendon Stretch',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Standing on footbar, heels hanging',goal:'Ankle proprioception; arch and calf integration in weight-bearing',cue:'"Lower heels — keep arches lifted and weight even across all forefoot."',mod:'Hold shoulder rests initially for balance.'},
+          ],
+          avoid:'Avoid loading pronated position further. Do not use heavy load before arch control is established.'
+        },
+        {
+          id:'ff_supinated', name:'Inverted / Supinated (High Arches)', sub:'Weight on outer border, arches raised',
+          tight:['Tibialis posterior','Tibialis anterior','Lateral calf structures'],
+          weak:['Peroneals (fibularis longus/brevis)','Intrinsic foot stabilizers','Medial gastrocnemius'],
+          exercises:[
+            {name:'Footwork — Even Weight Distribution',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Peroneal activation; teach even foot loading',cue:'"Feel all four corners of the foot pressing equally — outer edge as much as inner."',mod:'Visual check or mirror. Cue spreading the foot wide.'},
+            {name:'Calf Raises — Even Pressure',level:'essential',equip:'Reformer · 3 springs',pos:'Balls of feet on footbar',goal:'Peroneal lengthening and control',cue:'"Lower heels — press through the big toe as much as the little toe."',mod:'Focus on equal distribution through the forefoot.'},
+          ],
+          avoid:'Avoid high-impact lateral movements until peroneal strength improves. Monitor ankle stability in all standing exercises.'
+        },
+      ]
+    },
+    {
+      region: 'Knees', regionColor: 'knee',
+      findings: [
+        {
+          id:'fk_valgum', name:'Knock-Kneed (Genu Valgum)', sub:'Knees cave inward toward midline',
+          tight:['Hip adductors','TFL / IT band','Internal rotators of hip'],
+          weak:['Gluteus medius','Gluteus minimus','External hip rotators','Vastus medialis (VMO)'],
+          exercises:[
+            {name:'Footwork with Ball Between Knees',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar, ball between knees',goal:'Adductor activation for medial support; knee tracking cue',cue:'"Gently hold the ball — feel the inner thigh working. Keep knees over second toes."',mod:'Add a resistance band above knees to cue outward tracking.'},
+            {name:'Side-Lying Leg Series — Abduction',level:'essential',equip:'Reformer · 1–2 springs',pos:'Sidelying on carriage',goal:'Glute medius and minimus strengthening',cue:'"Lift from the outer hip. Heel slightly higher than toes (slight external rotation)."',mod:'Focus on controlled eccentric lowering.'},
+            {name:'Clamshell',level:'essential',equip:'Mat · resistance band',pos:'Sidelying, knees bent',goal:'Isolated glute medius and external rotator activation',cue:'"Rotate the top knee open — keep hips perfectly stacked. No rolling back."',mod:'Progress from no band to band above knees.'},
+          ],
+          avoid:'Avoid allowing unchecked knee valgus under load. Do not progress to heavy loading until movement pattern is corrected.'
+        },
+        {
+          id:'fk_varum', name:'Bow-Legged (Genu Varum)', sub:'Knees bow outward away from midline',
+          tight:['IT band / TFL','Biceps femoris (lateral hamstring)','Lateral gastrocnemius','External rotators'],
+          weak:['Hip adductors','Vastus medialis (VMO)','Medial gastrocnemius'],
+          exercises:[
+            {name:'Footwork — First Position (Pilates Stance)',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels together toes apart',goal:'Adductor and VMO activation under load',cue:'"Squeeze inner thighs gently throughout. Feel the inner thigh lifting the kneecap inward."',mod:'Small ball between inner knees for tactile feedback.'},
+            {name:'Inner Thigh Squeeze / Adductor Series',level:'essential',equip:'Mat / Reformer · bodyweight',pos:'Supine, knees bent, block or ball between knees',goal:'Adductor strengthening; medial knee support',cue:'"Pulse squeeze — keep pelvis neutral. Do not posteriorly tilt to compensate."',mod:'Progress from static hold to dynamic reps.'},
+          ],
+          avoid:'Avoid loading lateral knee structures further. Be cautious with lateral movements. Address hip rotation before forcing parallel foot alignment.'
+        },
+      ]
+    },
+    {
+      region: 'Pelvis (Front)', regionColor: 'pelvis',
+      findings: [
+        {
+          id:'fp_elevated', name:'Elevated Pelvis (One Side Higher)', sub:'Iliac crests not level',
+          tight:['Quadratus lumborum (elevated side)','Hip abductors / TFL (elevated side)','Lateral trunk (elevated side)'],
+          weak:['Hip abductors (depressed side)','Lateral stabilizers (depressed side)','QL (depressed side)'],
+          exercises:[
+            {name:'Mermaid Stretch',level:'essential',equip:'Reformer / Mat · 1 light spring',pos:'Seated sideways, one hand on footbar',goal:'Lateral trunk lengthening on tight side; QL stretch',cue:'"Reach the top arm long overhead — breathe into the ribs on the tight side."',mod:'Seated on mat if reformer is too challenging.'},
+            {name:'Side-Lying Leg Series',level:'essential',equip:'Reformer · 1–2 springs',pos:'Sidelying',goal:'Glute medius bilateral strength; pelvic stability',cue:'"Keep pelvis stacked and still — only the leg moves. No hip hiking."',mod:'Begin with the weaker (depressed) side.'},
+            {name:'Side Bend (Star Prep)',level:'intermediate',equip:'Reformer · 2 springs',pos:'Sidelying, forearm on footbar',goal:'Lateral trunk stabilization; QL and oblique strengthening',cue:'"Lift the pelvis — one long line. Do not let the hip drop on the free side."',mod:'Both legs stacked (not staggered) to begin.'},
+          ],
+          avoid:'Avoid loading the elevated side in lateral flexion without first addressing mobility. Use props (small wedge) if needed to level pelvis in supine exercises.'
+        },
+        {
+          id:'fp_rotated', name:'Pelvis Rotated', sub:'One ASIS more anterior than the other',
+          tight:['Hip flexors (rotated-forward side)','External rotators (rotated-back side)'],
+          weak:['Hip external rotators (forward side)','Deep hip stabilizers (IQ)'],
+          exercises:[
+            {name:'Hip Circles in Straps',level:'essential',equip:'Reformer · 1–2 springs',pos:'Supine, feet in straps',goal:'Hip joint mobility; restore equal range bilaterally',cue:'"Move through the full circle smoothly. Feel both hips working equally."',mod:'Begin with small circles and increase range gradually.'},
+            {name:'Single Leg Footwork',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Supine, one foot on footbar',goal:'Single-leg assessment and correction of pelvic rotation',cue:'"Keep both sides of the pelvis equally heavy on the carriage. Do not allow one hip to lift."',mod:'Monitor pelvis throughout. Use tactile cue on the hiking side.'},
+          ],
+          avoid:'Avoid asymmetrical loading that reinforces the rotation. Always establish bilateral neutral before single-leg progression.'
+        },
+      ]
+    },
+    {
+      region: 'Rib Cage (Front)', regionColor: 'ribcage',
+      findings: [
+        {
+          id:'fr_elevated', name:'Rib Cage Elevated / Shifted', sub:'Rib cage not centered over pelvis',
+          tight:['Lateral trunk muscles (elevated side)','External intercostals (elevated)','QL'],
+          weak:['Obliques (contralateral)','Lateral trunk stabilizers','Serratus anterior'],
+          exercises:[
+            {name:'Mermaid / Lateral Flexion',level:'essential',equip:'Reformer · 1 spring',pos:'Seated sideways',goal:'Lateral trunk lengthening; rib cage repositioning',cue:'"As you reach overhead, feel the rib cage lowering and centering. Exhale to help the rib cage settle."',mod:'Focus on the rib cage — not just the arm. Feel the connection.'},
+            {name:'Rib Cage Breathing Awareness',level:'essential',equip:'Mat · bodyweight',pos:'Supine, knees bent',goal:'3D breath to mobilize tight rib cage side',cue:'"Breathe into the elevated/shifted side — feel the ribs expanding laterally. Exhale to let go."',mod:'Place one hand on each side of rib cage for feedback.'},
+          ],
+          avoid:'Avoid exercises that reinforce rib cage asymmetry. Address breathing mechanics in EVERY session — connect to Principle 3.'
+        },
+      ]
+    },
+    {
+      region: 'Shoulders (Front)', regionColor: 'shoulder',
+      findings: [
+        {
+          id:'fs_elevated', name:'Shoulder Elevated (One Side)', sub:'One shoulder higher than the other',
+          tight:['Upper trapezius (elevated side)','Levator scapulae (elevated side)','SCM'],
+          weak:['Lower trapezius (elevated side)','Serratus anterior','Middle trapezius'],
+          exercises:[
+            {name:'Arm Circles with Depression Cue',level:'essential',equip:'Reformer · 1 light spring',pos:'Supine, holding straps',goal:'Lower trapezius activation; teach scapular depression before arm movement',cue:'"Before the arms move — shoulders melt DOWN away from the ears. Hold this throughout."',mod:'Begin with no spring. Cue depression constantly throughout.'},
+            {name:'Chest Expansion — Depression Emphasis',level:'essential',equip:'Reformer · 1 spring',pos:'Kneeling or seated',goal:'Lower trap and depress pattern against resistance',cue:'"Shoulders pour down your back like heavy earrings pulling them away from your ears."',mod:'Reduce spring weight so upper trap is not recruited as prime mover.'},
+            {name:'Neck Stretches (upper trap release)',level:'essential',equip:'Mat · bodyweight',pos:'Seated or standing',goal:'Release upper trapezius and levator scapulae on elevated side',cue:'"Ear toward opposite shoulder — hold. Breathe into the tight side."',mod:'Hold 30–45 seconds each side. Begin every session.'},
+          ],
+          avoid:'Avoid any overhead or arm exercise without first establishing scapular depression. Do not allow shoulder shrug compensation in ANY upper body exercise.'
+        },
+        {
+          id:'fs_depressed', name:'Shoulder Depressed (One Side)', sub:'One shoulder lower than the other',
+          tight:['Lower trapezius (depressed side — overactive)','Latissimus dorsi'],
+          weak:['Upper trapezius (depressed side)','Levator scapulae','Serratus anterior (lower fibers)'],
+          exercises:[
+            {name:'Shoulder Elevation and Depression Awareness',level:'essential',equip:'Mat · bodyweight',pos:'Seated or supine',goal:'Bilateral shoulder girdle balance; equal engagement',cue:'"Feel both shoulders at equal height. Adjust the depressed side — gentle elevation to neutral."',mod:'Use a mirror for visual feedback.'},
+          ],
+          avoid:'Avoid further depressing the low shoulder. Balance shoulder girdle work bilaterally.'
+        },
+      ]
+    },
+    {
+      region: 'Head (Front View)', regionColor: 'head',
+      findings: [
+        {
+          id:'fh_tilted', name:'Head Tilted (Lateral)', sub:'Ear toward shoulder — one side',
+          tight:['Upper trapezius (tilted side)','Levator scapulae','SCM (ipsilateral)','Scalenes (ipsilateral)'],
+          weak:['Lateral neck flexors (contralateral)','Deep cervical stabilizers'],
+          exercises:[
+            {name:'Lateral Neck Stretch',level:'essential',equip:'Mat · bodyweight',pos:'Seated upright',goal:'Release tight lateral neck flexors on tilted side',cue:'"Ear away from shoulder — opposite side. Feel the tight side opening. Do not force."',mod:'Support with one hand on opposite shoulder for stability.'},
+            {name:'Chest Expansion with Neutral Head',level:'essential',equip:'Reformer · 1 spring',pos:'Seated or kneeling',goal:'Reinforce head neutral during arm work; cervical stabilizer activation',cue:'"Head stays centered and level — do not tilt when the arms move."',mod:'Start without movement — just hold neutral head position with arms at sides.'},
+          ],
+          avoid:'Avoid loading the cervical spine in any lateral movement pattern that reinforces the tilt. Establish neutral first.'
+        },
+        {
+          id:'fh_shifted', name:'Head Shifted', sub:'Head off-center laterally',
+          tight:['Lateral neck flexors (shifted-to side)','SCM (shifted-to side)'],
+          weak:['Lateral neck stabilizers (opposite side)','Deep cervical stabilizers (bilateral)'],
+          exercises:[
+            {name:'CV Nod with Head Centering',level:'essential',equip:'Mat · bodyweight',pos:'Supine, head centered',goal:'Restore head to midline; deep cervical stabilizer activation',cue:'"Imagine your head perfectly centered between your shoulders — feel equal weight on each ear."',mod:'Use a towel roll along the side of the head for proprioceptive feedback.'},
+          ],
+          avoid:'Avoid any asymmetrical cervical loading until centering is established.'
+        },
+      ]
+    },
+  ],
+
+  back: [
+    {
+      region: 'Feet (Back View)', regionColor: 'ankle',
+      findings: [
+        {
+          id:'bf_pronated', name:'Achilles Bowing Outward (Pronation)', sub:'Calcaneus tilts inward — medial arch collapsed',
+          tight:['Peroneals','Lateral ankle structures','Achilles tendon (lateral fibers)'],
+          weak:['Tibialis posterior','Intrinsic foot muscles','Medial calf structures'],
+          exercises:[
+            {name:'Footwork — Tibialis Posterior Activation',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, heels on footbar',goal:'Tibialis posterior and arch control under load',cue:'"Lift through the inner ankle as you press. Imagine the Achilles tendon straightening."',mod:'Tactile cue — touch the inner ankle to remind client to lift.'},
+            {name:'Calf Raises with Calcaneal Control',level:'essential',equip:'Reformer · 3 springs',pos:'Balls of feet on footbar',goal:'Eccentric arch loading; calcaneal alignment',cue:'"Lower heels keeping the Achilles tendon vertical — not bowing in or out."',mod:'Use a mirror placed behind to see Achilles alignment during the exercise.'},
+          ],
+          avoid:'Avoid loading the pronated position under heavy spring. Focus on alignment correction before adding resistance.'
+        },
+        {
+          id:'bf_supinated', name:'Achilles Bowing Inward (Supination)', sub:'Calcaneus tilts outward — high arch',
+          tight:['Tibialis posterior (overactive)','Tibialis anterior','Posterior tibialis tendon'],
+          weak:['Peroneals (fibularis longus/brevis)','Lateral ankle stabilizers'],
+          exercises:[
+            {name:'Footwork — Lateral Foot Loading',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, heels on footbar',goal:'Peroneal activation; lateral weight distribution',cue:'"Feel the outer edge of the foot pressing equally into the footbar. Spread the heel wide."',mod:'Slight verbal correction: "Press the pinky toe side too."'},
+          ],
+          avoid:'Avoid lateral ankle instability risk. Be cautious in all standing balance exercises.'
+        },
+      ]
+    },
+    {
+      region: 'Femurs (Back View)', regionColor: 'femur',
+      findings: [
+        {
+          id:'bfem_medial', name:'Femoral Medial Rotation', sub:'Patella faces inward — often with pronated feet',
+          tight:['Hip adductors','TFL / IT band','Internal hip rotators'],
+          weak:['Gluteus medius (anterior fibers)','Gluteus maximus (posterior)','External hip rotators (piriformis, deep 6)'],
+          exercises:[
+            {name:'Clamshell with Resistance Band',level:'essential',equip:'Mat · resistance band',pos:'Sidelying, band above knees',goal:'Glute medius and external rotator activation',cue:'"Rotate the knee open toward the ceiling — feel the deep external rotator working under the gluteus."',mod:'Start without band to learn the movement first.'},
+            {name:'Footwork — Pilates Stance',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels together toes apart',goal:'External rotator activation under load; reinforce parallel/turnout balance',cue:'"Feel the thigh rotating outward from the hip socket — not just turning the foot."',mod:'Alternate with parallel footwork to create balance.'},
+            {name:'Side-Lying Leg Series',level:'essential',equip:'Reformer · 1–2 springs',pos:'Sidelying',goal:'Full glute med range; external rotation integration',cue:'"Top leg lifts with heel slightly higher than toes — natural external rotation. Outer hip works."',mod:'Focus on controlled eccentric lowering.'},
+          ],
+          avoid:'Avoid allowing unchecked medial rotation under load. Do not progress loading until movement pattern is corrected.'
+        },
+        {
+          id:'bfem_lateral', name:'Femoral Lateral Rotation', sub:'Feet toe out — femur externally rotated',
+          tight:['Piriformis','Deep external rotators (gemellus, obturator, quadratus femoris)','Biceps femoris'],
+          weak:['Anterior gluteus medius','TFL (internal rotation role)','Medial hamstrings'],
+          exercises:[
+            {name:'Footwork — Parallel (Enforced)',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, feet parallel on footbar',goal:'Internal rotator activation; teach parallel hip alignment',cue:'"Feet and knees pointing straight ahead. Feel the hip rotating internally slightly to get there."',mod:'Use a strap or band around thighs to provide feedback for parallel alignment.'},
+            {name:'Piriformis Stretch',level:'essential',equip:'Mat · bodyweight',pos:'Seated or supine, figure-4',goal:'Piriformis and deep external rotator lengthening',cue:'"Sit tall and lean gently forward into the crossed leg. Feel the deep buttock stretching."',mod:'Adjust lean depth. Support with hands.'},
+          ],
+          avoid:'Avoid using Pilates stance (turnout) exclusively — alternate with parallel to create balance. Do not force parallel without first addressing rotator flexibility.'
+        },
+      ]
+    },
+    {
+      region: 'Pelvis (Back View)', regionColor: 'pelvis',
+      findings: [
+        {
+          id:'bp_elevated', name:'Pelvis Elevated (Back View)', sub:'PSIS uneven — one side higher',
+          tight:['Quadratus lumborum (elevated side)','Hip abductors (elevated side)'],
+          weak:['Lateral stabilizers (depressed side)','Contralateral QL'],
+          exercises:[
+            {name:'Lateral Flexion on Short Box',level:'intermediate',equip:'Reformer short box · 2 springs',pos:'Seated on box, feet in strap',goal:'QL and lateral trunk balance through range',cue:'"Lower toward the tight side slowly — feel the QL lengthening. Lift from the other side."',mod:'Keep range small initially. Pelvis stays grounded on the box.'},
+            {name:'Mermaid',level:'essential',equip:'Reformer · 1 spring',pos:'Seated sideways',goal:'Lateral trunk lengthening and strengthening bilaterally',cue:'"Reach long — feel both sides of the trunk working. Side that is tight gets the stretch."',mod:'Seated on mat if reformer setup is too challenging.'},
+          ],
+          avoid:'Avoid asymmetrical loading that increases the elevation. Address the tight side first.'
+        },
+        {
+          id:'bp_rotated', name:'Pelvis Rotated (Back View)', sub:'One PSIS more posterior',
+          tight:['Hip rotators (posterior — rotated-back side)','QL (rotated-back side)'],
+          weak:['Hip stabilizers (anterior — rotated-forward side)'],
+          exercises:[
+            {name:'Hip Circles / Frog in Straps',level:'essential',equip:'Reformer · 1 light spring',pos:'Supine, feet in straps',goal:'Hip joint mobility bilaterally; restore equal pelvic position',cue:'"Move both hips equally through the circle. Feel the pelvis settling evenly."',mod:'Small circles first. Focus on symmetry.'},
+          ],
+          avoid:'Avoid loading asymmetrical positions. Always work toward bilateral symmetry before single-leg.'
+        },
+      ]
+    },
+    {
+      region: 'Scapulae', regionColor: 'scapula',
+      findings: [
+        {
+          id:'bs_protracted', name:'Protracted Scapulae', sub:'Shoulder blades drawn forward around rib cage',
+          tight:['Pectoralis major / minor','Serratus anterior (if overactive)','Anterior deltoid','Subscapularis'],
+          weak:['Middle trapezius','Rhomboids','Lower trapezius','Posterior deltoid'],
+          exercises:[
+            {name:'Chest Expansion',level:'essential',equip:'Reformer · 1–2 springs',pos:'Kneeling, holding straps',goal:'Scapular retraction and depression; posterior shoulder strengthening',cue:'"Draw the shoulder blades together AND down before the arms come back. Lead with retraction."',mod:'Seated version. Focus on scapular movement before arm range.'},
+            {name:'Back Rowing Series',level:'intermediate',equip:'Reformer · 1 spring',pos:'Seated, facing back',goal:'Full scapular retraction through range',cue:'"Draw elbows back — feel blades squeezing. Shoulders stay away from ears throughout."',mod:'Elbows bent (shorter lever) first.'},
+            {name:'Long Box — T Arms / Y Arms',level:'intermediate',equip:'Reformer long box · 1 light spring',pos:'Prone on box',goal:'Middle and lower trapezius activation; scapular retraction under gravity',cue:'"Lift arms — feel shoulder blades drawing toward spine. Shoulders away from ears."',mod:'T before Y.'},
+          ],
+          avoid:'Avoid heavy push patterns without scapular control. Establish retraction BEFORE loading any press exercise.'
+        },
+        {
+          id:'bs_retracted', name:'Retracted Scapulae', sub:'Shoulder blades pinched toward spine',
+          tight:['Rhomboids','Middle trapezius','Posterior capsule'],
+          weak:['Serratus anterior','Pectoralis minor (for protraction control)'],
+          exercises:[
+            {name:'Serratus Anterior Activation',level:'essential',equip:'Reformer / Mat',pos:'Wall push-up or quadruped',goal:'Serratus activation; teach scapular protraction control',cue:'"Push floor away — feel shoulder blades spreading around the rib cage."',mod:'Wall push-up as starting point.'},
+          ],
+          avoid:'Avoid heavy retraction loading (rowing) without ensuring protraction mobility is maintained. Balance is key.'
+        },
+        {
+          id:'bs_elevated', name:'Elevated Scapulae', sub:'Shoulder blades riding up toward ears',
+          tight:['Upper trapezius','Levator scapulae'],
+          weak:['Lower trapezius','Serratus anterior','Middle trapezius'],
+          exercises:[
+            {name:'Pull Straps — Prone',level:'intermediate',equip:'Reformer long box · 1–2 springs',pos:'Prone on box, arms overhead',goal:'Lower trapezius strengthening; scapular depression under load',cue:'"Pull straps to hips — feel shoulder blades sliding DOWN the back, not up."',mod:'Elbows slightly bent to reduce posterior rotator cuff load.'},
+            {name:'Arm Circles with Depression First',level:'essential',equip:'Reformer · 1 spring',pos:'Supine, holding straps',goal:'Lower trap activation pattern; establish depression before movement',cue:'"Shoulders melt down BEFORE the arms move. Hold that depression throughout the circle."',mod:'No spring to start. Cue depression constantly.'},
+          ],
+          avoid:'Avoid all overhead or arm exercises without first establishing depression. Shoulder elevation as compensation = stop and reset.'
+        },
+        {
+          id:'bs_depressed', name:'Depressed Scapulae', sub:'Shoulder blades pulled down excessively',
+          tight:['Lower trapezius (overactive)','Latissimus dorsi','Pectoralis minor'],
+          weak:['Upper trapezius','Levator scapulae','Serratus anterior (upper fibers)'],
+          exercises:[
+            {name:'Shoulder Girdle Balance Drills',level:'essential',equip:'Mat · bodyweight',pos:'Standing or seated',goal:'Restore balanced scapular position; elevate to neutral',cue:'"Allow the shoulders to rise slightly to neutral — not shrugging, just releasing the excessive pull downward."',mod:'Gentle shrugs and releases to find neutral midpoint.'},
+          ],
+          avoid:'Avoid further depressing the scapulae. Balance upper and lower trapezius tone.'
+        },
+        {
+          id:'bs_uprot', name:'Upwardly Rotated Scapulae', sub:'Inferior angle rotates laterally — glenoid faces up',
+          tight:['Serratus anterior (overactive upper)','Upper trapezius'],
+          weak:['Rhomboids','Lower trapezius','Levator scapulae'],
+          exercises:[
+            {name:'Scapular Retraction and Depression Focus',level:'essential',equip:'Mat / Reformer',pos:'Any',goal:'Restore neutral scapular rotation; activate retractors and depressors',cue:'"Feel the bottom tip of the shoulder blade drawing toward the opposite hip pocket."',mod:'Tactile cue on inferior angle of scapula.'},
+          ],
+          avoid:'Avoid overhead work that increases upward rotation until neutral is restored.'
+        },
+        {
+          id:'bs_downrot', name:'Downwardly Rotated Scapulae', sub:'Glenoid faces downward — often with rounded shoulder',
+          tight:['Rhomboids (in shortened position)','Levator scapulae','Pectoralis minor'],
+          weak:['Serratus anterior','Upper and lower trapezius'],
+          exercises:[
+            {name:'Serratus Push-Up / Wall Push-Up',level:'essential',equip:'Wall / Mat',pos:'Standing or quadruped',goal:'Serratus activation; restore upward rotation pattern',cue:'"At the top of the push — push floor away and feel blades spreading and rotating upward."',mod:'Wall push-up as the safest starting point.'},
+          ],
+          avoid:'Avoid further downward rotation loading (heavy retraction work). Prioritize serratus and trapezius balance.'
+        },
+        {
+          id:'bs_winging', name:'Winging Scapulae', sub:'Medial border lifts off rib cage',
+          tight:['Pectoralis minor (pulling coracoid — tips scapula)','Rhomboids (pulling medial border away)'],
+          weak:['Serratus anterior (primary)','Lower trapezius'],
+          exercises:[
+            {name:'Modified Push-Up (Serratus Focus)',level:'essential',equip:'Reformer / Wall · 2–3 springs',pos:'Plank modified — hands on footbar, knees on carriage',goal:'Serratus anterior activation in push-up pattern; scapula flat against rib cage',cue:'"At the top — push the floor away. Feel the shoulder blades wrapping around the rib cage like hands."',mod:'Elevated angle (hands on footbar standing) first to reduce load. Increase horizontal as strength builds.'},
+            {name:'Long Stretch Hold (Plank)',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Full plank on reformer',goal:'Serratus under sustained load; scapular stability challenge',cue:'"Hold the plank — protractive force throughout. Do not let blades pinch."',mod:'Reduce hold time if winging appears. Build to 10–30 seconds.'},
+          ],
+          avoid:'Avoid heavy overhead loading until serratus is strong. Reduce load immediately if winging appears during any exercise.'
+        },
+        {
+          id:'bs_antipped', name:'Anteriorly Tipped Scapulae', sub:'Inferior angle lifts posteriorly — coracoid tips forward',
+          tight:['Pectoralis minor','Anterior deltoid','Biceps brachii (short head)'],
+          weak:['Lower trapezius','Posterior rotator cuff','Mid trapezius'],
+          exercises:[
+            {name:'Pectoralis Minor Stretch',level:'essential',equip:'Mat · bodyweight',pos:'Standing in doorway or supine on rolled towel',goal:'Direct pectoralis minor lengthening; restore scapular neutral',cue:'"Allow the chest to open — feel the coracoid process releasing forward."',mod:'Supine on a lengthwise rolled mat allows passive pec minor stretch.'},
+            {name:'Chest Expansion',level:'essential',equip:'Reformer · 1–2 springs',pos:'Kneeling',goal:'Pec minor stretch + posterior shoulder; scapular anti-tip activation',cue:'"As arms come back — feel the front of the shoulder opening and the scapula lying flat."',mod:'Seated version if kneeling is uncomfortable.'},
+          ],
+          avoid:'Avoid further loading pectoralis minor (no deep push-up or heavy forward shoulder loading without correcting the tip first).'
+        },
+      ]
+    },
+    {
+      region: 'Humeri', regionColor: 'humeri',
+      findings: [
+        {
+          id:'bh_medrot', name:'Medially Rotated Humeri', sub:'Olecranon faces outward — palms face back',
+          tight:['Subscapularis','Pectoralis major (anterior)','Anterior deltoid','Teres major'],
+          weak:['Infraspinatus','Teres minor','Posterior deltoid','Middle/lower trapezius'],
+          exercises:[
+            {name:'External Rotation with Strap',level:'essential',equip:'Reformer · 1 light spring',pos:'Supine or seated, elbow at 90°',goal:'Infraspinatus and teres minor isolation; restore external rotation',cue:'"Rotate the forearm away — keep the elbow anchored at the side. Feel the back of the shoulder working."',mod:'Very light spring. Elbow at 0° abduction before progressing to 90°.'},
+            {name:'Arm Openings / Hug-a-Tree',level:'essential',equip:'Reformer · 1 spring',pos:'Supine, holding straps open',goal:'Anterior shoulder stretch; external rotator strengthening through range',cue:'"As arms open — feel the front of the shoulder releasing and the palms rotating upward."',mod:'Keep elbows bent to shorten lever and reduce rotator cuff strain.'},
+            {name:'Chest Expansion with Forearm Rotation Cue',level:'essential',equip:'Reformer · 1–2 springs',pos:'Kneeling',goal:'External rotation integrated with scapular retraction',cue:'"As arms come back — feel the palms rotating to face forward. Olecranon now points straight back."',mod:'Cue the rotation explicitly — "turn your palms to face up/forward."'},
+          ],
+          avoid:'Avoid loading internal rotation patterns (aggressive push-up, heavy press) until external rotator strength is established. Do not ignore shoulder position in overhead exercises.'
+        },
+      ]
+    },
+    {
+      region: 'Sequencing Through the Spine', regionColor: 'cervical',
+      findings: [
+        {
+          id:'bsp_flat', name:'Flat Areas in Spinal Sequencing', sub:'Abrupt flat segments in the spine',
+          tight:['Erectors (segment-specific stiffness)','Posterior ligaments at stiff segment','Multifidus (segmental)'],
+          weak:['Segmental spinal stabilizers','Deep rotators at the stiff level','Multifidus at adjacent levels'],
+          exercises:[
+            {name:'Spine Articulation / Pelvic Curl Roll-Down',level:'essential',equip:'Reformer / Mat · 2 springs',pos:'Supine, feet on footbar',goal:'Restore segmental spinal mobility; articulation through each vertebra',cue:'"Roll through the spine one vertebra at a time — feel the flat area start to participate. Breathe into it."',mod:'Use a heated roll or prop under the stiff segment before exercise.'},
+            {name:'Rolling Like a Ball',level:'essential',equip:'Mat · bodyweight',pos:'Seated, knees to chest',goal:'Thoracic and lumbar articulation; mobilize stiff segments',cue:'"Roll back — try to feel each vertebra touching the mat in sequence. No flat bouncing."',mod:'Small range first. Progress as mobility improves.'},
+          ],
+          avoid:'Avoid loading stiff spinal segments in extension or compression before restoring mobility. Do not skip articulation exercises.'
+        },
+        {
+          id:'bsp_imbalance', name:'Spinal Imbalances (Lateral)', sub:'One side of paraspinals more prominent',
+          tight:['Paraspinal muscles (prominent/tight side)','Quadratus lumborum (convex side)','Lateral rotators'],
+          weak:['Paraspinals (concave side)','Lateral stabilizers (concave side)','Deep rotators'],
+          exercises:[
+            {name:'Mermaid / Side Stretch',level:'essential',equip:'Reformer · 1 spring',pos:'Seated sideways',goal:'Lateral trunk lengthening on tight side; bilateral paraspinal balance',cue:'"Reach toward the tight side — feel the paraspinals on that side releasing."',mod:'Compare both sides. Spend more time on tight side.'},
+            {name:'Short Box — Lateral Flexion',level:'intermediate',equip:'Reformer short box · 2 springs',pos:'Seated on box, feet in strap',goal:'Bilateral lateral trunk strengthening; address spinal imbalance under load',cue:'"Equal movement to each side — but allow the tight side more opening. Feel the balance returning."',mod:'Monitor for rotation compensation.'},
+          ],
+          avoid:'Avoid loading the prominent/tight side further in rotation or lateral flexion. Always work toward bilateral symmetry.'
+        },
+      ]
+    },
+  ]
+};
+
+// ============================================================
+// PROGRAMMING RENDER FUNCTIONS
+// ============================================================
+let currentProgView = 'side';
+
+function setProgView(view, btn) {
+  currentProgView = view;
+  document.querySelectorAll('.prog-view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.prog-view-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('prog-' + view).classList.add('active');
+}
+
+function toggleProgFinding(id) {
+  const body = document.getElementById('pf-body-' + id);
+  const chev = document.getElementById('pf-chev-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function buildProgView(viewKey, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const regions = progViewData[viewKey];
+  const regionDots = {
+    ankle:'#4a8a9e', knee:'#7a9e7e', hip:'#9e4a7a', pelvis:'#C4715A',
+    lumbspine:'#C9A84C', lthoracic:'#C9A84C', uthoracic:'#C9A84C', cervical:'#b8a040',
+    shoulder:'#7a7ab8', scapula:'#5a7ab8', head:'#a87a4a', ribcage:'#7ab8a8',
+    femur:'#b87a9e', humeri:'#8ab87a'
+  };
+
+  container.innerHTML = regions.map(reg => {
+    const findingCards = reg.findings.map(f => {
+      const exCount = f.exercises.length;
+      const exCards = f.exercises.map(e => `
+        <div class="prog-ex-card">
+          <div class="prog-ex-top">
+            <div class="prog-ex-name">${e.name}</div>
+            <span class="prog-ex-lvl ${e.level}">${e.level.charAt(0).toUpperCase()+e.level.slice(1)}</span>
+          </div>
+          <div class="prog-ex-equip">📍 ${e.equip}</div>
+          <div class="prog-ex-body">
+            <b>Position:</b> ${e.pos}<br>
+            <b>Goal:</b> ${e.goal}
+          </div>
+          <div class="prog-ex-cue">🗣 ${e.cue}</div>
+          ${e.mod ? `<div class="prog-ex-mod">⚙️ <b>Mod:</b> ${e.mod}</div>` : ''}
+        </div>`).join('');
+
+      return `
+      <div class="prog-finding-card">
+        <div class="prog-finding-header ${reg.regionColor}" onclick="toggleProgFinding('${f.id}')">
+          <div style="flex:1">
+            <div class="prog-finding-name">□ ${f.name}</div>
+            <div class="prog-finding-sub">${f.sub}</div>
+            <div class="prog-finding-badges">
+              <span class="prog-badge prog-badge-e">${f.exercises.filter(e=>e.level==='essential').length} Essential</span>
+              <span class="prog-badge prog-badge-i">${f.exercises.filter(e=>e.level==='intermediate').length} Intermediate</span>
+              <span class="prog-badge" style="background:#f0f0f8;color:#5a5a9a;">${exCount} exercises</span>
+            </div>
+          </div>
+          <div class="prog-chev" id="pf-chev-${f.id}">▼</div>
+        </div>
+        <div class="prog-finding-body" id="pf-body-${f.id}">
+          <div class="prog-imb-row">
+            <div class="prog-tight">
+              <div class="prog-imb-label tight">🔴 Overactive / Tight</div>
+              <div class="prog-imb-list">${f.tight.map(m=>`• ${m}`).join('<br>')}</div>
+            </div>
+            <div class="prog-weak">
+              <div class="prog-imb-label weak">🟢 Underactive / Weak</div>
+              <div class="prog-imb-list">${f.weak.map(m=>`• ${m}`).join('<br>')}</div>
+            </div>
+          </div>
+          <div class="prog-ex-section-title">Recommended Exercises</div>
+          <div class="prog-ex-grid">${exCards}</div>
+          ${f.avoid ? `<div class="prog-avoid"><div class="prog-avoid-title">⚠️ What to Avoid</div><p>${f.avoid}</p></div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+
+    return `
+    <div class="prog-region-block">
+      <div class="prog-region-title">
+        <span class="region-dot" style="background:${regionDots[reg.regionColor]||'#888'};"></span>
+        ${reg.region}
+      </div>
+      ${findingCards}
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderCard();
+renderMuscleTable(muscleData);
+renderBodyView();
+renderPaView('side','pa-side-grid');
+renderPaView('front','pa-front-grid');
+renderPaView('back','pa-back-grid');
+buildProgView('side','prog-side');
+buildProgView('front','prog-front');
+buildProgView('back','prog-back');
+</script>
+</body>
+</html>
