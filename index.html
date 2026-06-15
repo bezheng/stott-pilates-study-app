@@ -167,7 +167,7 @@
   <button class="nav-tab" onclick="showPanel('anatomy',this)">Anatomy Table</button>
   <button class="nav-tab" onclick="showPanel('examinfo',this)">Exam Info</button>
   <button class="nav-tab" onclick="showPanel('posturalanalysis',this)">📋 Postural Analysis</button>
-  <button class="nav-tab" onclick="showPanel('programming',this)">💪 Programming</button>
+  <button class="nav-tab" onclick="showPanel('workouts',this)">🏋️ Workouts</button>
   <button class="nav-tab" onclick="showPanel('aitutor',this)">AI Tutor</button>
 </div>
 
@@ -540,86 +540,66 @@
   </div>
 </div>
 
-<!-- ===== PROGRAMMING ===== -->
+<!-- ===== WORKOUTS ===== -->
 <style>
-.prog-hero{background:linear-gradient(135deg,var(--soft-black) 60%,var(--sage-dark));color:white;border-radius:14px;padding:28px 32px;margin-bottom:28px;}
-.prog-hero h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:6px;}
-.prog-hero p{font-size:13px;opacity:.75;line-height:1.6;max-width:600px;}
-.prog-view-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:24px;width:fit-content;}
-.prog-view-btn{padding:10px 24px;font-size:12px;font-weight:500;letter-spacing:.5px;cursor:pointer;border:none;background:white;color:var(--muted);transition:all .2s;text-transform:uppercase;}
-.prog-view-btn.active{background:var(--soft-black);color:white;}
-.prog-view-panel{display:none;}.prog-view-panel.active{display:block;}
-.prog-region-block{margin-bottom:20px;}
-.prog-region-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--soft-black);padding:12px 0 8px;border-bottom:2px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.prog-region-title .region-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.prog-finding-card{background:white;border-radius:12px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px;}
-.prog-finding-header{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 20px;cursor:pointer;border-left:5px solid var(--sage-dark);transition:background .15s;}
-.prog-finding-header:hover{background:#fafafa;}
-.prog-finding-header.ankle{border-left-color:#4a8a9e;}
-.prog-finding-header.knee{border-left-color:#7a9e7e;}
-.prog-finding-header.hip{border-left-color:#9e4a7a;}
-.prog-finding-header.pelvis{border-left-color:#C4715A;}
-.prog-finding-header.lumbspine,.prog-finding-header.lthoracic,.prog-finding-header.uthoracic,.prog-finding-header.cervical{border-left-color:#C9A84C;}
-.prog-finding-header.shoulder{border-left-color:#7a7ab8;}
-.prog-finding-header.scapula{border-left-color:#5a7ab8;}
-.prog-finding-header.head{border-left-color:#a87a4a;}
-.prog-finding-header.ribcage{border-left-color:#7ab8a8;}
-.prog-finding-header.femur{border-left-color:#b87a9e;}
-.prog-finding-header.humeri{border-left-color:#8ab87a;}
-.prog-finding-name{font-weight:600;font-size:13px;color:var(--soft-black);margin-bottom:3px;}
-.prog-finding-sub{font-size:11px;color:var(--muted);}
-.prog-finding-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
-.prog-badge{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:500;}
-.prog-badge-e{background:#e8f4ea;color:var(--sage-dark);}
-.prog-badge-i{background:#fdf6e3;color:#8a6d15;}
-.prog-finding-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border);}
-.prog-finding-body.open{display:block;}
-.prog-summary{font-size:13px;line-height:1.7;color:#555;padding:12px 0 4px;}
-.prog-imb-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
-.prog-tight{background:#fdf0ed;border-radius:8px;padding:10px 12px;}
-.prog-weak{background:#e8f4ea;border-radius:8px;padding:10px 12px;}
-.prog-imb-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:5px;}
-.prog-imb-label.tight{color:var(--terracotta);}
-.prog-imb-label.weak{color:var(--sage-dark);}
-.prog-imb-list{font-size:11px;line-height:1.7;color:var(--soft-black);}
-.prog-ex-section-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;margin:14px 0 8px;}
-.prog-ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-@media(max-width:700px){.prog-ex-grid{grid-template-columns:1fr;}}
-.prog-ex-card{border-radius:10px;padding:13px 15px;border:1.5px solid var(--border);background:var(--warm-white);transition:border-color .15s;}
-.prog-ex-card:hover{border-color:var(--sage-dark);background:white;}
-.prog-ex-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px;}
-.prog-ex-name{font-weight:600;font-size:12px;color:var(--soft-black);line-height:1.3;}
-.prog-ex-lvl{font-size:9px;padding:2px 7px;border-radius:7px;font-weight:700;white-space:nowrap;flex-shrink:0;}
-.prog-ex-lvl.essential{background:#e8f4ea;color:var(--sage-dark);}
-.prog-ex-lvl.intermediate{background:#fdf6e3;color:#8a6d15;}
-.prog-ex-equip{font-size:10px;color:var(--muted);margin-bottom:5px;}
-.prog-ex-body{font-size:11px;line-height:1.6;color:#555;}
-.prog-ex-body b{color:var(--soft-black);}
-.prog-ex-cue{margin-top:6px;padding:6px 9px;background:white;border-radius:6px;border-left:2px solid var(--sage-dark);font-size:10px;line-height:1.5;color:#444;font-style:italic;}
-.prog-ex-mod{margin-top:4px;padding:6px 9px;background:#fffbe6;border-radius:6px;border-left:2px solid var(--gold);font-size:10px;line-height:1.5;color:#6b5200;}
-.prog-avoid{margin-top:12px;padding:11px 14px;background:#fdf0ed;border-radius:9px;border-left:3px solid var(--terracotta);}
-.prog-avoid-title{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--terracotta);font-weight:700;margin-bottom:4px;}
-.prog-avoid p{font-size:11px;line-height:1.6;color:#9b4030;}
-.prog-chev{font-size:11px;color:var(--muted);transition:transform .25s;flex-shrink:0;margin-top:3px;}
-.prog-chev.open{transform:rotate(180deg);}
+.wk-filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.wk-search{flex:1;min-width:180px;padding:9px 14px;border-radius:8px;border:1.5px solid var(--border);font-size:13px;font-family:'DM Sans',sans-serif;background:white;outline:none;}
+.wk-search:focus{border-color:var(--sage-dark);}
+.wk-level-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;}
+.wk-lbtn{padding:8px 18px;font-size:11px;font-weight:500;letter-spacing:.5px;cursor:pointer;border:none;background:white;color:var(--muted);transition:all .2s;text-transform:uppercase;}
+.wk-lbtn.active{background:var(--soft-black);color:white;}
+.wk-table-wrap{overflow-x:auto;border-radius:12px;box-shadow:var(--shadow);}
+.wk-table{width:100%;border-collapse:collapse;font-size:12px;background:white;}
+.wk-table th{background:var(--soft-black);color:white;padding:11px 13px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.wk-table td{padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+.wk-table tr:last-child td{border-bottom:none;}
+.wk-table tr:hover td{background:var(--cream);}
+.wk-name{font-weight:600;color:var(--soft-black);font-size:12px;}
+.wk-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.lvl-badge{display:inline-block;font-size:9px;padding:2px 7px;border-radius:8px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
+.lvl-essential{background:#e8f4ea;color:var(--sage-dark);}
+.lvl-intermediate{background:#fdf6e3;color:#8a6d15;}
+.wk-muscles{font-size:11px;color:#444;line-height:1.6;}
+.wk-posture{font-size:11px;color:#444;line-height:1.6;}
+.wk-contract{display:flex;flex-wrap:wrap;gap:3px;}
+.ct-tag{font-size:9px;padding:2px 6px;border-radius:6px;font-weight:600;white-space:nowrap;}
+.ct-con{background:#e8f4ea;color:var(--sage-dark);}
+.ct-ecc{background:#fdf0ed;color:var(--terracotta);}
+.ct-iso{background:#e8eaf6;color:#3949ab;}
+.ct-contra{background:#f3e5f5;color:#7b1fa2;}
+.ct-ipsi{background:#fff3e0;color:#e65100;}
+.wk-count{font-size:12px;color:var(--muted);margin-bottom:12px;}
 </style>
 
-<div id="panel-programming" class="panel">
+<div id="panel-workouts" class="panel">
   <div class="container">
-    <div class="prog-hero">
-      <h2>Programming by Postural Finding</h2>
-      <p>Structured exactly like your Postural Analysis Checklist — Side, Front, Back view. Click any finding from the checklist to see the muscular imbalance and targeted STOTT Pilates exercises.</p>
+    <h1 class="section-title">Workout Reference</h1>
+    <p class="section-subtitle">Essential &amp; Intermediate Reformer exercises — muscle groups, postural benefits, and contraction types.</p>
+    <div class="wk-filter-bar">
+      <input class="wk-search" type="text" placeholder="Search exercises..." oninput="filterWorkouts()">
+      <div class="wk-level-toggle">
+        <button class="wk-lbtn active" onclick="setWkLevel('all',this)">All</button>
+        <button class="wk-lbtn" onclick="setWkLevel('essential',this)">Essential</button>
+        <button class="wk-lbtn" onclick="setWkLevel('intermediate',this)">Intermediate</button>
+      </div>
     </div>
-    <div class="prog-view-toggle">
-      <button class="prog-view-btn active" onclick="setProgView('side',this)">Side View</button>
-      <button class="prog-view-btn" onclick="setProgView('front',this)">Front View</button>
-      <button class="prog-view-btn" onclick="setProgView('back',this)">Back View</button>
+    <div class="wk-count" id="wk-count"></div>
+    <div class="wk-table-wrap">
+      <table class="wk-table" id="wk-table">
+        <thead>
+          <tr>
+            <th style="min-width:180px;">Exercise</th>
+            <th style="min-width:200px;">Muscle Groups Targeted</th>
+            <th style="min-width:200px;">Good For (Posture)</th>
+            <th style="min-width:180px;">Contraction Types</th>
+          </tr>
+        </thead>
+        <tbody id="wk-tbody"></tbody>
+      </table>
     </div>
-    <div id="prog-side" class="prog-view-panel active"></div>
-    <div id="prog-front" class="prog-view-panel"></div>
-    <div id="prog-back" class="prog-view-panel"></div>
   </div>
 </div>
+
 
 <!-- ===== AI TUTOR ===== -->
 <div id="panel-aitutor" class="panel">
@@ -1713,681 +1693,164 @@ function renderPaView(viewKey, gridId) {
 }
 
 // ============================================================
-// PROGRAMMING DATA — BY VIEW (matches Postural Analysis Checklist)
+// WORKOUT REFERENCE DATA
 // ============================================================
-const progViewData = {
-  side: [
-    {
-      region: 'Ankle Joints', regionColor: 'ankle',
-      findings: [
-        {
-          id:'pf_plantar_flexed', name:'Plantar Flexed', sub:'Angle > 90° — foot pointing down',
-          tight:['Gastrocnemius','Soleus','Plantaris','Posterior joint capsule'],
-          weak:['Tibialis anterior','Extensor digitorum longus','Extensor hallucis longus','Peroneals'],
-          exercises:[
-            {name:'Footwork — Calf Raises (Eccentric Focus)',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, balls of feet on footbar',goal:'Lengthen gastroc/soleus eccentrically; restore dorsiflexion range',cue:'"Lower heels SLOWLY below the bar — 4 counts down. Feel the calf lengthening under control."',mod:'Reduce springs. Place rolled towel under balls of feet to increase calf stretch at bottom.'},
-            {name:'Tendon Stretch',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Standing on footbar, heels hanging',goal:'Active dorsiflexion mobility; eccentric calf and ankle stabilizer work',cue:'"Lower heels below bar — keep arches lifted. Push through the heel to come up."',mod:'Hold the shoulder rests initially. Progress to hands-free for balance challenge.'},
-            {name:'Footwork — Parallel Heels',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Activate tibialis anterior; reinforce ankle in neutral during leg press',cue:'"Keep the ankle at 90° — don\'t allow the heel to drop or the toes to point."',mod:'Use a theraband over the dorsum of the foot for tibialis anterior proprioception.'},
-          ],
-          avoid:'Avoid loading plantarflexion further until range is restored. Do not allow the ankle to remain in plantarflexion during footwork — cue neutral throughout.'
-        },
-        {
-          id:'pf_dorsiflexed', name:'Dorsiflexed', sub:'Angle < 90° — foot pulled up',
-          tight:['Tibialis anterior','Extensor digitorum longus','Anterior joint capsule'],
-          weak:['Gastrocnemius','Soleus','Plantaris','Intrinsic foot flexors'],
-          exercises:[
-            {name:'Footwork — Calf Raises (Concentric Focus)',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, balls of feet on footbar',goal:'Strengthen gastrocnemius and soleus concentrically; restore plantarflexion',cue:'"Rise slowly onto tiptoes — full plantarflexion at top. Feel the calf fully contracting."',mod:'Progress from two-leg to single-leg calf raises as strength improves.'},
-            {name:'Point and Flex Footwork',level:'essential',equip:'Reformer · 2 springs',pos:'Supine, feet in straps',goal:'Active range of motion through full ankle joint; calf activation',cue:'"Point fully — feel length through the arch. Flex fully — feel the shin working."',mod:'Use straps to remove weight-bearing and isolate the ankle movement.'},
-          ],
-          avoid:'Avoid forcing plantarflexion passively. Ensure the calf is properly warmed up before loading.'
-        },
-      ]
-    },
-    {
-      region: 'Knees', regionColor: 'knee',
-      findings: [
-        {
-          id:'pf_hyperextended', name:'Hyperextended (Genu Recurvatum)', sub:'Knee pushed behind plumb line',
-          tight:['Quadriceps (rectus femoris)','Gastrocnemius','Anterior knee capsule','Hip flexors'],
-          weak:['Hamstrings (all three)','Gluteus maximus','Popliteus','Deep hip stabilizers'],
-          exercises:[
-            {name:'Footwork — Parallel Heels (Micro-bend)',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Reinforce soft knee at full extension; hamstring co-activation',cue:'"Keep a small space behind your knee at the top. Imagine holding a folded piece of paper there."',mod:'Place a small ball behind the knee to give tactile feedback against hyperextension.'},
-            {name:'Bridging / Pelvic Curl',level:'essential',equip:'Reformer / Mat · 2–3 springs',pos:'Supine, feet on footbar',goal:'Hamstring and glute activation; posterior chain strengthening',cue:'"Press through the heels — feel the hamstrings firing before you lift. Keep weight in the heels."',mod:'Add a ball squeeze between knees to cue deeper posterior chain engagement.'},
-            {name:'Hamstring Curls',level:'intermediate',equip:'Reformer prone box · 1 light spring',pos:'Prone on long box, straps on ankles',goal:'Isolated hamstring strengthening; correct quad/hamstring imbalance',cue:'"Curl slowly — don\'t let the hip hike. Lower the leg with control — eccentric is just as important."',mod:'Start with partial range. Ensure pelvis stays neutral throughout.'},
-            {name:'Single Leg Press',level:'intermediate',equip:'Reformer · 2 springs',pos:'Supine, one foot on footbar',goal:'Single-leg posterior chain challenge; knee stability under load',cue:'"Soft knee at the top — never snap. Press through the heel, not the ball of the foot."',mod:'Master bilateral before single leg. Monitor pelvis for hiking.'},
-          ],
-          avoid:'Never cue "straighten the leg completely." Avoid any exercise where the knee snaps into terminal extension. Do not use heavy spring loading until the soft-knee pattern is established.'
-        },
-        {
-          id:'pf_knee_flexed', name:'Knee Flexed (in Standing)', sub:'Knee slightly bent in standing',
-          tight:['Hamstrings','Posterior capsule','Gastrocnemius'],
-          weak:['Quadriceps (all vasti)','Hip extensors','Tibialis anterior'],
-          exercises:[
-            {name:'Footwork — Full Extension Emphasis',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Quadriceps strengthening through full range; hamstring lengthening',cue:'"Press fully to extension — feel the quads working hard at the end range. Hold briefly."',mod:'Use medium-heavy springs to provide load at full extension.'},
-            {name:'Leg Circles in Straps',level:'essential',equip:'Reformer · 1–2 springs',pos:'Supine, legs in straps',goal:'Hamstring lengthening; hip mobility',cue:'"Lower the leg — feel the hamstring releasing. Keep the pelvis still."',mod:'Reduce circle size if hamstring pull is excessive.'},
-            {name:'Short Box — Flat Back',level:'intermediate',equip:'Reformer short box · 2 springs',pos:'Seated on box, feet in strap',goal:'Hamstring lengthening through hip hinge; quad activation in upright',cue:'"Hinge from the hip — feel the hamstrings lengthening at the back of the leg. Press feet into strap."',mod:'Use hands on thighs before extending arms.'},
-          ],
-          avoid:'Avoid forcing the knee into extension passively. Address hamstring tightness gradually. Do not load heavy quad exercises without first restoring range.'
-        },
-      ]
-    },
-    {
-      region: 'Hip Joints', regionColor: 'hip',
-      findings: [
-        {
-          id:'pf_hip_flexed', name:'Hip Flexed', sub:'ASIS lower than PSIS — anterior tilt',
-          tight:['Psoas major / Iliacus','Rectus femoris','TFL','Lumbar erectors'],
-          weak:['Gluteus maximus','Hamstrings','Transversus abdominis','Rectus abdominis'],
-          exercises:[
-            {name:'Pelvic Curl',level:'essential',equip:'Reformer / Mat · 2–3 springs',pos:'Supine, feet on footbar',goal:'Glute and hamstring activation; hip flexor stretch',cue:'"Curl the tailbone first. Press through heels. Feel the front of the hip opening as you rise."',mod:'Focus on pelvic curl only (not height). Add a ball between knees.'},
-            {name:'Knee Folds / Leg Lifts',level:'essential',equip:'Mat · bodyweight',pos:'Supine, neutral or imprint',goal:'Test and build ability to hold pelvis against hip flexor pull',cue:'"Fold one knee — does the lower back arch? Scoop deeper to resist it."',mod:'Begin with one leg only, alternating slowly.'},
-            {name:'Hip Flexor Lunge Stretch',level:'essential',equip:'Reformer short box / Mat',pos:'Half-kneeling, back knee on box',goal:'Direct psoas and rectus femoris lengthening',cue:'"Tuck tailbone slightly — feel the front of the hip opening. Do not lean forward."',mod:'Use hands on box for balance. Hold 30–45 seconds.'},
-            {name:'Stomach Massage — Round Back',level:'intermediate',equip:'Reformer · 3–4 springs',pos:'Seated, rounded, feet on footbar',goal:'Hip flexor lengthening through hip extension; core stabilization',cue:'"As carriage goes back — feel front of hip lengthening. Keep abdominals hollowed."',mod:'Start round back before progressing to flat back.'},
-          ],
-          avoid:'Avoid loading hip flexion exercises without abdominal co-activation. Do not reinforce anterior pelvic tilt by cueing "press back" without first establishing neutral/imprint.'
-        },
-        {
-          id:'pf_hip_extended', name:'Hip Extended', sub:'PSIS lower than ASIS — posterior tilt',
-          tight:['Hamstrings','Gluteus maximus','Rectus abdominis','External obliques'],
-          weak:['Psoas major / Iliacus','Rectus femoris','Lumbar multifidus','Thoracic extensors'],
-          exercises:[
-            {name:'Swan / Chest Lift',level:'essential',equip:'Mat / Reformer · 1 spring',pos:'Prone, hands under shoulders',goal:'Hip flexor opening; lumbar extension restoration',cue:'"Lift from the sternum. Feel the front of the hip lengthening into the mat."',mod:'Begin with mini swan (small range). Use sphinx (forearms) position first.'},
-            {name:'Single Leg Kick',level:'essential',equip:'Mat · bodyweight',pos:'Prone, forearms down',goal:'Hip flexor stretch through rectus femoris; reinforce extension pattern',cue:'"Kick heel to seat — feel the rectus femoris lengthening. Then press the leg long."',mod:'Keep movements small. Pelvis stays neutral.'},
-            {name:'Footwork (Neutral Lumbar Cue)',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, feet on footbar',goal:'Teach neutral lumbar curve; proprioceptive awareness of lordosis',cue:'"Allow a small natural space between your lower back and the carriage — that is neutral, not flat."',mod:'Place a small rolled towel under the lumbar spine for feedback.'},
-          ],
-          avoid:'Avoid excessive abdominal curl exercises without balancing extension work. Do not cue "press back flat" — restore the natural curve. Never load hip extension before mobility is addressed.'
-        },
-      ]
-    },
-    {
-      region: 'Pelvis', regionColor: 'pelvis',
-      findings: [
-        {
-          id:'pf_ant_tilt', name:'Anterior Pelvic Tilt', sub:'Top of pelvis tips forward — increased lordosis',
-          tight:['Psoas major / Iliacus','Rectus femoris','Lumbar erectors','TFL'],
-          weak:['Transversus abdominis','Gluteus maximus','Hamstrings','Rectus abdominis'],
-          exercises:[
-            {name:'Hundred (Imprint)',level:'essential',equip:'Reformer / Mat · 2 springs',pos:'Supine, tabletop or extended legs',goal:'Deep abdominal endurance; train core to oppose anterior tilt',cue:'"Scoop in and up. Feel the lower back heavy. Do not let the ribs pop."',mod:'Keep legs at tabletop (90°) to reduce hip flexor tension.'},
-            {name:'Coordination',level:'essential',equip:'Reformer · 1–2 light springs',pos:'Supine, feet in straps, knees to chest',goal:'Dynamic core with hip flexor lengthening; imprint maintenance',cue:'"Extend legs — hold the imprint. Only go as far as you can maintain it."',mod:'Reduce extension range if lower back arches.'},
-            {name:'Long Stretch',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Plank on reformer',goal:'Full anterior chain challenge; core against gravity in extension',cue:'"Long line from head to heel. Do not sag in the lower back."',mod:'Begin with knees down (modified plank) before full position.'},
-          ],
-          avoid:'Avoid reinforcing hip flexor tightness without abdominal engagement. Do not load lumbar extension without core support. Avoid prone extension early if acute.'
-        },
-        {
-          id:'pf_post_tilt', name:'Posterior Pelvic Tilt', sub:'Top of pelvis tips back — flat lumbar',
-          tight:['Hamstrings','Rectus abdominis','External obliques'],
-          weak:['Psoas / Iliacus','Lumbar multifidus','Erector spinae','Thoracic extensors'],
-          exercises:[
-            {name:'Swan Dive Prep',level:'essential',equip:'Mat · bodyweight',pos:'Prone, hands under shoulders',goal:'Restore lumbar lordosis; activate erectors and multifidus',cue:'"Lift from the sternum — feel the natural curve returning to the lower back."',mod:'Use a small cushion under the abdomen initially.'},
-            {name:'Short Box — Flat Back',level:'intermediate',equip:'Reformer short box · 2 springs',pos:'Seated, feet in strap, arms extended',goal:'Hip hinge with neutral lumbar; reinforce lordosis under load',cue:'"Hinge from the hip — keep the lower back curve as you go back. Do not let it round."',mod:'Use a dowel on back (3 contact points) for feedback.'},
-            {name:'Long Box Pulling Straps',level:'intermediate',equip:'Reformer long box · 1–2 springs',pos:'Prone on box, holding straps overhead',goal:'Posterior chain strengthening; thoracic and lumbar extension',cue:'"Lift chest and arms together. Feel the whole back working."',mod:'Arms in T position before overhead.'},
-          ],
-          avoid:'Avoid excessive abdominal curl without extension balance. Do not cue "press back flat" — always restore neutral. Do not load hamstrings heavily before addressing tightness.'
-        },
-      ]
-    },
-    {
-      region: 'Lumbar Spine', regionColor: 'lumbspine',
-      findings: [
-        {
-          id:'pf_lumbar_flat', name:'Flat Lumbar (Decreased Curve)', sub:'Reduced anterior convex curve',
-          tight:['Hamstrings','Rectus abdominis','External obliques'],
-          weak:['Multifidus','Lumbar erectors (iliocostalis, longissimus)','Psoas (deep stabilizer role)'],
-          exercises:[
-            {name:'Cat/Cow on Reformer',level:'essential',equip:'Reformer · 1 light spring',pos:'Quadruped on carriage',goal:'Restore lumbar mobility into extension; erector activation',cue:'"Arch into extension — feel the lower back curve. Breathe in. Then exhale and round."',mod:'Focus on the extension (cow) phase to counter the flat pattern.'},
-            {name:'Swimming / Back Extension on Box',level:'intermediate',equip:'Reformer long box · 1 spring',pos:'Prone on box, alternating limbs',goal:'Multifidus and erector endurance; spinal extension stability',cue:'"Small lifts — quality over height. Feel the lower back gently curving."',mod:'Begin arms-only or legs-only.'},
-          ],
-          avoid:'Avoid cueing "press the back flat" ever — this reinforces the dysfunction. Always work toward restoring the natural lordotic curve.'
-        },
-        {
-          id:'pf_lumbar_hyper', name:'Excessive Extension (Hyperlordosis)', sub:'Increased anterior convex curve',
-          tight:['Lumbar erectors','Psoas major','Quadratus lumborum','Rectus femoris'],
-          weak:['Transversus abdominis','Rectus abdominis','Gluteus maximus','Hamstrings'],
-          exercises:[
-            {name:'Imprinted Footwork',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, feet on footbar, pelvis imprinted',goal:'Reduce excessive lordosis; abdominal endurance against hip flexor dominance',cue:'"Feel the lower back gently pressing into the carriage — maintain as you press away."',mod:'Begin with imprint (not neutral) until core can maintain neutral.'},
-            {name:'Cat Stretch',level:'essential',equip:'Reformer · 1 spring',pos:'Quadruped on carriage',goal:'Lumbar flexion mobility; erector lengthening',cue:'"Round from the tailbone — Halloween cat. Breathe out and hollow the belly."',mod:'Gentle oscillation into flexion. Avoid returning to hyperextension.'},
-          ],
-          avoid:'Avoid loading the lumbar spine in further extension. Do not use neutral pelvis cue if client cannot maintain it — use imprint as a bridge.'
-        },
-      ]
-    },
-    {
-      region: 'Lower Thoracic Spine', regionColor: 'lthoracic',
-      findings: [
-        {
-          id:'pf_lthor_flat', name:'Flat Lower Thoracic (Decreased Posterior Curve)', sub:'Reduced kyphosis — flat mid back',
-          tight:['Thoracic extensors (overactive causing compression)','Anterior longitudinal ligament'],
-          weak:['Thoracic flexors','Serratus anterior','Deep spinal stabilizers'],
-          exercises:[
-            {name:'Spine Stretch Forward',level:'essential',equip:'Mat / Reformer · 1 spring',pos:'Seated, legs extended',goal:'Thoracic flexion mobility; articulation through each segment',cue:'"Round forward from the crown of the head — let each vertebra in the mid-back participate."',mod:'Sit on a prop if hamstrings limit upright sitting.'},
-            {name:'Rolling Like a Ball',level:'essential',equip:'Mat · bodyweight',pos:'Seated, knees to chest',goal:'Thoracic mobility and articulation',cue:'"Roll back — feel each vertebra touching the mat. Use the abdominals to control."',mod:'Small range initially. Stay in lower thoracic region.'},
-          ],
-          avoid:'Avoid over-extending the mid-back without addressing mobility first. Balance flexion and extension work.'
-        },
-        {
-          id:'pf_lthor_kyphosis', name:'Excessive Flexion (Increased Kyphosis)', sub:'Rounded mid-lower back',
-          tight:['Thoracic erectors (in shortened position)','Anterior intercostals','Pectoralis major'],
-          weak:['Thoracic extensors (erector spinae)','Rhomboids','Middle/lower trapezius'],
-          exercises:[
-            {name:'Long Box — Pulling Straps',level:'intermediate',equip:'Reformer long box · 1–2 springs',pos:'Prone on box, arms overhead or in T',goal:'Thoracic extension activation; posterior chain strengthening',cue:'"Lift from the sternum and arms — feel the mid-back opening and extending."',mod:'Arms in T before overhead. Lighter springs to start.'},
-            {name:'Swan (Mid-Thoracic Focus)',level:'essential',equip:'Mat · bodyweight',pos:'Prone, hands under shoulders',goal:'Thoracic extension against gravity',cue:'"Think of the sternum lifting toward the ceiling. The movement comes from the upper/mid back."',mod:'Mini swan first. Forearms (sphinx) if full position is too much.'},
-          ],
-          avoid:'Avoid loading thoracic flexion further without balancing with extension. Connect to scapular findings.'
-        },
-      ]
-    },
-    {
-      region: 'Upper Thoracic Spine', regionColor: 'uthoracic',
-      findings: [
-        {
-          id:'pf_uthor_flat', name:'Flat Upper Thoracic', sub:'Military posture — reduced posterior curve',
-          tight:['Posterior cervical muscles','Thoracic extensors (causing rigidity)'],
-          weak:['Thoracic flexors','Deep cervical flexors','Scapular stabilizers'],
-          exercises:[
-            {name:'Chest Lift / Curl',level:'essential',equip:'Mat / Reformer · 1 spring',pos:'Supine, knees bent',goal:'Upper thoracic flexion mobility; deep cervical flexor activation',cue:'"Nod first (cranio-vertebral flexion), then curl the upper back. Feel the upper thoracic participating."',mod:'Keep feet on floor. Focus on articulation through upper thoracic, not just cervical.'},
-          ],
-          avoid:'Avoid rigid upper back in all exercises. Cue mobility through thoracic in both flexion and extension.'
-        },
-        {
-          id:'pf_uthor_hyper', name:'Excessive Upper Thoracic Kyphosis', sub:'Pronounced rounded upper back',
-          tight:['Pectoralis major/minor','Subscapularis','Anterior deltoid','Anterior intercostals'],
-          weak:['Middle and lower trapezius','Rhomboids','Posterior deltoid','Deep cervical flexors'],
-          exercises:[
-            {name:'Chest Expansion',level:'essential',equip:'Reformer · 1–2 springs',pos:'Kneeling or seated, holding straps',goal:'Open anterior chest; strengthen posterior shoulder and scapular retractors',cue:'"Pull straps back — chest lifts. Shoulder blades draw together AND down. Chin level."',mod:'Seated version first. Reduce spring weight for cleaner movement.'},
-            {name:'Rowing — From the Chest',level:'intermediate',equip:'Reformer · 1 spring',pos:'Seated upright, holding straps',goal:'Thoracic extension through full shoulder girdle range; pec stretch',cue:'"Open wide — chest cracking open. Squeeze blades together then draw them down."',mod:'Ensure spine is upright before adding arm movement.'},
-          ],
-          avoid:'Avoid loading thoracic flexion further. Do not allow forward head to go uncorrected during any chest-opening work.'
-        },
-      ]
-    },
-    {
-      region: 'Cervical Spine', regionColor: 'cervical',
-      findings: [
-        {
-          id:'pf_cerv_flat', name:'Flat Cervical Spine', sub:'Reduced cervical lordosis — straight neck',
-          tight:['Anterior cervical muscles (longus colli if overactive)','SCM inferior fibers'],
-          weak:['Cervical extensors','Deep posterior cervical stabilizers'],
-          exercises:[
-            {name:'CV Flexion with Cervical Extension Awareness',level:'essential',equip:'Mat · bodyweight',pos:'Supine, head on mat',goal:'Restore cervical curve awareness; teach neutral cervical',cue:'"Allow a small space under your neck — feel the natural curve. Do not flatten it into the mat."',mod:'Place small rolled towel under cervical spine for proprioception.'},
-          ],
-          avoid:'Avoid cueing "press neck into mat" — this reinforces the flat cervical pattern. Always maintain neutral curve.'
-        },
-        {
-          id:'pf_cerv_hyper', name:'Excessive Cervical Extension', sub:'Chin poke — forward head + hyperextended neck',
-          tight:['Suboccipitals','Cervical extensors (semispinalis, splenius)','Upper trapezius','Levator scapulae'],
-          weak:['Deep cervical flexors (longus colli, longus capitis)','Deep cervical stabilizers'],
-          exercises:[
-            {name:'Cranio-Vertebral Flexion (CV Nod)',level:'essential',equip:'Mat · bodyweight',pos:'Supine, head on mat',goal:'Activate deep cervical flexors; correct forward head pattern',cue:'"Tiny nod — like saying a small yes. Feel the back of the neck lengthen. NOT chin to chest."',mod:'This is the 5th Principle movement. Practice every session.'},
-            {name:'Chest Expansion with Head Retraction',level:'essential',equip:'Reformer · 1 spring',pos:'Kneeling or seated',goal:'Cervical retraction combined with thoracic extension',cue:'"As you open the chest — slide the head back over the shoulders. Chin level. Back of neck long."',mod:'Add head retraction cue before adding arm movement.'},
-          ],
-          avoid:'Avoid loading cervical extension further. Never cue "chin to chest" — always "nod then curl." Do not allow chin poke under any load.'
-        },
-      ]
-    },
-    {
-      region: 'Head', regionColor: 'head',
-      findings: [
-        {
-          id:'pf_head_forward', name:'Head Forward', sub:'Ear anterior to shoulder',
-          tight:['Suboccipitals','Upper trapezius','Cervical extensors','Levator scapulae'],
-          weak:['Deep cervical flexors','Lower cervical stabilizers','Scapular depressors'],
-          exercises:[
-            {name:'CV Nod / Head Placement Drills',level:'essential',equip:'Mat · bodyweight',pos:'Supine',goal:'Deep cervical flexor activation; restore head over shoulder alignment',cue:'"Imagine a string pulling the crown of your head toward the wall behind you. Feel the neck lengthen."',mod:'Use a mirror for visual feedback in seated/standing position.'},
-            {name:'Neck Stretch Series',level:'essential',equip:'Mat · bodyweight',pos:'Seated or standing',goal:'Release suboccipitals and upper trapezius; improve cervical mobility',cue:'"Ear toward shoulder — feel the opposite side lengthening. Breathe into the stretch."',mod:'30–45 seconds per side. Perform at session start.'},
-          ],
-          avoid:'Avoid any exercise that encourages chin poking. Establish CV flexion pattern before loading cervical region.'
-        },
-        {
-          id:'pf_head_retracted', name:'Head Retracted', sub:'Head pushed back — chin tucked',
-          tight:['Deep cervical flexors (if overactive)','Anterior cervical structures'],
-          weak:['Cervical extensors','Deep posterior stabilizers'],
-          exercises:[
-            {name:'Cervical Extension Awareness',level:'essential',equip:'Mat · bodyweight',pos:'Supine, small pillow removed',goal:'Restore neutral cervical curve; gentle cervical extension mobility',cue:'"Allow the neck to find its natural curve — slight space under the neck, not pressed flat."',mod:'Use a small rolled towel to support neutral cervical lordosis.'},
-          ],
-          avoid:'Avoid excessive cervical flexion loading. Balance all flexion work with extension awareness.'
-        },
-      ]
-    },
-  ],
+const workoutData = [
+  // ---- ESSENTIAL ----
+  {level:'essential',name:'Footwork — Toes Apart Heels Together',group:'Footwork',muscles:'Quadriceps, Hamstrings, Glutes, Gastrocnemius, Soleus',posture:'Pronation/supination correction; genu varum/valgum; ankle instability; flat-back posture (activates posterior chain)',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Footwork — Wrap Toes on Bar',group:'Footwork',muscles:'Quadriceps, Hamstrings, Glutes, Intrinsic Foot Muscles, Peroneals',posture:'Dropped arches; weak intrinsic foot muscles; overpronation',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Footwork — Heels on Bar',group:'Footwork',muscles:'Hamstrings, Glutes, Gastrocnemius (stretch), Quadriceps',posture:'Anterior pelvic tilt; tight hip flexors; knee hyperextension tendency',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Footwork — High Half Toe',group:'Footwork',muscles:'Gastrocnemius, Soleus, Peroneals, Intrinsic Foot',posture:'Ankle instability; weak calf complex; Achilles tightness',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Footwork — Lower & Lift',group:'Footwork',muscles:'Gastrocnemius, Soleus, Quadriceps, Glutes',posture:'Calf weakness; ankle instability; poor plantar flexion control',contractions:['con','ecc']},
+  {level:'essential',name:'Second Position — Parallel',group:'Second Position',muscles:'Glutes (medius & maximus), Adductors, Quadriceps, Hamstrings',posture:'Hip abductor weakness; anterior pelvic tilt; genu valgum',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Second Position — Laterally Rotated',group:'Second Position',muscles:'Glutes, External Hip Rotators, Adductors, Quadriceps',posture:'Internal hip rotation; genu valgum; weak lateral rotators',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Second Position — Medially Rotated',group:'Second Position',muscles:'Internal Hip Rotators, Adductors, Quadriceps, TFL',posture:'Excessive external rotation/turnout; hip imbalance',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Single Leg — One Leg Bent',group:'Single Leg',muscles:'Quadriceps, Hamstrings, Glutes (unilateral), Core Stabilizers',posture:'Leg length discrepancy; unilateral hip/knee weakness; pelvic obliquity',contractions:['con','ecc','iso','ipsi']},
+  {level:'essential',name:'Single Leg — Bicycle',group:'Single Leg',muscles:'Hip Flexors, Quadriceps, Hamstrings, Glutes, Core',posture:'Hip flexor tightness; poor hip dissociation; lordosis',contractions:['con','ecc','iso','ipsi']},
+  {level:'essential',name:'Single Leg — Single Heel',group:'Single Leg',muscles:'Hamstrings, Glutes, Gastrocnemius, Core Stabilizers',posture:'Anterior pelvic tilt; weak posterior chain; knee instability',contractions:['con','ecc','iso','ipsi']},
+  {level:'essential',name:'Hundred',group:'Core',muscles:'Transversus Abdominis, Rectus Abdominis, Obliques, Hip Flexors, Scapular Stabilizers',posture:'Kyphosis; forward head; weak core; flat-back — builds spinal flexion endurance',contractions:['iso','con']},
+  {level:'essential',name:'Bend & Stretch — Parallel',group:'Bend & Stretch',muscles:'Quadriceps, Hamstrings, Glutes, Hip Flexors',posture:'General leg strength; anterior pelvic tilt; hip flexor tightness',contractions:['con','ecc']},
+  {level:'essential',name:'Bend & Stretch — Laterally Rotated',group:'Bend & Stretch',muscles:'External Hip Rotators, Glutes, Adductors, Quadriceps',posture:'Hip imbalance; internal rotation pattern; genu valgum',contractions:['con','ecc']},
+  {level:'essential',name:'Bend & Stretch — Medially Rotated',group:'Bend & Stretch',muscles:'Internal Hip Rotators, TFL, Adductors, Quadriceps',posture:'Excessive turnout; piriformis tightness',contractions:['con','ecc']},
+  {level:'essential',name:'Lift & Lower — Parallel',group:'Lift & Lower',muscles:'Glutes, Hamstrings, Core Stabilizers, Hip Abductors',posture:'Anterior pelvic tilt; weak glutes; lumbar instability',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Lift & Lower — Laterally Rotated',group:'Lift & Lower',muscles:'External Hip Rotators, Glutes Medius/Maximus, Core',posture:'Hip abductor weakness; pelvic drop; genu valgum',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Adductor Stretch',group:'Stretch',muscles:'Adductors (Longus, Brevis, Magnus), Gracilis, Pectineus',posture:'Tight adductors contributing to genu valgum or anterior pelvic tilt',contractions:['ecc','iso']},
+  {level:'essential',name:'Short Spine — Prep',group:'Short Spine',muscles:'Hamstrings, Glutes, Spinal Extensors, Transversus Abdominis',posture:'Stiff thoracic spine; hip flexor dominance; lumbar tightness',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Short Spine — Full',group:'Short Spine',muscles:'Hamstrings, Glutes, Deep Spinal Muscles, Abdominals, Hip Flexors',posture:'Thoracic kyphosis; stiff spine; poor articulation',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Midback Series — Triceps Press',group:'Midback Series',muscles:'Triceps, Rhomboids, Mid Trapezius, Posterior Deltoid',posture:'Rounded shoulders; protracted scapulae; kyphosis',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Midback Series — Straight Down',group:'Midback Series',muscles:'Latissimus Dorsi, Rhomboids, Teres Major, Triceps',posture:'Scapular winging; shoulder elevation; thoracic kyphosis',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Midback Series — Forty Five Degrees',group:'Midback Series',muscles:'Posterior Deltoid, Infraspinatus, Teres Minor, Rhomboids',posture:'Rounded shoulders; forward head; weak posterior shoulder girdle',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Midback Series — Side',group:'Midback Series',muscles:'Latissimus Dorsi, Rhomboids, Mid/Lower Trapezius, Serratus Anterior',posture:'Scapular elevation; kyphosis; poor thoracic extension',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Midback Series — Circles',group:'Midback Series',muscles:'Rotator Cuff, Rhomboids, Trapezius, Serratus Anterior',posture:'Impingement risk; scapular dyskinesis; rounded shoulders',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Back Rowing — Plow',group:'Back Rowing',muscles:'Rhomboids, Mid Trapezius, Posterior Deltoid, Biceps, Core',posture:'Kyphosis; scapular protraction; rounded upper back',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Back Rowing — Open Elbows',group:'Back Rowing',muscles:'Rhomboids, Rear Deltoid, External Rotators, Mid Trapezius',posture:'Rounded shoulders; forward head; scapular winging',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Back Rowing — Airplane',group:'Back Rowing',muscles:'Posterior Deltoid, Rhomboids, Erector Spinae, Glutes',posture:'Thoracic flexion bias; weak spinal extensors; kyphosis',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Back Rowing — Biceps Curls',group:'Back Rowing',muscles:'Biceps Brachii, Brachialis, Core Stabilizers',posture:'Poor arm control with spinal stability; kyphosis',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Back Rowing — Triceps',group:'Back Rowing',muscles:'Triceps Brachii, Anconeus, Scapular Stabilizers',posture:'Elbow hyperextension; poor scapular control',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Back Rowing — Roll-Down',group:'Back Rowing',muscles:'Abdominals, Spinal Flexors, Hip Flexors, Hamstrings (stretch)',posture:'Thoracic stiffness; inability to articulate spine; flat-back',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Back Rowing — Roll-Down with Biceps Curls',group:'Back Rowing',muscles:'Abdominals, Biceps, Hip Flexors, Spinal Flexors',posture:'Combines core articulation with arm control',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Back Rowing — Roll-Down with Obliques',group:'Back Rowing',muscles:'Obliques, Transversus Abdominis, Rectus Abdominis, Spinal Rotators',posture:'Rotational stiffness; scoliosis; oblique weakness',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Side Arm Preps Sitting — Internal Rotation',group:'Side Arm Preps',muscles:'Internal Rotators (Subscapularis, TFL), Anterior Deltoid',posture:'Excessive external rotation; rotator cuff imbalance',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Side Arm Preps Sitting — External Rotation',group:'Side Arm Preps',muscles:'Infraspinatus, Teres Minor, Posterior Deltoid',posture:'Rounded shoulders; internal rotation dominance; impingement',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Side Arm Preps Sitting — Adduction',group:'Side Arm Preps',muscles:'Pectoralis Major, Latissimus Dorsi, Teres Major',posture:'Weak adductors of arm; scapular stability deficit',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Side Arm Preps Sitting — Abduction',group:'Side Arm Preps',muscles:'Deltoid (medial), Supraspinatus, Serratus Anterior',posture:'Impingement; weak abductors; shoulder drop',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Side Twist Sitting',group:'Rotation',muscles:'Obliques, Spinal Rotators, Multifidus, Scapular Stabilizers',posture:'Rotational restriction; scoliosis; one-sided tightness',contractions:['con','ecc','iso','contra']},
+  {level:'essential',name:'Front Rowing — Straight Forward',group:'Front Rowing',muscles:'Rhomboids, Mid Trapezius, Biceps, Core',posture:'Rounded shoulders; scapular protraction; kyphosis',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Front Rowing — Second Position',group:'Front Rowing',muscles:'Rhomboids, Posterior Deltoid, Triceps, Core',posture:'Kyphosis; weak posterior shoulder; forward head',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Front Rowing — Offering',group:'Front Rowing',muscles:'Serratus Anterior, Mid Trapezius, Rhomboids, Anterior Deltoid',posture:'Scapular winging; poor protraction/retraction control',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Stomach Massage — Round Back',group:'Stomach Massage',muscles:'Abdominals, Hip Flexors, Quadriceps, Spinal Flexors',posture:'Lumbar lordosis; weak anterior core; hip flexor tightness',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Stomach Massage — Straight Back',group:'Stomach Massage',muscles:'Erector Spinae, Glutes, Quadriceps, Core',posture:'Thoracic kyphosis; poor neutral spine under load',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Arms Pulling Straps — Plow',group:'Arms Pulling Straps',muscles:'Rhomboids, Mid/Lower Trapezius, Latissimus Dorsi, Posterior Deltoid',posture:'Kyphosis; scapular protraction; forward head posture',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Arms Pulling Straps — Airplane',group:'Arms Pulling Straps',muscles:'Posterior Deltoid, Rhomboids, Erector Spinae, Glutes',posture:'Thoracic kyphosis; weak spinal extensors; rounded shoulders',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Arms Pulling Straps — Triceps',group:'Arms Pulling Straps',muscles:'Triceps, Scapular Stabilizers, Core',posture:'Elbow control; scapular stability',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Round Back | Short Box',group:'Short Box',muscles:'Abdominals (Rectus & Obliques), Hip Flexors, Spinal Flexors',posture:'Lumbar lordosis; anterior pelvic tilt; weak core',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Straight Back | Short Box',group:'Short Box',muscles:'Erector Spinae, Core, Hip Flexors, Scapular Stabilizers',posture:'Kyphosis; flat-back; poor spinal extension endurance',contractions:['iso','con','ecc']},
+  {level:'essential',name:'Twist | Short Box',group:'Short Box',muscles:'Obliques, Multifidus, Spinal Rotators, Core',posture:'Rotational restriction; scoliosis; unilateral tightness',contractions:['con','ecc','iso','contra']},
+  {level:'essential',name:'Tree | Short Box',group:'Short Box',muscles:'Hamstrings (stretch), Hip Flexors, Abdominals, Spinal Flexors',posture:'Hamstring tightness; anterior pelvic tilt; hip flexor dominance',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Elephant — Round Back',group:'Elephant',muscles:'Abdominals, Hip Flexors, Hamstrings, Spinal Flexors',posture:'Lordosis; hip flexor tightness; poor core engagement',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Elephant — Straight Back',group:'Elephant',muscles:'Erector Spinae, Glutes, Hamstrings, Core Stabilizers',posture:'Kyphosis; flat-back; weak posterior chain',contractions:['iso','con','ecc']},
+  {level:'essential',name:'Mermaid',group:'Lateral',muscles:'Obliques, Quadratus Lumborum, Intercostals, Latissimus Dorsi',posture:'Lateral trunk tightness; scoliosis; QL tightness; shoulder elevation',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Leg Circles — Parallel',group:'Leg Circles',muscles:'Hip Flexors, Adductors, Abductors, Glutes, Core Stabilizers',posture:'Hip instability; poor pelvic stability; hip flexor dominance',contractions:['con','ecc','iso','contra']},
+  {level:'essential',name:'Leg Circles — Laterally Rotated',group:'Leg Circles',muscles:'External Rotators, Glutes, Adductors, Core',posture:'Hip imbalance; internal rotation pattern; lateral hip weakness',contractions:['con','ecc','iso','contra']},
+  {level:'essential',name:'Leg Circles — Medially Rotated',group:'Leg Circles',muscles:'Internal Rotators, TFL, Adductors, Core',posture:'Excessive external rotation; piriformis tightness',contractions:['con','ecc','iso','contra']},
+  {level:'essential',name:'Knee Stretches — Round Back',group:'Knee Stretches',muscles:'Abdominals, Hip Flexors, Quadriceps, Spinal Flexors',posture:'Lordosis; anterior pelvic tilt; weak core',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Knee Stretches — Straight Back',group:'Knee Stretches',muscles:'Erector Spinae, Glutes, Quadriceps, Core',posture:'Kyphosis; poor neutral spine under load',contractions:['iso','con','ecc']},
+  {level:'essential',name:'Running',group:'Running',muscles:'Gastrocnemius, Soleus, Hamstrings, Quadriceps, Hip Flexors',posture:'Calf tightness; ankle stiffness; hip flexor tightness; promotes cardiovascular warm-down',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Hip Lift',group:'Hip Exercises',muscles:'Glutes (Maximus & Medius), Hamstrings, Core, Spinal Extensors',posture:'Anterior pelvic tilt; weak glutes; lumbar instability; hip drop',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Hip Rolls — Prep',group:'Hip Exercises',muscles:'Glutes, Hamstrings, Abdominals, Spinal Articulation Muscles',posture:'Stiff lumbar spine; anterior pelvic tilt; poor segmental control',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Hip Rolls — Full',group:'Hip Exercises',muscles:'Glutes, Hamstrings, Erector Spinae, Obliques, Core',posture:'Thoracic kyphosis; stiff spine; poor segmental articulation',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Single Thigh Stretch',group:'Stretch',muscles:'Hip Flexors (Iliopsoas, Rectus Femoris), Quadriceps',posture:'Anterior pelvic tilt; lordosis; hip flexor dominance; kyphosis-lordosis',contractions:['ecc','iso']},
+  {level:'essential',name:'Side Splits — Abduction',group:'Side Splits',muscles:'Hip Abductors (Glutes Medius, TFL), Adductors (eccentric control)',posture:'Hip abductor weakness; pelvic drop; genu valgum',contractions:['con','ecc','iso']},
+  {level:'essential',name:'Side Splits — Adduction',group:'Side Splits',muscles:'Hip Adductors (Longus, Brevis, Magnus, Gracilis)',posture:'Adductor weakness; hip instability; genu varum',contractions:['con','ecc','iso']},
 
-  front: [
-    {
-      region: 'Feet', regionColor: 'ankle',
-      findings: [
-        {
-          id:'ff_pronated', name:'Everted / Pronated (Flat Arches)', sub:'Arches collapsed, weight on inner border',
-          tight:['Peroneals (fibularis longus/brevis)','Gastrocnemius/Soleus','Hip adductors'],
-          weak:['Tibialis posterior (primary arch supporter)','Tibialis anterior','Intrinsic foot muscles','Gluteus medius'],
-          exercises:[
-            {name:'Footwork — Arch Lift Cue',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Tibialis posterior activation; teach arch lift under load',cue:'"Lift the inner arch as you press — imagine a grape under your arch, do not crush it."',mod:'Place thin roll under medial arch for tactile feedback.'},
-            {name:'Calf Raises with Arch Control',level:'essential',equip:'Reformer · 3 springs',pos:'Balls of feet on footbar',goal:'Eccentric arch and ankle stabilizer control',cue:'"Lower heels — maintain arch lift. Do not let the ankle roll inward."',mod:'Slow the eccentric phase to 4 counts.'},
-            {name:'Tendon Stretch',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Standing on footbar, heels hanging',goal:'Ankle proprioception; arch and calf integration in weight-bearing',cue:'"Lower heels — keep arches lifted and weight even across all forefoot."',mod:'Hold shoulder rests initially for balance.'},
-          ],
-          avoid:'Avoid loading pronated position further. Do not use heavy load before arch control is established.'
-        },
-        {
-          id:'ff_supinated', name:'Inverted / Supinated (High Arches)', sub:'Weight on outer border, arches raised',
-          tight:['Tibialis posterior','Tibialis anterior','Lateral calf structures'],
-          weak:['Peroneals (fibularis longus/brevis)','Intrinsic foot stabilizers','Medial gastrocnemius'],
-          exercises:[
-            {name:'Footwork — Even Weight Distribution',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar',goal:'Peroneal activation; teach even foot loading',cue:'"Feel all four corners of the foot pressing equally — outer edge as much as inner."',mod:'Visual check or mirror. Cue spreading the foot wide.'},
-            {name:'Calf Raises — Even Pressure',level:'essential',equip:'Reformer · 3 springs',pos:'Balls of feet on footbar',goal:'Peroneal lengthening and control',cue:'"Lower heels — press through the big toe as much as the little toe."',mod:'Focus on equal distribution through the forefoot.'},
-          ],
-          avoid:'Avoid high-impact lateral movements until peroneal strength improves. Monitor ankle stability in all standing exercises.'
-        },
-      ]
-    },
-    {
-      region: 'Knees', regionColor: 'knee',
-      findings: [
-        {
-          id:'fk_valgum', name:'Knock-Kneed (Genu Valgum)', sub:'Knees cave inward toward midline',
-          tight:['Hip adductors','TFL / IT band','Internal rotators of hip'],
-          weak:['Gluteus medius','Gluteus minimus','External hip rotators','Vastus medialis (VMO)'],
-          exercises:[
-            {name:'Footwork with Ball Between Knees',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels on footbar, ball between knees',goal:'Adductor activation for medial support; knee tracking cue',cue:'"Gently hold the ball — feel the inner thigh working. Keep knees over second toes."',mod:'Add a resistance band above knees to cue outward tracking.'},
-            {name:'Side-Lying Leg Series — Abduction',level:'essential',equip:'Reformer · 1–2 springs',pos:'Sidelying on carriage',goal:'Glute medius and minimus strengthening',cue:'"Lift from the outer hip. Heel slightly higher than toes (slight external rotation)."',mod:'Focus on controlled eccentric lowering.'},
-            {name:'Clamshell',level:'essential',equip:'Mat · resistance band',pos:'Sidelying, knees bent',goal:'Isolated glute medius and external rotator activation',cue:'"Rotate the top knee open — keep hips perfectly stacked. No rolling back."',mod:'Progress from no band to band above knees.'},
-          ],
-          avoid:'Avoid allowing unchecked knee valgus under load. Do not progress to heavy loading until movement pattern is corrected.'
-        },
-        {
-          id:'fk_varum', name:'Bow-Legged (Genu Varum)', sub:'Knees bow outward away from midline',
-          tight:['IT band / TFL','Biceps femoris (lateral hamstring)','Lateral gastrocnemius','External rotators'],
-          weak:['Hip adductors','Vastus medialis (VMO)','Medial gastrocnemius'],
-          exercises:[
-            {name:'Footwork — First Position (Pilates Stance)',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels together toes apart',goal:'Adductor and VMO activation under load',cue:'"Squeeze inner thighs gently throughout. Feel the inner thigh lifting the kneecap inward."',mod:'Small ball between inner knees for tactile feedback.'},
-            {name:'Inner Thigh Squeeze / Adductor Series',level:'essential',equip:'Mat / Reformer · bodyweight',pos:'Supine, knees bent, block or ball between knees',goal:'Adductor strengthening; medial knee support',cue:'"Pulse squeeze — keep pelvis neutral. Do not posteriorly tilt to compensate."',mod:'Progress from static hold to dynamic reps.'},
-          ],
-          avoid:'Avoid loading lateral knee structures further. Be cautious with lateral movements. Address hip rotation before forcing parallel foot alignment.'
-        },
-      ]
-    },
-    {
-      region: 'Pelvis (Front)', regionColor: 'pelvis',
-      findings: [
-        {
-          id:'fp_elevated', name:'Elevated Pelvis (One Side Higher)', sub:'Iliac crests not level',
-          tight:['Quadratus lumborum (elevated side)','Hip abductors / TFL (elevated side)','Lateral trunk (elevated side)'],
-          weak:['Hip abductors (depressed side)','Lateral stabilizers (depressed side)','QL (depressed side)'],
-          exercises:[
-            {name:'Mermaid Stretch',level:'essential',equip:'Reformer / Mat · 1 light spring',pos:'Seated sideways, one hand on footbar',goal:'Lateral trunk lengthening on tight side; QL stretch',cue:'"Reach the top arm long overhead — breathe into the ribs on the tight side."',mod:'Seated on mat if reformer is too challenging.'},
-            {name:'Side-Lying Leg Series',level:'essential',equip:'Reformer · 1–2 springs',pos:'Sidelying',goal:'Glute medius bilateral strength; pelvic stability',cue:'"Keep pelvis stacked and still — only the leg moves. No hip hiking."',mod:'Begin with the weaker (depressed) side.'},
-            {name:'Side Bend (Star Prep)',level:'intermediate',equip:'Reformer · 2 springs',pos:'Sidelying, forearm on footbar',goal:'Lateral trunk stabilization; QL and oblique strengthening',cue:'"Lift the pelvis — one long line. Do not let the hip drop on the free side."',mod:'Both legs stacked (not staggered) to begin.'},
-          ],
-          avoid:'Avoid loading the elevated side in lateral flexion without first addressing mobility. Use props (small wedge) if needed to level pelvis in supine exercises.'
-        },
-        {
-          id:'fp_rotated', name:'Pelvis Rotated', sub:'One ASIS more anterior than the other',
-          tight:['Hip flexors (rotated-forward side)','External rotators (rotated-back side)'],
-          weak:['Hip external rotators (forward side)','Deep hip stabilizers (IQ)'],
-          exercises:[
-            {name:'Hip Circles in Straps',level:'essential',equip:'Reformer · 1–2 springs',pos:'Supine, feet in straps',goal:'Hip joint mobility; restore equal range bilaterally',cue:'"Move through the full circle smoothly. Feel both hips working equally."',mod:'Begin with small circles and increase range gradually.'},
-            {name:'Single Leg Footwork',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Supine, one foot on footbar',goal:'Single-leg assessment and correction of pelvic rotation',cue:'"Keep both sides of the pelvis equally heavy on the carriage. Do not allow one hip to lift."',mod:'Monitor pelvis throughout. Use tactile cue on the hiking side.'},
-          ],
-          avoid:'Avoid asymmetrical loading that reinforces the rotation. Always establish bilateral neutral before single-leg progression.'
-        },
-      ]
-    },
-    {
-      region: 'Rib Cage (Front)', regionColor: 'ribcage',
-      findings: [
-        {
-          id:'fr_elevated', name:'Rib Cage Elevated / Shifted', sub:'Rib cage not centered over pelvis',
-          tight:['Lateral trunk muscles (elevated side)','External intercostals (elevated)','QL'],
-          weak:['Obliques (contralateral)','Lateral trunk stabilizers','Serratus anterior'],
-          exercises:[
-            {name:'Mermaid / Lateral Flexion',level:'essential',equip:'Reformer · 1 spring',pos:'Seated sideways',goal:'Lateral trunk lengthening; rib cage repositioning',cue:'"As you reach overhead, feel the rib cage lowering and centering. Exhale to help the rib cage settle."',mod:'Focus on the rib cage — not just the arm. Feel the connection.'},
-            {name:'Rib Cage Breathing Awareness',level:'essential',equip:'Mat · bodyweight',pos:'Supine, knees bent',goal:'3D breath to mobilize tight rib cage side',cue:'"Breathe into the elevated/shifted side — feel the ribs expanding laterally. Exhale to let go."',mod:'Place one hand on each side of rib cage for feedback.'},
-          ],
-          avoid:'Avoid exercises that reinforce rib cage asymmetry. Address breathing mechanics in EVERY session — connect to Principle 3.'
-        },
-      ]
-    },
-    {
-      region: 'Shoulders (Front)', regionColor: 'shoulder',
-      findings: [
-        {
-          id:'fs_elevated', name:'Shoulder Elevated (One Side)', sub:'One shoulder higher than the other',
-          tight:['Upper trapezius (elevated side)','Levator scapulae (elevated side)','SCM'],
-          weak:['Lower trapezius (elevated side)','Serratus anterior','Middle trapezius'],
-          exercises:[
-            {name:'Arm Circles with Depression Cue',level:'essential',equip:'Reformer · 1 light spring',pos:'Supine, holding straps',goal:'Lower trapezius activation; teach scapular depression before arm movement',cue:'"Before the arms move — shoulders melt DOWN away from the ears. Hold this throughout."',mod:'Begin with no spring. Cue depression constantly throughout.'},
-            {name:'Chest Expansion — Depression Emphasis',level:'essential',equip:'Reformer · 1 spring',pos:'Kneeling or seated',goal:'Lower trap and depress pattern against resistance',cue:'"Shoulders pour down your back like heavy earrings pulling them away from your ears."',mod:'Reduce spring weight so upper trap is not recruited as prime mover.'},
-            {name:'Neck Stretches (upper trap release)',level:'essential',equip:'Mat · bodyweight',pos:'Seated or standing',goal:'Release upper trapezius and levator scapulae on elevated side',cue:'"Ear toward opposite shoulder — hold. Breathe into the tight side."',mod:'Hold 30–45 seconds each side. Begin every session.'},
-          ],
-          avoid:'Avoid any overhead or arm exercise without first establishing scapular depression. Do not allow shoulder shrug compensation in ANY upper body exercise.'
-        },
-        {
-          id:'fs_depressed', name:'Shoulder Depressed (One Side)', sub:'One shoulder lower than the other',
-          tight:['Lower trapezius (depressed side — overactive)','Latissimus dorsi'],
-          weak:['Upper trapezius (depressed side)','Levator scapulae','Serratus anterior (lower fibers)'],
-          exercises:[
-            {name:'Shoulder Elevation and Depression Awareness',level:'essential',equip:'Mat · bodyweight',pos:'Seated or supine',goal:'Bilateral shoulder girdle balance; equal engagement',cue:'"Feel both shoulders at equal height. Adjust the depressed side — gentle elevation to neutral."',mod:'Use a mirror for visual feedback.'},
-          ],
-          avoid:'Avoid further depressing the low shoulder. Balance shoulder girdle work bilaterally.'
-        },
-      ]
-    },
-    {
-      region: 'Head (Front View)', regionColor: 'head',
-      findings: [
-        {
-          id:'fh_tilted', name:'Head Tilted (Lateral)', sub:'Ear toward shoulder — one side',
-          tight:['Upper trapezius (tilted side)','Levator scapulae','SCM (ipsilateral)','Scalenes (ipsilateral)'],
-          weak:['Lateral neck flexors (contralateral)','Deep cervical stabilizers'],
-          exercises:[
-            {name:'Lateral Neck Stretch',level:'essential',equip:'Mat · bodyweight',pos:'Seated upright',goal:'Release tight lateral neck flexors on tilted side',cue:'"Ear away from shoulder — opposite side. Feel the tight side opening. Do not force."',mod:'Support with one hand on opposite shoulder for stability.'},
-            {name:'Chest Expansion with Neutral Head',level:'essential',equip:'Reformer · 1 spring',pos:'Seated or kneeling',goal:'Reinforce head neutral during arm work; cervical stabilizer activation',cue:'"Head stays centered and level — do not tilt when the arms move."',mod:'Start without movement — just hold neutral head position with arms at sides.'},
-          ],
-          avoid:'Avoid loading the cervical spine in any lateral movement pattern that reinforces the tilt. Establish neutral first.'
-        },
-        {
-          id:'fh_shifted', name:'Head Shifted', sub:'Head off-center laterally',
-          tight:['Lateral neck flexors (shifted-to side)','SCM (shifted-to side)'],
-          weak:['Lateral neck stabilizers (opposite side)','Deep cervical stabilizers (bilateral)'],
-          exercises:[
-            {name:'CV Nod with Head Centering',level:'essential',equip:'Mat · bodyweight',pos:'Supine, head centered',goal:'Restore head to midline; deep cervical stabilizer activation',cue:'"Imagine your head perfectly centered between your shoulders — feel equal weight on each ear."',mod:'Use a towel roll along the side of the head for proprioceptive feedback.'},
-          ],
-          avoid:'Avoid any asymmetrical cervical loading until centering is established.'
-        },
-      ]
-    },
-  ],
+  // ---- INTERMEDIATE ----
+  {level:'intermediate',name:'Footwork 1-2-3-4-5',group:'Footwork',muscles:'Quadriceps, Hamstrings, Glutes, Gastrocnemius, Soleus, Intrinsic Foot',posture:'All footwork postural corrections at greater load/spring variation',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Second Position 1-2-3',group:'Second Position',muscles:'Glutes (all), Adductors, External/Internal Hip Rotators, Quadriceps',posture:'Hip instability; genu valgum/varum; pelvic obliquity',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Single Leg 1-2-3-4',group:'Single Leg',muscles:'Unilateral Quadriceps, Hamstrings, Glutes, Core Stabilizers',posture:'Pelvic obliquity; leg length discrepancy; unilateral weakness',contractions:['con','ecc','iso','ipsi']},
+  {level:'intermediate',name:'Hundred',group:'Core',muscles:'Transversus Abdominis, Rectus Abdominis, Obliques, Hip Flexors',posture:'Kyphosis; forward head; weak core endurance',contractions:['iso','con']},
+  {level:'intermediate',name:'Bend & Stretch 1-2-3',group:'Bend & Stretch',muscles:'Quadriceps, Hamstrings, Glutes, Hip Flexors',posture:'Hip and knee control; anterior pelvic tilt',contractions:['con','ecc']},
+  {level:'intermediate',name:'Short Spine',group:'Short Spine',muscles:'Hamstrings, Glutes, Deep Spinal Muscles, Abdominals',posture:'Thoracic stiffness; poor spinal articulation; hip flexor dominance',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Beats',group:'Hip Adductors',muscles:'Hip Adductors (Longus, Brevis, Magnus), Glutes, Inner Thigh',posture:'Adductor weakness; genu valgum; hip instability',contractions:['con','iso']},
+  {level:'intermediate',name:'Frog',group:'Hip Exercises',muscles:'Hip External Rotators, Adductors, Glutes, Core Stabilizers',posture:'Hip imbalance; tight adductors; poor pelvic stability',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Stag',group:'Hip Exercises',muscles:'Hip Flexors, Quadriceps, Glutes, Core (dissociation)',posture:'Hip dissociation deficit; anterior pelvic tilt; hip flexor tightness',contractions:['con','ecc','iso','ipsi','contra']},
+  {level:'intermediate',name:'Coordination',group:'Core',muscles:'Transversus Abdominis, Obliques, Hip Flexors, Inner Thigh, Arms',posture:'Core-limb coordination deficit; kyphosis; weak anterior chain',contractions:['con','ecc','iso','contra']},
+  {level:'intermediate',name:'Back Rowing 1-2',group:'Back Rowing',muscles:'Rhomboids, Mid/Lower Trapezius, Posterior Deltoid, Biceps',posture:'Kyphosis; rounded shoulders; scapular protraction',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Front Rowing 1-2-3-4',group:'Front Rowing',muscles:'Rhomboids, Serratus Anterior, Core, Posterior Deltoid, Triceps',posture:'Rounded shoulders; forward head; scapular instability',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Stomach Massage 1-2-3-4',group:'Stomach Massage',muscles:'Abdominals, Hip Flexors, Quadriceps, Erector Spinae',posture:'Lordosis; kyphosis; poor neutral spine under load',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Arms Pulling Straps — Long Box 1-2-3',group:'Arms Pulling Straps',muscles:'Latissimus Dorsi, Rhomboids, Posterior Deltoid, Triceps, Core',posture:'Kyphosis; scapular winging; thoracic flexion bias',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Backstroke Prep | Long Box',group:'Long Box',muscles:'Triceps, Posterior Deltoid, Rhomboids, Core, Hip Extensors',posture:'Kyphosis; poor scapular depression; forward head',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Feet Pulling Straps — Box 1-2-3-4',group:'Long Box',muscles:'Glutes, Hamstrings, Spinal Extensors, Core',posture:'Anterior pelvic tilt; weak posterior chain; lumbar instability',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Round Back | Short Box',group:'Short Box',muscles:'Abdominals, Hip Flexors, Spinal Flexors',posture:'Lordosis; anterior pelvic tilt; poor core endurance',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Straight Back | Short Box',group:'Short Box',muscles:'Erector Spinae, Core, Hip Flexors, Scapular Stabilizers',posture:'Kyphosis; flat-back; poor extensor endurance',contractions:['iso','con','ecc']},
+  {level:'intermediate',name:'Twist with Round Back | Short Box',group:'Short Box',muscles:'Obliques, Multifidus, Spinal Rotators, Abdominals',posture:'Rotational restriction; scoliosis; oblique weakness',contractions:['con','ecc','iso','contra']},
+  {level:'intermediate',name:'Lean | Short Box',group:'Short Box',muscles:'Obliques, QL, Lateral Trunk Stabilizers, Adductors',posture:'Lateral trunk weakness; scoliosis; hip hike',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Tree | Short Box',group:'Short Box',muscles:'Hamstrings, Hip Flexors, Abdominals, Spinal Flexors',posture:'Hamstring tightness; hip flexor dominance; anterior pelvic tilt',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Mermaid | Short Box 1-2-3',group:'Short Box',muscles:'Obliques, QL, Intercostals, Latissimus Dorsi (lateral chain)',posture:'Scoliosis; lateral trunk tightness; shoulder elevation; rib flare',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Long Stretch Prep',group:'Long Stretch',muscles:'Core (Transversus, Obliques), Shoulder Girdle, Triceps, Hip Extensors',posture:'Kyphosis; weak core; poor plank alignment; forward head',contractions:['iso','con','ecc']},
+  {level:'intermediate',name:'Down Stretch',group:'Long Stretch',muscles:'Erector Spinae, Glutes, Quadriceps, Shoulder Girdle',posture:'Kyphosis; poor spinal extension; anterior shoulder tightness',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Up Stretch',group:'Long Stretch',muscles:'Abdominals, Hip Flexors, Hamstrings, Shoulder Stabilizers',posture:'Lordosis; hip flexor dominance; poor spinal flexion control',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Elephant 1-2',group:'Elephant',muscles:'Abdominals, Hamstrings, Hip Flexors, Core, Spinal Muscles',posture:'Lordosis; kyphosis; poor hip-spine dissociation',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Semicircle',group:'Articulation',muscles:'Glutes, Hamstrings, Abdominals, Spinal Extensors, Hip Flexors',posture:'Stiff lumbar/thoracic spine; poor segmental control; pelvic instability',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Chest Expansion 1-2',group:'Upper Body',muscles:'Pectoralis (stretch), Rhomboids, Posterior Deltoid, Triceps',posture:'Rounded shoulders; kyphosis; pec tightness; forward head',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Side Arm Preps Kneeling 1-2-3-4-5-6-7',group:'Side Arm Preps',muscles:'Rotator Cuff, Deltoid, Rhomboids, Serratus Anterior, Core',posture:'Rounded shoulders; scapular dyskinesis; rotator cuff imbalance',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Side Twist Kneeling',group:'Rotation',muscles:'Obliques, Multifidus, Spinal Rotators, Glutes, Core',posture:'Rotational restriction; scoliosis; weak obliques',contractions:['con','ecc','iso','contra']},
+  {level:'intermediate',name:'Reverse Expansion 1-2-3-4-5',group:'Upper Body',muscles:'Serratus Anterior, Pectoralis Minor, Anterior Deltoid, Core',posture:'Scapular retraction dominance; poor scapular protraction; winging',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Mermaid 1-2',group:'Lateral',muscles:'Obliques, QL, Intercostals, Latissimus Dorsi',posture:'Lateral trunk tightness; scoliosis; QL hypertonicity; shoulder elevation',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Leg Circles 1-2-3',group:'Leg Circles',muscles:'Hip Flexors, Adductors, Abductors, Glutes, Core Stabilizers',posture:'Hip instability; poor pelvic control; hip flexor dominance',contractions:['con','ecc','iso','contra']},
+  {level:'intermediate',name:'Long Spine',group:'Articulation',muscles:'Hamstrings, Glutes, Spinal Extensors & Flexors, Core',posture:'Thoracic kyphosis; poor spinal articulation; hamstring tightness',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Knee Stretches 1-2-3-4',group:'Knee Stretches',muscles:'Quadriceps, Hamstrings, Glutes, Core, Hip Flexors',posture:'Lordosis; kyphosis; poor neutral spine under load with arm variation',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Running',group:'Running',muscles:'Gastrocnemius, Soleus, Hamstrings, Quadriceps, Hip Flexors',posture:'Calf tightness; ankle stiffness; warm-down for all postures',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Hip Lift',group:'Hip Exercises',muscles:'Glutes, Hamstrings, Core, Spinal Extensors',posture:'Anterior pelvic tilt; weak glutes; lumbar instability',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Hip Rolls',group:'Hip Exercises',muscles:'Glutes, Hamstrings, Abdominals, Spinal Articulation Muscles',posture:'Stiff lumbar spine; poor segmental control; anterior pelvic tilt',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Single Thigh Stretch',group:'Stretch',muscles:'Hip Flexors (Iliopsoas, Rectus Femoris), Quadriceps',posture:'Anterior pelvic tilt; lordosis; hip flexor dominance',contractions:['ecc','iso']},
+  {level:'intermediate',name:'Front Splits',group:'Splits',muscles:'Hip Flexors, Glutes, Hamstrings (rear leg), Quadriceps',posture:'Hip flexor tightness; anterior pelvic tilt; hip dissociation',contractions:['con','ecc','iso','ipsi','contra']},
+  {level:'intermediate',name:'Back Splits',group:'Splits',muscles:'Hamstrings, Hip Extensors, Core, Lumbar Stabilizers',posture:'Hamstring tightness; posterior pelvic tilt; poor hip extension',contractions:['con','ecc','iso','ipsi','contra']},
+  {level:'intermediate',name:'Side Splits 1-2-3-4-5-6-7',group:'Side Splits',muscles:'Hip Abductors, Adductors, Core, Lateral Stabilizers',posture:'Hip abductor/adductor imbalance; pelvic drop; genu valgum',contractions:['con','ecc','iso']},
+  {level:'intermediate',name:'Star Prep',group:'Balance',muscles:'Glutes (Medius & Maximus), Core, Shoulder Girdle, Lateral Stabilizers',posture:'Lateral trunk weakness; hip abductor weakness; pelvic drop; scoliosis',contractions:['iso','con','ecc']},
+];
 
-  back: [
-    {
-      region: 'Feet (Back View)', regionColor: 'ankle',
-      findings: [
-        {
-          id:'bf_pronated', name:'Achilles Bowing Outward (Pronation)', sub:'Calcaneus tilts inward — medial arch collapsed',
-          tight:['Peroneals','Lateral ankle structures','Achilles tendon (lateral fibers)'],
-          weak:['Tibialis posterior','Intrinsic foot muscles','Medial calf structures'],
-          exercises:[
-            {name:'Footwork — Tibialis Posterior Activation',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, heels on footbar',goal:'Tibialis posterior and arch control under load',cue:'"Lift through the inner ankle as you press. Imagine the Achilles tendon straightening."',mod:'Tactile cue — touch the inner ankle to remind client to lift.'},
-            {name:'Calf Raises with Calcaneal Control',level:'essential',equip:'Reformer · 3 springs',pos:'Balls of feet on footbar',goal:'Eccentric arch loading; calcaneal alignment',cue:'"Lower heels keeping the Achilles tendon vertical — not bowing in or out."',mod:'Use a mirror placed behind to see Achilles alignment during the exercise.'},
-          ],
-          avoid:'Avoid loading the pronated position under heavy spring. Focus on alignment correction before adding resistance.'
-        },
-        {
-          id:'bf_supinated', name:'Achilles Bowing Inward (Supination)', sub:'Calcaneus tilts outward — high arch',
-          tight:['Tibialis posterior (overactive)','Tibialis anterior','Posterior tibialis tendon'],
-          weak:['Peroneals (fibularis longus/brevis)','Lateral ankle stabilizers'],
-          exercises:[
-            {name:'Footwork — Lateral Foot Loading',level:'essential',equip:'Reformer · 3 springs',pos:'Supine, heels on footbar',goal:'Peroneal activation; lateral weight distribution',cue:'"Feel the outer edge of the foot pressing equally into the footbar. Spread the heel wide."',mod:'Slight verbal correction: "Press the pinky toe side too."'},
-          ],
-          avoid:'Avoid lateral ankle instability risk. Be cautious in all standing balance exercises.'
-        },
-      ]
-    },
-    {
-      region: 'Femurs (Back View)', regionColor: 'femur',
-      findings: [
-        {
-          id:'bfem_medial', name:'Femoral Medial Rotation', sub:'Patella faces inward — often with pronated feet',
-          tight:['Hip adductors','TFL / IT band','Internal hip rotators'],
-          weak:['Gluteus medius (anterior fibers)','Gluteus maximus (posterior)','External hip rotators (piriformis, deep 6)'],
-          exercises:[
-            {name:'Clamshell with Resistance Band',level:'essential',equip:'Mat · resistance band',pos:'Sidelying, band above knees',goal:'Glute medius and external rotator activation',cue:'"Rotate the knee open toward the ceiling — feel the deep external rotator working under the gluteus."',mod:'Start without band to learn the movement first.'},
-            {name:'Footwork — Pilates Stance',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, heels together toes apart',goal:'External rotator activation under load; reinforce parallel/turnout balance',cue:'"Feel the thigh rotating outward from the hip socket — not just turning the foot."',mod:'Alternate with parallel footwork to create balance.'},
-            {name:'Side-Lying Leg Series',level:'essential',equip:'Reformer · 1–2 springs',pos:'Sidelying',goal:'Full glute med range; external rotation integration',cue:'"Top leg lifts with heel slightly higher than toes — natural external rotation. Outer hip works."',mod:'Focus on controlled eccentric lowering.'},
-          ],
-          avoid:'Avoid allowing unchecked medial rotation under load. Do not progress loading until movement pattern is corrected.'
-        },
-        {
-          id:'bfem_lateral', name:'Femoral Lateral Rotation', sub:'Feet toe out — femur externally rotated',
-          tight:['Piriformis','Deep external rotators (gemellus, obturator, quadratus femoris)','Biceps femoris'],
-          weak:['Anterior gluteus medius','TFL (internal rotation role)','Medial hamstrings'],
-          exercises:[
-            {name:'Footwork — Parallel (Enforced)',level:'essential',equip:'Reformer · 3–4 springs',pos:'Supine, feet parallel on footbar',goal:'Internal rotator activation; teach parallel hip alignment',cue:'"Feet and knees pointing straight ahead. Feel the hip rotating internally slightly to get there."',mod:'Use a strap or band around thighs to provide feedback for parallel alignment.'},
-            {name:'Piriformis Stretch',level:'essential',equip:'Mat · bodyweight',pos:'Seated or supine, figure-4',goal:'Piriformis and deep external rotator lengthening',cue:'"Sit tall and lean gently forward into the crossed leg. Feel the deep buttock stretching."',mod:'Adjust lean depth. Support with hands.'},
-          ],
-          avoid:'Avoid using Pilates stance (turnout) exclusively — alternate with parallel to create balance. Do not force parallel without first addressing rotator flexibility.'
-        },
-      ]
-    },
-    {
-      region: 'Pelvis (Back View)', regionColor: 'pelvis',
-      findings: [
-        {
-          id:'bp_elevated', name:'Pelvis Elevated (Back View)', sub:'PSIS uneven — one side higher',
-          tight:['Quadratus lumborum (elevated side)','Hip abductors (elevated side)'],
-          weak:['Lateral stabilizers (depressed side)','Contralateral QL'],
-          exercises:[
-            {name:'Lateral Flexion on Short Box',level:'intermediate',equip:'Reformer short box · 2 springs',pos:'Seated on box, feet in strap',goal:'QL and lateral trunk balance through range',cue:'"Lower toward the tight side slowly — feel the QL lengthening. Lift from the other side."',mod:'Keep range small initially. Pelvis stays grounded on the box.'},
-            {name:'Mermaid',level:'essential',equip:'Reformer · 1 spring',pos:'Seated sideways',goal:'Lateral trunk lengthening and strengthening bilaterally',cue:'"Reach long — feel both sides of the trunk working. Side that is tight gets the stretch."',mod:'Seated on mat if reformer setup is too challenging.'},
-          ],
-          avoid:'Avoid asymmetrical loading that increases the elevation. Address the tight side first.'
-        },
-        {
-          id:'bp_rotated', name:'Pelvis Rotated (Back View)', sub:'One PSIS more posterior',
-          tight:['Hip rotators (posterior — rotated-back side)','QL (rotated-back side)'],
-          weak:['Hip stabilizers (anterior — rotated-forward side)'],
-          exercises:[
-            {name:'Hip Circles / Frog in Straps',level:'essential',equip:'Reformer · 1 light spring',pos:'Supine, feet in straps',goal:'Hip joint mobility bilaterally; restore equal pelvic position',cue:'"Move both hips equally through the circle. Feel the pelvis settling evenly."',mod:'Small circles first. Focus on symmetry.'},
-          ],
-          avoid:'Avoid loading asymmetrical positions. Always work toward bilateral symmetry before single-leg.'
-        },
-      ]
-    },
-    {
-      region: 'Scapulae', regionColor: 'scapula',
-      findings: [
-        {
-          id:'bs_protracted', name:'Protracted Scapulae', sub:'Shoulder blades drawn forward around rib cage',
-          tight:['Pectoralis major / minor','Serratus anterior (if overactive)','Anterior deltoid','Subscapularis'],
-          weak:['Middle trapezius','Rhomboids','Lower trapezius','Posterior deltoid'],
-          exercises:[
-            {name:'Chest Expansion',level:'essential',equip:'Reformer · 1–2 springs',pos:'Kneeling, holding straps',goal:'Scapular retraction and depression; posterior shoulder strengthening',cue:'"Draw the shoulder blades together AND down before the arms come back. Lead with retraction."',mod:'Seated version. Focus on scapular movement before arm range.'},
-            {name:'Back Rowing Series',level:'intermediate',equip:'Reformer · 1 spring',pos:'Seated, facing back',goal:'Full scapular retraction through range',cue:'"Draw elbows back — feel blades squeezing. Shoulders stay away from ears throughout."',mod:'Elbows bent (shorter lever) first.'},
-            {name:'Long Box — T Arms / Y Arms',level:'intermediate',equip:'Reformer long box · 1 light spring',pos:'Prone on box',goal:'Middle and lower trapezius activation; scapular retraction under gravity',cue:'"Lift arms — feel shoulder blades drawing toward spine. Shoulders away from ears."',mod:'T before Y.'},
-          ],
-          avoid:'Avoid heavy push patterns without scapular control. Establish retraction BEFORE loading any press exercise.'
-        },
-        {
-          id:'bs_retracted', name:'Retracted Scapulae', sub:'Shoulder blades pinched toward spine',
-          tight:['Rhomboids','Middle trapezius','Posterior capsule'],
-          weak:['Serratus anterior','Pectoralis minor (for protraction control)'],
-          exercises:[
-            {name:'Serratus Anterior Activation',level:'essential',equip:'Reformer / Mat',pos:'Wall push-up or quadruped',goal:'Serratus activation; teach scapular protraction control',cue:'"Push floor away — feel shoulder blades spreading around the rib cage."',mod:'Wall push-up as starting point.'},
-          ],
-          avoid:'Avoid heavy retraction loading (rowing) without ensuring protraction mobility is maintained. Balance is key.'
-        },
-        {
-          id:'bs_elevated', name:'Elevated Scapulae', sub:'Shoulder blades riding up toward ears',
-          tight:['Upper trapezius','Levator scapulae'],
-          weak:['Lower trapezius','Serratus anterior','Middle trapezius'],
-          exercises:[
-            {name:'Pull Straps — Prone',level:'intermediate',equip:'Reformer long box · 1–2 springs',pos:'Prone on box, arms overhead',goal:'Lower trapezius strengthening; scapular depression under load',cue:'"Pull straps to hips — feel shoulder blades sliding DOWN the back, not up."',mod:'Elbows slightly bent to reduce posterior rotator cuff load.'},
-            {name:'Arm Circles with Depression First',level:'essential',equip:'Reformer · 1 spring',pos:'Supine, holding straps',goal:'Lower trap activation pattern; establish depression before movement',cue:'"Shoulders melt down BEFORE the arms move. Hold that depression throughout the circle."',mod:'No spring to start. Cue depression constantly.'},
-          ],
-          avoid:'Avoid all overhead or arm exercises without first establishing depression. Shoulder elevation as compensation = stop and reset.'
-        },
-        {
-          id:'bs_depressed', name:'Depressed Scapulae', sub:'Shoulder blades pulled down excessively',
-          tight:['Lower trapezius (overactive)','Latissimus dorsi','Pectoralis minor'],
-          weak:['Upper trapezius','Levator scapulae','Serratus anterior (upper fibers)'],
-          exercises:[
-            {name:'Shoulder Girdle Balance Drills',level:'essential',equip:'Mat · bodyweight',pos:'Standing or seated',goal:'Restore balanced scapular position; elevate to neutral',cue:'"Allow the shoulders to rise slightly to neutral — not shrugging, just releasing the excessive pull downward."',mod:'Gentle shrugs and releases to find neutral midpoint.'},
-          ],
-          avoid:'Avoid further depressing the scapulae. Balance upper and lower trapezius tone.'
-        },
-        {
-          id:'bs_uprot', name:'Upwardly Rotated Scapulae', sub:'Inferior angle rotates laterally — glenoid faces up',
-          tight:['Serratus anterior (overactive upper)','Upper trapezius'],
-          weak:['Rhomboids','Lower trapezius','Levator scapulae'],
-          exercises:[
-            {name:'Scapular Retraction and Depression Focus',level:'essential',equip:'Mat / Reformer',pos:'Any',goal:'Restore neutral scapular rotation; activate retractors and depressors',cue:'"Feel the bottom tip of the shoulder blade drawing toward the opposite hip pocket."',mod:'Tactile cue on inferior angle of scapula.'},
-          ],
-          avoid:'Avoid overhead work that increases upward rotation until neutral is restored.'
-        },
-        {
-          id:'bs_downrot', name:'Downwardly Rotated Scapulae', sub:'Glenoid faces downward — often with rounded shoulder',
-          tight:['Rhomboids (in shortened position)','Levator scapulae','Pectoralis minor'],
-          weak:['Serratus anterior','Upper and lower trapezius'],
-          exercises:[
-            {name:'Serratus Push-Up / Wall Push-Up',level:'essential',equip:'Wall / Mat',pos:'Standing or quadruped',goal:'Serratus activation; restore upward rotation pattern',cue:'"At the top of the push — push floor away and feel blades spreading and rotating upward."',mod:'Wall push-up as the safest starting point.'},
-          ],
-          avoid:'Avoid further downward rotation loading (heavy retraction work). Prioritize serratus and trapezius balance.'
-        },
-        {
-          id:'bs_winging', name:'Winging Scapulae', sub:'Medial border lifts off rib cage',
-          tight:['Pectoralis minor (pulling coracoid — tips scapula)','Rhomboids (pulling medial border away)'],
-          weak:['Serratus anterior (primary)','Lower trapezius'],
-          exercises:[
-            {name:'Modified Push-Up (Serratus Focus)',level:'essential',equip:'Reformer / Wall · 2–3 springs',pos:'Plank modified — hands on footbar, knees on carriage',goal:'Serratus anterior activation in push-up pattern; scapula flat against rib cage',cue:'"At the top — push the floor away. Feel the shoulder blades wrapping around the rib cage like hands."',mod:'Elevated angle (hands on footbar standing) first to reduce load. Increase horizontal as strength builds.'},
-            {name:'Long Stretch Hold (Plank)',level:'intermediate',equip:'Reformer · 2–3 springs',pos:'Full plank on reformer',goal:'Serratus under sustained load; scapular stability challenge',cue:'"Hold the plank — protractive force throughout. Do not let blades pinch."',mod:'Reduce hold time if winging appears. Build to 10–30 seconds.'},
-          ],
-          avoid:'Avoid heavy overhead loading until serratus is strong. Reduce load immediately if winging appears during any exercise.'
-        },
-        {
-          id:'bs_antipped', name:'Anteriorly Tipped Scapulae', sub:'Inferior angle lifts posteriorly — coracoid tips forward',
-          tight:['Pectoralis minor','Anterior deltoid','Biceps brachii (short head)'],
-          weak:['Lower trapezius','Posterior rotator cuff','Mid trapezius'],
-          exercises:[
-            {name:'Pectoralis Minor Stretch',level:'essential',equip:'Mat · bodyweight',pos:'Standing in doorway or supine on rolled towel',goal:'Direct pectoralis minor lengthening; restore scapular neutral',cue:'"Allow the chest to open — feel the coracoid process releasing forward."',mod:'Supine on a lengthwise rolled mat allows passive pec minor stretch.'},
-            {name:'Chest Expansion',level:'essential',equip:'Reformer · 1–2 springs',pos:'Kneeling',goal:'Pec minor stretch + posterior shoulder; scapular anti-tip activation',cue:'"As arms come back — feel the front of the shoulder opening and the scapula lying flat."',mod:'Seated version if kneeling is uncomfortable.'},
-          ],
-          avoid:'Avoid further loading pectoralis minor (no deep push-up or heavy forward shoulder loading without correcting the tip first).'
-        },
-      ]
-    },
-    {
-      region: 'Humeri', regionColor: 'humeri',
-      findings: [
-        {
-          id:'bh_medrot', name:'Medially Rotated Humeri', sub:'Olecranon faces outward — palms face back',
-          tight:['Subscapularis','Pectoralis major (anterior)','Anterior deltoid','Teres major'],
-          weak:['Infraspinatus','Teres minor','Posterior deltoid','Middle/lower trapezius'],
-          exercises:[
-            {name:'External Rotation with Strap',level:'essential',equip:'Reformer · 1 light spring',pos:'Supine or seated, elbow at 90°',goal:'Infraspinatus and teres minor isolation; restore external rotation',cue:'"Rotate the forearm away — keep the elbow anchored at the side. Feel the back of the shoulder working."',mod:'Very light spring. Elbow at 0° abduction before progressing to 90°.'},
-            {name:'Arm Openings / Hug-a-Tree',level:'essential',equip:'Reformer · 1 spring',pos:'Supine, holding straps open',goal:'Anterior shoulder stretch; external rotator strengthening through range',cue:'"As arms open — feel the front of the shoulder releasing and the palms rotating upward."',mod:'Keep elbows bent to shorten lever and reduce rotator cuff strain.'},
-            {name:'Chest Expansion with Forearm Rotation Cue',level:'essential',equip:'Reformer · 1–2 springs',pos:'Kneeling',goal:'External rotation integrated with scapular retraction',cue:'"As arms come back — feel the palms rotating to face forward. Olecranon now points straight back."',mod:'Cue the rotation explicitly — "turn your palms to face up/forward."'},
-          ],
-          avoid:'Avoid loading internal rotation patterns (aggressive push-up, heavy press) until external rotator strength is established. Do not ignore shoulder position in overhead exercises.'
-        },
-      ]
-    },
-    {
-      region: 'Sequencing Through the Spine', regionColor: 'cervical',
-      findings: [
-        {
-          id:'bsp_flat', name:'Flat Areas in Spinal Sequencing', sub:'Abrupt flat segments in the spine',
-          tight:['Erectors (segment-specific stiffness)','Posterior ligaments at stiff segment','Multifidus (segmental)'],
-          weak:['Segmental spinal stabilizers','Deep rotators at the stiff level','Multifidus at adjacent levels'],
-          exercises:[
-            {name:'Spine Articulation / Pelvic Curl Roll-Down',level:'essential',equip:'Reformer / Mat · 2 springs',pos:'Supine, feet on footbar',goal:'Restore segmental spinal mobility; articulation through each vertebra',cue:'"Roll through the spine one vertebra at a time — feel the flat area start to participate. Breathe into it."',mod:'Use a heated roll or prop under the stiff segment before exercise.'},
-            {name:'Rolling Like a Ball',level:'essential',equip:'Mat · bodyweight',pos:'Seated, knees to chest',goal:'Thoracic and lumbar articulation; mobilize stiff segments',cue:'"Roll back — try to feel each vertebra touching the mat in sequence. No flat bouncing."',mod:'Small range first. Progress as mobility improves.'},
-          ],
-          avoid:'Avoid loading stiff spinal segments in extension or compression before restoring mobility. Do not skip articulation exercises.'
-        },
-        {
-          id:'bsp_imbalance', name:'Spinal Imbalances (Lateral)', sub:'One side of paraspinals more prominent',
-          tight:['Paraspinal muscles (prominent/tight side)','Quadratus lumborum (convex side)','Lateral rotators'],
-          weak:['Paraspinals (concave side)','Lateral stabilizers (concave side)','Deep rotators'],
-          exercises:[
-            {name:'Mermaid / Side Stretch',level:'essential',equip:'Reformer · 1 spring',pos:'Seated sideways',goal:'Lateral trunk lengthening on tight side; bilateral paraspinal balance',cue:'"Reach toward the tight side — feel the paraspinals on that side releasing."',mod:'Compare both sides. Spend more time on tight side.'},
-            {name:'Short Box — Lateral Flexion',level:'intermediate',equip:'Reformer short box · 2 springs',pos:'Seated on box, feet in strap',goal:'Bilateral lateral trunk strengthening; address spinal imbalance under load',cue:'"Equal movement to each side — but allow the tight side more opening. Feel the balance returning."',mod:'Monitor for rotation compensation.'},
-          ],
-          avoid:'Avoid loading the prominent/tight side further in rotation or lateral flexion. Always work toward bilateral symmetry.'
-        },
-      ]
-    },
-  ]
-};
+const ctLabels = {con:'Concentric',ecc:'Eccentric',iso:'Isometric',contra:'Contralateral',ipsi:'Ipsilateral'};
+const ctClass = {con:'ct-con',ecc:'ct-ecc',iso:'ct-iso',contra:'ct-contra',ipsi:'ct-ipsi'};
 
-// ============================================================
-// PROGRAMMING RENDER FUNCTIONS
-// ============================================================
-let currentProgView = 'side';
+let wkActiveLevel = 'all';
 
-function setProgView(view, btn) {
-  currentProgView = view;
-  document.querySelectorAll('.prog-view-btn').forEach(b => b.classList.remove('active'));
+function renderWorkouts() {
+  const search = document.getElementById('wk-search') ? document.getElementById('wk-search').value.toLowerCase() : '';
+  const tbody = document.getElementById('wk-tbody');
+  const filtered = workoutData.filter(w => {
+    const matchLevel = wkActiveLevel === 'all' || w.level === wkActiveLevel;
+    const matchSearch = !search || w.name.toLowerCase().includes(search) || w.muscles.toLowerCase().includes(search) || w.posture.toLowerCase().includes(search) || w.group.toLowerCase().includes(search);
+    return matchLevel && matchSearch;
+  });
+  document.getElementById('wk-count').textContent = filtered.length + ' exercise' + (filtered.length !== 1 ? 's' : '');
+  tbody.innerHTML = filtered.map(w => `
+    <tr>
+      <td>
+        <div class="wk-name">${w.name}</div>
+        <div class="wk-sub">${w.group}</div>
+        <span class="lvl-badge lvl-${w.level}">${w.level}</span>
+      </td>
+      <td class="wk-muscles">${w.muscles}</td>
+      <td class="wk-posture">${w.posture}</td>
+      <td><div class="wk-contract">${w.contractions.map(c=>`<span class="ct-tag ${ctClass[c]}">${ctLabels[c]}</span>`).join('')}</div></td>
+    </tr>`).join('');
+}
+
+function filterWorkouts() { renderWorkouts(); }
+
+function setWkLevel(level, btn) {
+  wkActiveLevel = level;
+  document.querySelectorAll('.wk-lbtn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.prog-view-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('prog-' + view).classList.add('active');
+  renderWorkouts();
 }
 
-function toggleProgFinding(id) {
-  const body = document.getElementById('pf-body-' + id);
-  const chev = document.getElementById('pf-chev-' + id);
-  const isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  chev.classList.toggle('open', !isOpen);
-}
-
-function buildProgView(viewKey, containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  const regions = progViewData[viewKey];
-  const regionDots = {
-    ankle:'#4a8a9e', knee:'#7a9e7e', hip:'#9e4a7a', pelvis:'#C4715A',
-    lumbspine:'#C9A84C', lthoracic:'#C9A84C', uthoracic:'#C9A84C', cervical:'#b8a040',
-    shoulder:'#7a7ab8', scapula:'#5a7ab8', head:'#a87a4a', ribcage:'#7ab8a8',
-    femur:'#b87a9e', humeri:'#8ab87a'
-  };
-
-  container.innerHTML = regions.map(reg => {
-    const findingCards = reg.findings.map(f => {
-      const exCount = f.exercises.length;
-      const exCards = f.exercises.map(e => `
-        <div class="prog-ex-card">
-          <div class="prog-ex-top">
-            <div class="prog-ex-name">${e.name}</div>
-            <span class="prog-ex-lvl ${e.level}">${e.level.charAt(0).toUpperCase()+e.level.slice(1)}</span>
-          </div>
-          <div class="prog-ex-equip">📍 ${e.equip}</div>
-          <div class="prog-ex-body">
-            <b>Position:</b> ${e.pos}<br>
-            <b>Goal:</b> ${e.goal}
-          </div>
-          <div class="prog-ex-cue">🗣 ${e.cue}</div>
-          ${e.mod ? `<div class="prog-ex-mod">⚙️ <b>Mod:</b> ${e.mod}</div>` : ''}
-        </div>`).join('');
-
-      return `
-      <div class="prog-finding-card">
-        <div class="prog-finding-header ${reg.regionColor}" onclick="toggleProgFinding('${f.id}')">
-          <div style="flex:1">
-            <div class="prog-finding-name">□ ${f.name}</div>
-            <div class="prog-finding-sub">${f.sub}</div>
-            <div class="prog-finding-badges">
-              <span class="prog-badge prog-badge-e">${f.exercises.filter(e=>e.level==='essential').length} Essential</span>
-              <span class="prog-badge prog-badge-i">${f.exercises.filter(e=>e.level==='intermediate').length} Intermediate</span>
-              <span class="prog-badge" style="background:#f0f0f8;color:#5a5a9a;">${exCount} exercises</span>
-            </div>
-          </div>
-          <div class="prog-chev" id="pf-chev-${f.id}">▼</div>
-        </div>
-        <div class="prog-finding-body" id="pf-body-${f.id}">
-          <div class="prog-imb-row">
-            <div class="prog-tight">
-              <div class="prog-imb-label tight">🔴 Overactive / Tight</div>
-              <div class="prog-imb-list">${f.tight.map(m=>`• ${m}`).join('<br>')}</div>
-            </div>
-            <div class="prog-weak">
-              <div class="prog-imb-label weak">🟢 Underactive / Weak</div>
-              <div class="prog-imb-list">${f.weak.map(m=>`• ${m}`).join('<br>')}</div>
-            </div>
-          </div>
-          <div class="prog-ex-section-title">Recommended Exercises</div>
-          <div class="prog-ex-grid">${exCards}</div>
-          ${f.avoid ? `<div class="prog-avoid"><div class="prog-avoid-title">⚠️ What to Avoid</div><p>${f.avoid}</p></div>` : ''}
-        </div>
-      </div>`;
-    }).join('');
-
-    return `
-    <div class="prog-region-block">
-      <div class="prog-region-title">
-        <span class="region-dot" style="background:${regionDots[reg.regionColor]||'#888'};"></span>
-        ${reg.region}
-      </div>
-      ${findingCards}
-    </div>`;
-  }).join('');
-}
+// attach search listener after DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  const s = document.getElementById('wk-search');
+  if (s) s.addEventListener('input', filterWorkouts);
+  renderWorkouts();
+});
 
 // ============================================================
 // INIT
@@ -2398,9 +1861,6 @@ renderBodyView();
 renderPaView('side','pa-side-grid');
 renderPaView('front','pa-front-grid');
 renderPaView('back','pa-back-grid');
-buildProgView('side','prog-side');
-buildProgView('front','prog-front');
-buildProgView('back','prog-back');
 </script>
 </body>
 </html>
