@@ -35,7 +35,7 @@
   .btn-primary{background:var(--sage-dark);color:white;}.btn-primary:hover{background:var(--sage);}
   .btn-secondary{background:white;color:var(--charcoal);border:1.5px solid var(--border);}.btn-secondary:hover{border-color:var(--sage-dark);color:var(--sage-dark);}
   .btn-terracotta{background:var(--terracotta);color:white;}.btn-terracotta:hover{background:#b3614b;}
-
+ 
   /* FLASHCARD */
   .flashcard-area{display:flex;flex-direction:column;align-items:center;gap:20px;}
   .flashcard-counter{font-size:13px;color:var(--muted);letter-spacing:1px;}
@@ -52,7 +52,7 @@
   .flashcard-controls{display:flex;gap:14px;align-items:center;}
   .progress-bar{width:100%;max-width:660px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
   .progress-fill{height:100%;background:var(--sage-dark);transition:width .3s ease;border-radius:4px;}
-
+ 
   /* QUIZ */
   .quiz-card{background:white;border-radius:16px;padding:36px;box-shadow:var(--shadow);max-width:700px;margin:0 auto;}
   .quiz-q-num{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
@@ -70,7 +70,7 @@
   .score-circle{width:130px;height:130px;border-radius:50%;background:var(--soft-black);color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 24px;}
   .score-num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;line-height:1;}
   .score-label{font-size:10px;letter-spacing:2px;opacity:.7;}
-
+ 
   /* STUDY GUIDE */
   .study-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
   @media(max-width:700px){.study-grid{grid-template-columns:1fr;}}
@@ -86,7 +86,7 @@
   .study-item-val{color:#555;}
   .study-list-item{padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.5;}
   .study-list-item:last-child{border-bottom:none;}
-
+ 
   /* ANATOMY TABLE */
   .table-wrapper{overflow-x:auto;}
   table{width:100%;border-collapse:collapse;font-size:12px;}
@@ -97,7 +97,7 @@
   .tag-green{background:#e8f4ea;color:var(--sage-dark);}
   .tag-red{background:#fdf0ed;color:var(--terracotta);}
   .tag-gold{background:#fdf6e3;color:#8a6d15;}
-
+ 
   /* BODY MAP */
   .bodymap-layout{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start;}
   @media(max-width:800px){.bodymap-layout{grid-template-columns:1fr;}}
@@ -115,14 +115,14 @@
   .muscle-info-row .value{font-size:13px;line-height:1.6;color:var(--soft-black);}
   .muscle-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--muted);text-align:center;gap:10px;}
   .muscle-placeholder svg{opacity:.3;}
-
+ 
   /* VISUAL QUIZ */
   .vquiz-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;max-width:900px;margin:0 auto;}
   @media(max-width:700px){.vquiz-layout{grid-template-columns:1fr;}}
   .vquiz-svg-box{background:white;border-radius:14px;padding:20px;box-shadow:var(--shadow);text-align:center;}
   .vquiz-svg-box .hint-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
   .vquiz-question-box{background:white;border-radius:14px;padding:24px;box-shadow:var(--shadow);}
-
+ 
   /* AI CHAT */
   .ai-chat-container{max-width:700px;margin:0 auto;}
   .chat-messages{min-height:280px;max-height:420px;overflow-y:auto;background:white;border-radius:14px;padding:22px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;flex-direction:column;gap:14px;}
@@ -149,7 +149,7 @@
 </style>
 </head>
 <body>
-
+ 
 <div class="header">
   <div class="header-brand">
     <span>STOTT PILATES®</span>
@@ -157,7 +157,7 @@
   </div>
   <div class="header-badge">Level 1 Prep</div>
 </div>
-
+ 
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="showPanel('flashcards',this)">Flashcards</button>
   <button class="nav-tab" onclick="showPanel('quiz',this)">Quiz</button>
@@ -170,7 +170,7 @@
   <button class="nav-tab" onclick="showPanel('workouts',this)">🏋️ Workouts</button>
   <button class="nav-tab" onclick="showPanel('aitutor',this)">AI Tutor</button>
 </div>
-
+ 
 <!-- ===== FLASHCARDS ===== -->
 <div id="panel-flashcards" class="panel active">
   <div class="container">
@@ -209,7 +209,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== QUIZ ===== -->
 <div id="panel-quiz" class="panel">
   <div class="container">
@@ -250,7 +250,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== BODY MAP ===== -->
 <div id="panel-bodymap" class="panel">
   <div class="container">
@@ -287,7 +287,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== VISUAL QUIZ ===== -->
 <div id="panel-visualquiz" class="panel">
   <div class="container">
@@ -330,7 +330,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== STUDY GUIDE ===== -->
 <div id="panel-studyguide" class="panel">
   <div class="container">
@@ -383,7 +383,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== ANATOMY TABLE ===== -->
 <div id="panel-anatomy" class="panel">
   <div class="container">
@@ -393,6 +393,7 @@
       <button class="pill active" onclick="filterMuscles('all',this)">All</button>
       <button class="pill" onclick="filterMuscles('scapula',this)">Scapula</button>
       <button class="pill" onclick="filterMuscles('shoulder',this)">Shoulder</button>
+      <button class="pill" onclick="filterMuscles('elbow',this)">Elbow</button>
       <button class="pill" onclick="filterMuscles('spine',this)">Spine</button>
       <button class="pill" onclick="filterMuscles('trunk',this)">Trunk & Core</button>
       <button class="pill" onclick="filterMuscles('hip',this)">Hip</button>
@@ -403,7 +404,7 @@
     <div class="table-wrapper"><table><thead><tr><th>Muscle</th><th>Group</th><th>Action</th><th>Origin</th><th>Insertion</th><th>Nerve</th></tr></thead><tbody id="muscle-tbody"></tbody></table></div>
   </div>
 </div>
-
+ 
 <!-- ===== EXAM INFO ===== -->
 <div id="panel-examinfo" class="panel">
   <div class="container">
@@ -442,7 +443,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== POSTURAL ANALYSIS ===== -->
 <style>
 .pa-hero{background:var(--soft-black);color:white;border-radius:14px;padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
@@ -494,10 +495,10 @@
 .pa-tip-banner{background:var(--sage-dark);color:white;border-radius:10px;padding:14px 18px;font-size:13px;line-height:1.6;margin-bottom:20px;}
 .pa-tip-banner strong{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:.7;margin-bottom:4px;}
 </style>
-
+ 
 <div id="panel-posturalanalysis" class="panel">
   <div class="container">
-
+ 
     <div class="pa-hero">
       <div class="pa-hero-text">
         <h2>Postural Analysis Guide</h2>
@@ -509,7 +510,7 @@
         <div class="pa-step"><div class="pa-step-num">3</div><div class="pa-step-label">Back</div></div>
       </div>
     </div>
-
+ 
     <div class="pa-tip-banner">
       <strong>Your 4 exam questions for every body region</strong>
       <span style="display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;margin-top:4px;">
@@ -519,13 +520,13 @@
         <span>🟣 <strong>Q4 — What do I find?</strong> Your actual observation / verbalize to examiner</span>
       </span>
     </div>
-
+ 
     <div class="view-selector">
       <button class="view-sel-btn active" onclick="setPaView('side',this)">Side View</button>
       <button class="view-sel-btn" onclick="setPaView('front',this)">Front View</button>
       <button class="view-sel-btn" onclick="setPaView('back',this)">Back View</button>
     </div>
-
+ 
     <!-- SIDE VIEW -->
     <div id="pa-side" class="pa-view-panel active">
       <div class="pa-body-grid" id="pa-side-grid"></div>
@@ -538,10 +539,10 @@
     <div id="pa-back" class="pa-view-panel">
       <div class="pa-body-grid" id="pa-back-grid"></div>
     </div>
-
+ 
   </div>
 </div>
-
+ 
 <!-- ===== WORKOUTS ===== -->
 <style>
 .wk-filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
@@ -572,7 +573,7 @@
 .ct-ipsi{background:#fff3e0;color:#e65100;}
 .wk-count{font-size:12px;color:var(--muted);margin-bottom:12px;}
 </style>
-
+ 
 <div id="panel-workouts" class="panel">
   <div class="container">
     <h1 class="section-title">Workout Reference</h1>
@@ -601,8 +602,8 @@
     </div>
   </div>
 </div>
-
-
+ 
+ 
 <!-- ===== AI TUTOR ===== -->
 <div id="panel-aitutor" class="panel">
   <div class="container">
@@ -630,12 +631,13 @@
     </div>
   </div>
 </div>
-
+ 
 <script>
 // ============================================================
 // MUSCLE DATABASE
 // ============================================================
 const muscleData = [
+  // SCAPULA
   {group:'scapula',name:'Trapezius (Upper)',action:'Elevates & upwardly rotates scapula; extends head',origin:'External occipital protuberance, nuchal ligament, C7',insertion:'Lateral clavicle, acromion',nerve:'Spinal accessory (CN XI)',view:'back',region:'upper_back'},
   {group:'scapula',name:'Trapezius (Middle)',action:'Retracts scapula',origin:'T1–T5 spinous processes',insertion:'Medial acromion, superior scapular spine',nerve:'Spinal accessory (CN XI)',view:'back',region:'mid_back'},
   {group:'scapula',name:'Trapezius (Lower)',action:'Depresses & upwardly rotates scapula',origin:'T6–T12 spinous processes',insertion:'Medial scapular spine',nerve:'Spinal accessory (CN XI)',view:'back',region:'lower_back'},
@@ -643,48 +645,103 @@ const muscleData = [
   {group:'scapula',name:'Rhomboid Major & Minor',action:'Retracts & downwardly rotates scapula',origin:'C7–T5 spinous processes',insertion:'Medial border of scapula',nerve:'Dorsal scapular nerve (C4–C5)',view:'back',region:'mid_back'},
   {group:'scapula',name:'Serratus Anterior',action:'Protracts & upwardly rotates scapula; holds scapula flat',origin:'Ribs 1–8 (outer surfaces)',insertion:'Medial border of scapula (anterior)',nerve:'Long thoracic nerve (C5–C7)',view:'front',region:'lateral_trunk'},
   {group:'scapula',name:'Pectoralis Minor',action:'Protracts & depresses scapula; downwardly rotates',origin:'Ribs 3–5',insertion:'Coracoid process of scapula',nerve:'Medial pectoral nerve (C8–T1)',view:'front',region:'chest'},
+  {group:'scapula',name:'Subclavius',action:'Depresses & stabilizes clavicle; protects sternoclavicular joint',origin:'First rib & costal cartilage',insertion:'Inferior surface of clavicle',nerve:'Nerve to subclavius (C5–C6)',view:'front',region:'chest'},
+  // SHOULDER
   {group:'shoulder',name:'Deltoid (Anterior)',action:'Flexion & medial rotation of arm',origin:'Lateral clavicle',insertion:'Deltoid tuberosity of humerus',nerve:'Axillary nerve (C5–C6)',view:'front',region:'shoulder'},
   {group:'shoulder',name:'Deltoid (Middle)',action:'Abduction of arm',origin:'Acromion process',insertion:'Deltoid tuberosity of humerus',nerve:'Axillary nerve (C5–C6)',view:'front',region:'shoulder'},
   {group:'shoulder',name:'Deltoid (Posterior)',action:'Extension & lateral rotation of arm',origin:'Scapular spine',insertion:'Deltoid tuberosity of humerus',nerve:'Axillary nerve (C5–C6)',view:'back',region:'shoulder'},
-  {group:'shoulder',name:'Pectoralis Major',action:'Adducts, medially rotates arm; clavicular head flexes',origin:'Sternum, costal cartilages 1–6, medial clavicle',insertion:'Intertubercular groove of humerus',nerve:'Medial/lateral pectoral nerves (C5–T1)',view:'front',region:'chest'},
+  {group:'shoulder',name:'Pectoralis Major (Sternal)',action:'Adducts & medially rotates arm; extends arm from flexed position',origin:'Sternum, costal cartilages 1–6',insertion:'Intertubercular groove of humerus',nerve:'Medial/lateral pectoral nerves (C5–T1)',view:'front',region:'chest'},
+  {group:'shoulder',name:'Pectoralis Major (Clavicular)',action:'Flexes & medially rotates arm; horizontal adduction',origin:'Medial clavicle',insertion:'Intertubercular groove of humerus',nerve:'Lateral pectoral nerve (C5–C6)',view:'front',region:'chest'},
+  {group:'shoulder',name:'Coracobrachialis',action:'Flexes & adducts arm; resists dislocation of shoulder',origin:'Coracoid process of scapula',insertion:'Medial shaft of humerus',nerve:'Musculocutaneous nerve (C5–C7)',view:'front',region:'shoulder'},
   {group:'shoulder',name:'Latissimus Dorsi',action:'Extends, adducts & medially rotates arm; depresses shoulder',origin:'T7–L5 spinous processes, iliac crest, ribs 9–12',insertion:'Intertubercular groove of humerus',nerve:'Thoracodorsal nerve (C6–C8)',view:'back',region:'lower_back'},
+  {group:'shoulder',name:'Teres Major',action:'Medially rotates, adducts & extends arm',origin:'Inferior angle of scapula',insertion:'Medial lip of intertubercular groove',nerve:'Lower subscapular nerve (C5–C6)',view:'back',region:'shoulder'},
   {group:'shoulder',name:'Supraspinatus',action:'Initiates abduction (first 15°); stabilizes humeral head',origin:'Supraspinous fossa of scapula',insertion:'Superior greater tubercle of humerus',nerve:'Suprascapular nerve (C5–C6)',view:'back',region:'shoulder'},
   {group:'shoulder',name:'Infraspinatus',action:'Lateral rotation of arm; stabilizes humeral head',origin:'Infraspinous fossa of scapula',insertion:'Middle greater tubercle',nerve:'Suprascapular nerve (C5–C6)',view:'back',region:'shoulder'},
   {group:'shoulder',name:'Teres Minor',action:'Lateral rotation & adduction of arm',origin:'Lateral border of scapula',insertion:'Inferior greater tubercle',nerve:'Axillary nerve (C5–C6)',view:'back',region:'shoulder'},
   {group:'shoulder',name:'Subscapularis',action:'Medial rotation of arm; stabilizes humeral head anteriorly',origin:'Subscapular fossa',insertion:'Lesser tubercle of humerus',nerve:'Upper/lower subscapular nerves (C5–C6)',view:'front',region:'shoulder'},
+  // ELBOW
+  {group:'elbow',name:'Biceps Brachii',action:'Elbow flexion; supination of forearm; weak shoulder flexion',origin:'Long head: supraglenoid tubercle. Short head: coracoid process',insertion:'Radial tuberosity; bicipital aponeurosis',nerve:'Musculocutaneous nerve (C5–C6)',view:'front',region:'shoulder'},
+  {group:'elbow',name:'Triceps Brachii',action:'Elbow extension; long head: arm extension & adduction',origin:'Long: infraglenoid tubercle. Lateral: posterior humerus. Medial: posterior humerus',insertion:'Olecranon process of ulna',nerve:'Radial nerve (C6–C8)',view:'back',region:'shoulder'},
+  {group:'elbow',name:'Brachialis',action:'Elbow flexion (primary flexor)',origin:'Distal anterior humerus',insertion:'Coronoid process & ulnar tuberosity',nerve:'Musculocutaneous nerve (C5–C6)',view:'front',region:'shoulder'},
+  {group:'elbow',name:'Brachioradialis',action:'Elbow flexion; pronation/supination to neutral',origin:'Lateral supracondylar ridge of humerus',insertion:'Styloid process of radius',nerve:'Radial nerve (C5–C6)',view:'front',region:'shoulder'},
+  {group:'elbow',name:'Anconeus',action:'Assists elbow extension; stabilizes elbow joint',origin:'Lateral epicondyle of humerus',insertion:'Lateral olecranon & posterior ulna',nerve:'Radial nerve (C7–C8)',view:'back',region:'shoulder'},
+  {group:'elbow',name:'Supinator',action:'Supination of forearm',origin:'Lateral epicondyle, radial collateral ligament, ulna',insertion:'Lateral radius (proximal third)',nerve:'Deep radial nerve (C6)',view:'back',region:'shoulder'},
+  {group:'elbow',name:'Pronator Teres',action:'Pronation of forearm; assists elbow flexion',origin:'Medial epicondyle of humerus, coronoid process of ulna',insertion:'Lateral radius (midshaft)',nerve:'Median nerve (C6–C7)',view:'front',region:'shoulder'},
+  // DEEP SPINE
   {group:'spine',name:'Multifidus',action:'Extends spine; ipsilateral rotation; deep stabilization',origin:'Sacrum, posterior iliac spine, transverse processes L1–C4',insertion:'Spinous processes 2–4 levels above',nerve:'Dorsal rami of spinal nerves',view:'back',region:'deep_spine'},
-  {group:'spine',name:'Iliocostalis',action:'Bilateral: extends spine. Unilateral: lateral flexion',origin:'Iliac crest, sacrum, lower ribs',insertion:'Ribs, cervical transverse processes',nerve:'Dorsal rami',view:'back',region:'lower_back'},
-  {group:'spine',name:'Longissimus',action:'Extends and laterally flexes spine and head',origin:'Sacrum, lumbar & thoracic transverse processes',insertion:'Ribs, cervical transverse processes, mastoid process',nerve:'Dorsal rami',view:'back',region:'mid_back'},
+  {group:'spine',name:'Rotatores Longus & Brevis',action:'Rotation & extension of vertebral column; proprioception',origin:'Transverse processes of vertebrae',insertion:'Spinous process 1–2 levels above',nerve:'Dorsal rami of spinal nerves',view:'back',region:'deep_spine'},
+  {group:'spine',name:'Intertransversarii',action:'Lateral flexion of spine; stabilize adjacent vertebrae',origin:'Transverse processes of vertebrae',insertion:'Adjacent transverse processes',nerve:'Dorsal & ventral rami',view:'back',region:'deep_spine'},
+  // POSTERIOR SPINE
+  {group:'spine',name:'Iliocostalis (Lumborum, Thoracis & Cervicis)',action:'Bilateral: extends spine. Unilateral: lateral flexion',origin:'Iliac crest, sacrum, lower ribs',insertion:'Ribs, cervical transverse processes',nerve:'Dorsal rami',view:'back',region:'lower_back'},
+  {group:'spine',name:'Longissimus (Cervicis, Thoracis & Capitis)',action:'Extends and laterally flexes spine and head',origin:'Sacrum, lumbar & thoracic transverse processes',insertion:'Ribs, cervical transverse processes, mastoid process',nerve:'Dorsal rami',view:'back',region:'mid_back'},
+  {group:'spine',name:'Spinalis (Thoracis & Cervicis)',action:'Extends vertebral column; stabilizes thoracic & cervical spine',origin:'Spinous processes of lower thoracic & upper lumbar vertebrae',insertion:'Spinous processes of upper thoracic & cervical vertebrae',nerve:'Dorsal rami',view:'back',region:'mid_back'},
+  {group:'spine',name:'Semispinalis (Thoracis, Cervicis & Capitis)',action:'Extends & contralaterally rotates vertebral column & head',origin:'Transverse processes C4–T12',insertion:'Spinous processes C2–T4; occipital bone (capitis)',nerve:'Dorsal rami of spinal nerves',view:'back',region:'mid_back'},
+  {group:'spine',name:'Splenius (Cervicis & Capitis)',action:'Extends & ipsilaterally rotates head & neck',origin:'Nuchal ligament, C7–T6 spinous processes',insertion:'Mastoid process, occiput (capitis); C1–C3 transverse processes (cervicis)',nerve:'Dorsal rami C2–C5',view:'back',region:'neck'},
   {group:'spine',name:'Quadratus Lumborum',action:'Elevates pelvis; lateral flexion of lumbar spine; fixes 12th rib',origin:'Posterior iliac crest, iliolumbar ligament',insertion:'12th rib, transverse processes L1–L4',nerve:'Ventral rami T12, L1–L4',view:'back',region:'lower_back'},
+  // DEEP SPINE / NECK
+  {group:'spine',name:'Longus Colli & Capitis',action:'Flexes neck & head; stabilizes cervical spine',origin:'Vertebral bodies C1–T3 (colli); C3–C6 transverse processes (capitis)',insertion:'Atlas (C1), occipital bone, atlas anterior tubercle',nerve:'Ventral rami C1–C6',view:'front',region:'neck'},
+  {group:'spine',name:'Rectus Capitis Anterior & Lateralis',action:'Flexes & stabilizes atlanto-occipital joint; lateral flexion (lateralis)',origin:'Atlas (C1) anterior arch & transverse process',insertion:'Occipital bone (basilar part)',nerve:'Ventral rami C1–C2',view:'front',region:'neck'},
+  {group:'spine',name:'Rectus Capitis Posterior Major & Minor',action:'Extends head; ipsilateral rotation (major)',origin:'Atlas & axis spinous processes',insertion:'Occipital bone (inferior nuchal line)',nerve:'Dorsal ramus C1 (suboccipital nerve)',view:'back',region:'neck'},
+  {group:'spine',name:'Obliques Capitis Superior & Inferior',action:'Lateral flexion & extension of head (superior); rotation of atlas (inferior)',origin:'Atlas transverse process (superior); axis spinous process (inferior)',insertion:'Occipital bone; atlas transverse process',nerve:'Suboccipital nerve (C1)',view:'back',region:'neck'},
+  // ANTERIOR TRUNK & NECK
   {group:'trunk',name:'Rectus Abdominis',action:'Flexes lumbar spine; posteriorly tilts pelvis',origin:'Pubic crest & symphysis',insertion:'Xiphoid process, costal cartilages 5–7',nerve:'Thoracoabdominal nerves (T7–T12)',view:'front',region:'abdomen'},
   {group:'trunk',name:'External Oblique',action:'Contralateral rotation; lateral flexion; trunk flexion',origin:'External surfaces of ribs 5–12',insertion:'Iliac crest, inguinal ligament, linea alba',nerve:'Thoracoabdominal nerves (T8–T12)',view:'front',region:'lateral_trunk'},
   {group:'trunk',name:'Internal Oblique',action:'Ipsilateral rotation; lateral flexion; compression',origin:'Thoracolumbar fascia, anterior iliac crest',insertion:'Ribs 10–12, linea alba, pubic crest',nerve:'Thoracoabdominal nerves (T10–L1)',view:'front',region:'lateral_trunk'},
   {group:'trunk',name:'Transversus Abdominis',action:'Compresses abdomen; stabilizes lumbo-pelvic region',origin:'Thoracolumbar fascia, iliac crest, costal cartilages 7–12',insertion:'Linea alba, pubic crest',nerve:'Thoracoabdominal nerves (T7–T12), L1',view:'front',region:'abdomen'},
-  {group:'trunk',name:'Sternocleidomastoid',action:'Bilateral: flexes neck. Unilateral: lateral flexion + rotation',origin:'Sternum & medial clavicle',insertion:'Mastoid process, superior nuchal line',nerve:'Spinal accessory (CN XI), C2–C3',view:'front',region:'neck'},
+  {group:'trunk',name:'Pyramidalis',action:'Tenses linea alba',origin:'Pubic crest',insertion:'Linea alba (between pubis & umbilicus)',nerve:'Subcostal nerve (T12)',view:'front',region:'abdomen'},
+  {group:'trunk',name:'Sternocleidomastoid',action:'Bilateral: flexes neck. Unilateral: lateral flexion + contralateral rotation',origin:'Sternum & medial clavicle',insertion:'Mastoid process, superior nuchal line',nerve:'Spinal accessory (CN XI), C2–C3',view:'front',region:'neck'},
+  {group:'trunk',name:'Scalenus Anterior, Medius & Posterior',action:'Flexes & laterally flexes cervical spine; elevates ribs 1–2 (accessory inspiration)',origin:'Transverse processes C2–C7',insertion:'First & second ribs',nerve:'Ventral rami C3–C8',view:'front',region:'neck'},
+  // HIP
   {group:'hip',name:'Psoas Major',action:'Hip flexion; lumbar extension (pelvis fixed)',origin:'T12–L5 vertebral bodies, transverse processes',insertion:'Lesser trochanter of femur',nerve:'Femoral nerve, L1–L3',view:'front',region:'hip_flexors'},
+  {group:'hip',name:'Psoas Minor',action:'Weak trunk flexion; tenses iliac fascia',origin:'T12–L1 vertebral bodies',insertion:'Pectineal line, iliopectineal eminence',nerve:'L1',view:'front',region:'hip_flexors'},
   {group:'hip',name:'Iliacus',action:'Hip flexion; stabilizes hip joint',origin:'Iliac fossa',insertion:'Lesser trochanter',nerve:'Femoral nerve (L2–L3)',view:'front',region:'hip_flexors'},
   {group:'hip',name:'Gluteus Maximus',action:'Hip extension; lateral rotation; abduction (upper); adduction (lower)',origin:'Posterior ilium, sacrum, coccyx',insertion:'Iliotibial band, gluteal tuberosity of femur',nerve:'Inferior gluteal nerve (L5–S2)',view:'back',region:'glutes'},
   {group:'hip',name:'Gluteus Medius',action:'Hip abduction; medial rotation; stabilizes pelvis in gait',origin:'External ilium (between gluteal lines)',insertion:'Greater trochanter of femur',nerve:'Superior gluteal nerve (L4–S1)',view:'back',region:'glutes'},
   {group:'hip',name:'Gluteus Minimus',action:'Hip abduction; medial rotation; stabilizes pelvis',origin:'External ilium (below anterior gluteal line)',insertion:'Greater trochanter of femur',nerve:'Superior gluteal nerve (L4–S1)',view:'back',region:'glutes'},
-  {group:'hip',name:'Piriformis',action:'Lateral rotation (hip extended); abduction (hip flexed)',origin:'Anterior sacrum',insertion:'Greater trochanter of femur',nerve:'S1–S2',view:'back',region:'deep_hip'},
   {group:'hip',name:'Tensor Fasciae Latae',action:'Hip flexion, abduction & medial rotation; tightens IT band',origin:'Anterior superior iliac spine (ASIS)',insertion:'Iliotibial band',nerve:'Superior gluteal nerve (L4–S1)',view:'front',region:'hip_lateral'},
+  {group:'hip',name:'Pectineus',action:'Hip flexion & adduction; assists medial rotation',origin:'Pectineal line of pubis',insertion:'Pectineal line of femur (below lesser trochanter)',nerve:'Femoral nerve (L2–L3)',view:'front',region:'hip_adductors'},
+  {group:'hip',name:'Adductor Magnus',action:'Hip adduction; posterior part: hip extension',origin:'Ischiopubic ramus & ischial tuberosity',insertion:'Medial femur (linea aspera), adductor tubercle',nerve:'Obturator nerve (L2–L4); tibial portion: sciatic nerve',view:'front',region:'hip_adductors'},
+  {group:'hip',name:'Adductor Longus',action:'Hip adduction; assists flexion & medial rotation',origin:'Pubic body (below pubic crest)',insertion:'Medial lip of linea aspera (middle third)',nerve:'Obturator nerve (L2–L4)',view:'front',region:'hip_adductors'},
+  {group:'hip',name:'Adductor Brevis',action:'Hip adduction; assists flexion',origin:'Inferior pubic ramus',insertion:'Pectineal line, superior linea aspera',nerve:'Obturator nerve (L2–L4)',view:'front',region:'hip_adductors'},
+  {group:'hip',name:'Piriformis',action:'Lateral rotation (hip extended); abduction (hip flexed)',origin:'Anterior sacrum',insertion:'Greater trochanter of femur',nerve:'S1–S2',view:'back',region:'deep_hip'},
+  {group:'hip',name:'Obturator Externus',action:'Lateral rotation of hip; stabilizes femoral head',origin:'Margins of obturator foramen, obturator membrane',insertion:'Trochanteric fossa of femur',nerve:'Obturator nerve (L3–L4)',view:'front',region:'deep_hip'},
+  {group:'hip',name:'Obturator Internus',action:'Lateral rotation (hip extended); abduction (hip flexed)',origin:'Inner surface of obturator membrane & surrounding bone',insertion:'Greater trochanter of femur',nerve:'Nerve to obturator internus (L5–S2)',view:'back',region:'deep_hip'},
+  {group:'hip',name:'Gemellus Superior & Inferior',action:'Lateral rotation of hip; assist obturator internus',origin:'Ischial spine (superior); ischial tuberosity (inferior)',insertion:'Greater trochanter via obturator internus tendon',nerve:'Nerve to obturator internus / quadratus femoris (L4–S1)',view:'back',region:'deep_hip'},
+  {group:'hip',name:'Quadratus Femoris',action:'Lateral rotation of hip; adduction of femur',origin:'Lateral ischial tuberosity',insertion:'Intertrochanteric crest of femur',nerve:'Nerve to quadratus femoris (L4–S1)',view:'back',region:'deep_hip'},
+  // HIP & KNEE
   {group:'knee',name:'Rectus Femoris',action:'Knee extension; hip flexion',origin:'Anterior inferior iliac spine (AIIS)',insertion:'Tibial tuberosity via patellar tendon',nerve:'Femoral nerve (L2–L4)',view:'front',region:'quads'},
   {group:'knee',name:'Vastus Medialis',action:'Knee extension; VMO stabilizes patella medially',origin:'Medial lip of linea aspera',insertion:'Tibial tuberosity via patellar tendon',nerve:'Femoral nerve (L2–L4)',view:'front',region:'quads'},
+  {group:'knee',name:'Vastus Intermedius',action:'Knee extension',origin:'Anterior & lateral femoral shaft',insertion:'Tibial tuberosity via patellar tendon',nerve:'Femoral nerve (L2–L4)',view:'front',region:'quads'},
   {group:'knee',name:'Vastus Lateralis',action:'Knee extension',origin:'Lateral lip of linea aspera, greater trochanter',insertion:'Tibial tuberosity via patellar tendon',nerve:'Femoral nerve (L2–L4)',view:'front',region:'quads'},
   {group:'knee',name:'Biceps Femoris',action:'Knee flexion; hip extension; lateral rotation of tibia',origin:'Long head: ischial tuberosity. Short head: linea aspera',insertion:'Head of fibula',nerve:'Tibial/common fibular nerves',view:'back',region:'hamstrings'},
   {group:'knee',name:'Semitendinosus',action:'Knee flexion; hip extension; medial rotation of tibia',origin:'Ischial tuberosity',insertion:'Pes anserinus (medial tibia)',nerve:'Tibial nerve (L5–S2)',view:'back',region:'hamstrings'},
   {group:'knee',name:'Semimembranosus',action:'Knee flexion; hip extension; medial rotation of tibia',origin:'Ischial tuberosity',insertion:'Medial tibial condyle',nerve:'Tibial nerve (L5–S2)',view:'back',region:'hamstrings'},
   {group:'knee',name:'Sartorius',action:'Hip flexion, abduction & lateral rotation; knee flexion',origin:'ASIS',insertion:'Pes anserinus (medial tibia)',nerve:'Femoral nerve (L2–L3)',view:'front',region:'quads'},
+  {group:'knee',name:'Gracilis',action:'Hip adduction; knee flexion; medial rotation of tibia',origin:'Inferior pubic ramus & pubic symphysis',insertion:'Pes anserinus (medial tibia)',nerve:'Obturator nerve (L2–L3)',view:'front',region:'hip_adductors'},
+  {group:'knee',name:'Popliteus',action:'Unlocks knee from full extension; medial tibial rotation',origin:'Lateral femoral condyle',insertion:'Posterior proximal tibia',nerve:'Tibial nerve (L4–S1)',view:'back',region:'hamstrings'},
+  // LEG & FOOT
   {group:'leg',name:'Gastrocnemius',action:'Plantarflexion; assists knee flexion',origin:'Medial & lateral femoral condyles',insertion:'Calcaneus via Achilles tendon',nerve:'Tibial nerve (S1–S2)',view:'back',region:'calf'},
   {group:'leg',name:'Soleus',action:'Plantarflexion (dominant during standing)',origin:'Posterior head of fibula, soleal line of tibia',insertion:'Calcaneus via Achilles tendon',nerve:'Tibial nerve (S1–S2)',view:'back',region:'calf'},
+  {group:'leg',name:'Plantaris',action:'Weak plantarflexion; assists knee flexion',origin:'Lateral femoral condyle (above gastrocnemius)',insertion:'Calcaneus via Achilles tendon',nerve:'Tibial nerve (S1–S2)',view:'back',region:'calf'},
   {group:'leg',name:'Tibialis Anterior',action:'Dorsiflexion; inversion of foot',origin:'Lateral tibia, interosseous membrane',insertion:'Medial cuneiform, base of 1st metatarsal',nerve:'Deep fibular nerve (L4–L5)',view:'front',region:'shin'},
   {group:'leg',name:'Tibialis Posterior',action:'Plantarflexion; inversion; supports medial arch',origin:'Posterior tibia & fibula, interosseous membrane',insertion:'Navicular tuberosity, cuneiforms, metatarsals 2–4',nerve:'Tibial nerve (L4–L5)',view:'back',region:'calf'},
+  {group:'leg',name:'Extensor Hallucis Longus',action:'Extends great toe; assists dorsiflexion & inversion',origin:'Middle anterior fibula & interosseous membrane',insertion:'Dorsal base of distal phalanx (hallux)',nerve:'Deep fibular nerve (L5)',view:'front',region:'shin'},
+  {group:'leg',name:'Extensor Digitorum Longus',action:'Extends toes 2–5; assists dorsiflexion & eversion',origin:'Lateral tibial condyle, anterior fibula, interosseous membrane',insertion:'Middle & distal phalanges of toes 2–5',nerve:'Deep fibular nerve (L5–S1)',view:'front',region:'shin'},
+  {group:'leg',name:'Peroneus (Fibularis) Tertius',action:'Dorsiflexion; eversion of foot',origin:'Lower anterior fibula',insertion:'Base of 5th metatarsal',nerve:'Deep fibular nerve (L5–S1)',view:'front',region:'shin'},
+  {group:'leg',name:'Peroneus (Fibularis) Longus',action:'Eversion; plantarflexion; supports lateral & transverse arches',origin:'Head & upper lateral fibula',insertion:'Medial cuneiform & base of 1st metatarsal (crosses sole)',nerve:'Superficial fibular nerve (L5–S1)',view:'back',region:'calf'},
+  {group:'leg',name:'Peroneus (Fibularis) Brevis',action:'Eversion; weak plantarflexion',origin:'Lower lateral fibula',insertion:'Styloid process of 5th metatarsal',nerve:'Superficial fibular nerve (L5–S1)',view:'back',region:'calf'},
+  {group:'leg',name:'Flexor Hallucis Longus',action:'Flexes great toe; plantarflexion; supports medial arch',origin:'Posterior fibula & interosseous membrane',insertion:'Plantar base of distal phalanx (hallux)',nerve:'Tibial nerve (S2–S3)',view:'back',region:'calf'},
+  {group:'leg',name:'Flexor Digitorum Longus',action:'Flexes toes 2–5; plantarflexion; supports medial arch',origin:'Posterior tibia',insertion:'Plantar bases of distal phalanges toes 2–5',nerve:'Tibial nerve (L5–S2)',view:'back',region:'calf'},
+  // RESPIRATION
   {group:'respiration',name:'Diaphragm',action:'Primary muscle of respiration — flattens on inhalation',origin:'Xiphoid process, costal cartilages 7–12, L1–L3',insertion:'Central tendon',nerve:'Phrenic nerve (C3–C5)',view:'front',region:'abdomen'},
   {group:'respiration',name:'External Intercostals',action:'Elevates ribs during inhalation',origin:'Inferior border of upper rib',insertion:'Superior border of lower rib',nerve:'Intercostal nerves (T1–T11)',view:'front',region:'chest'},
   {group:'respiration',name:'Internal Intercostals',action:'Depresses ribs during forced exhalation',origin:'Superior border of lower rib',insertion:'Inferior border of upper rib',nerve:'Intercostal nerves (T1–T11)',view:'front',region:'chest'},
+  {group:'respiration',name:'Levatores Costarum Longis & Brevis',action:'Elevates ribs (accessory inspiration); assists lateral trunk extension',origin:'Transverse processes C7–T11',insertion:'Rib below (brevis); two ribs below (longis)',nerve:'Dorsal rami of thoracic spinal nerves',view:'back',region:'mid_back'},
+  {group:'respiration',name:'Serratus Posterior Superior',action:'Elevates ribs 2–5 (accessory inspiration)',origin:'Nuchal ligament, C7–T3 spinous processes',insertion:'Ribs 2–5 (superior border)',nerve:'Intercostal nerves T1–T4',view:'back',region:'upper_back'},
+  {group:'respiration',name:'Serratus Posterior Inferior',action:'Depresses ribs 9–12 (resists diaphragm pull); accessory expiration',origin:'T11–L3 spinous processes',insertion:'Ribs 9–12 (inferior border)',nerve:'Intercostal nerves T9–T12',view:'back',region:'lower_back'},
   {group:'respiration',name:'Transversus Abdominis',action:'Forced exhalation; core stabilization; compresses abdomen',origin:'Thoracolumbar fascia, iliac crest, costal cartilages 7–12',insertion:'Linea alba, pubic crest',nerve:'Thoracoabdominal nerves (T7–T12), L1',view:'front',region:'abdomen'},
 ];
-
+ 
 // ============================================================
 // BODY MAP SVG DEFINITIONS
 // ============================================================
@@ -704,11 +761,12 @@ const regionMuscleMap = {
   lower_back: ['Trapezius (Lower)','Latissimus Dorsi','Iliocostalis','Quadratus Lumborum'],
   deep_spine: ['Multifidus'],
   glutes: ['Gluteus Maximus','Gluteus Medius','Gluteus Minimus'],
-  deep_hip: ['Piriformis'],
+  hip_adductors: ['Pectineus','Adductor Magnus','Adductor Longus','Adductor Brevis','Gracilis'],
+  deep_hip: ['Piriformis','Obturator Externus','Obturator Internus','Gemellus Superior & Inferior','Quadratus Femoris'],
   hamstrings: ['Biceps Femoris','Semitendinosus','Semimembranosus'],
   calf: ['Gastrocnemius','Soleus','Tibialis Posterior'],
 };
-
+ 
 // Color scheme per region type
 function regionColor(region, selected) {
   const posteriorRegions = ['upper_back','mid_back','lower_back','deep_spine','glutes','deep_hip','hamstrings','calf'];
@@ -718,7 +776,7 @@ function regionColor(region, selected) {
   if (posteriorRegions.includes(region)) return { fill:'rgba(196,113,90,0.25)', stroke:'#C4715A', sw:1.5 };
   return { fill:'rgba(74,115,80,0.2)', stroke:'#4A7350', sw:1.5 };
 }
-
+ 
 // Build front SVG
 function buildFrontSVG(selectedRegion) {
   const S = (region, paths) => {
@@ -803,7 +861,7 @@ function buildFrontSVG(selectedRegion) {
     </g>
   </svg>`;
 }
-
+ 
 function buildBackSVG(selectedRegion) {
   const S = (region, paths) => {
     const c = regionColor(region, region === selectedRegion);
@@ -876,7 +934,7 @@ function buildBackSVG(selectedRegion) {
     </g>
   </svg>`;
 }
-
+ 
 function buildSideSVG(selectedRegion) {
   const S = (region, paths) => {
     const c = regionColor(region, region === selectedRegion);
@@ -922,13 +980,13 @@ function buildSideSVG(selectedRegion) {
     </g>
   </svg>`;
 }
-
+ 
 // ============================================================
 // BODY MAP STATE
 // ============================================================
 let currentView = 'front';
 let selectedRegion = null;
-
+ 
 function setView(view, btn) {
   currentView = view;
   document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -938,7 +996,7 @@ function setView(view, btn) {
   document.getElementById('body-side').style.display = view === 'side' ? 'block' : 'none';
   renderBodyView();
 }
-
+ 
 function renderBodyView() {
   const front = document.getElementById('body-front');
   const back = document.getElementById('body-back');
@@ -947,13 +1005,13 @@ function renderBodyView() {
   back.innerHTML = buildBackSVG(currentView === 'back' ? selectedRegion : null);
   side.innerHTML = buildSideSVG(currentView === 'side' ? selectedRegion : null);
 }
-
+ 
 function selectRegion(region) {
   selectedRegion = region;
   renderBodyView();
   showMuscleInfo(region);
 }
-
+ 
 function showMuscleInfo(region) {
   const panel = document.getElementById('muscle-info-panel');
   const muscles = (regionMuscleMap[region] || []).map(name => muscleData.find(m => m.name === name)).filter(Boolean);
@@ -972,7 +1030,7 @@ function showMuscleInfo(region) {
   });
   panel.innerHTML = html;
 }
-
+ 
 // ============================================================
 // VISUAL QUIZ
 // ============================================================
@@ -990,12 +1048,12 @@ const visualQuizData = [
   { region:'lateral_trunk', view:'front', question:'What action do the obliques perform during imprinted pelvic placement?', correctAnswer:'Shortening (without glute activation)', options:['Lengthening eccentrically','Shortening (without glute activation)','Isometric hold only','Full concentric activation with glutes'], explanation:'In the imprinted position, the obliques shorten to create the slight posterior pelvic tilt — critically, WITHOUT activating the gluteals. This is a key STOTT distinction.' },
   { region:'deep_spine', view:'back', question:'How many vertebral levels does the multifidus typically span?', correctAnswer:'2–4 vertebral levels', options:['1 vertebral level only','2–4 vertebral levels','5–7 vertebral levels','The entire lumbar spine'], explanation:'The multifidus spans 2–4 vertebral levels. This short span makes it ideal for fine segmental control and deep spinal stabilization rather than gross movement.' },
 ];
-
+ 
 let vqIndex = 0;
 let vqScore = 0;
 let vqQuestions = [];
 let vqAnswered = false;
-
+ 
 function startVisualQuiz() {
   vqQuestions = [...visualQuizData].sort(() => Math.random() - 0.5).slice(0, 10);
   vqIndex = 0; vqScore = 0; vqAnswered = false;
@@ -1004,7 +1062,7 @@ function startVisualQuiz() {
   document.getElementById('vquiz-active').style.display = 'block';
   renderVisualQuestion();
 }
-
+ 
 function renderVisualQuestion() {
   if (vqIndex >= vqQuestions.length) { showVisualScore(); return; }
   vqAnswered = false;
@@ -1017,12 +1075,12 @@ function renderVisualQuestion() {
   const fb = document.getElementById('vquiz-feedback');
   fb.classList.remove('show','correct','wrong');
   document.getElementById('vquiz-next-btn').style.display = 'none';
-
+ 
   // Render body SVG with highlighted region
   const svgFns = { front: buildFrontSVG, back: buildBackSVG, side: buildSideSVG };
   const svgFn = svgFns[q.view] || buildFrontSVG;
   document.getElementById('vquiz-svg-container').innerHTML = svgFn(q.region);
-
+ 
   // Render options
   const opts = document.getElementById('vquiz-options');
   opts.innerHTML = '';
@@ -1036,7 +1094,7 @@ function renderVisualQuestion() {
     opts.appendChild(btn);
   });
 }
-
+ 
 function selectVisualAnswer(idx) {
   if (vqAnswered) return;
   vqAnswered = true;
@@ -1053,9 +1111,9 @@ function selectVisualAnswer(idx) {
   fb.textContent = (isCorrect ? '✓ Correct! ' : '✗ Not quite. ') + q.explanation;
   document.getElementById('vquiz-next-btn').style.display = 'inline-block';
 }
-
+ 
 function nextVisualQuestion() { vqIndex++; renderVisualQuestion(); }
-
+ 
 function showVisualScore() {
   document.getElementById('vquiz-active').style.display = 'none';
   document.getElementById('vquiz-done').style.display = 'block';
@@ -1064,7 +1122,7 @@ function showVisualScore() {
   document.getElementById('vscore-sub').textContent = `${vqScore} correct out of ${vqQuestions.length}`;
   document.getElementById('vscore-msg').textContent = pct >= 80 ? '🎉 Exam-ready!' : pct >= 60 ? '💪 Keep practicing!' : '📚 More review needed!';
 }
-
+ 
 // ============================================================
 // FLASHCARD DATA
 // ============================================================
@@ -1098,7 +1156,7 @@ const flashcardData = [
   {cat:'reformer',q:'What is a closed kinetic chain exercise?',a:'Distal limb is in contact with a fixed surface (e.g., feet on footbar). Neutral pelvic placement is usually preferred.'},
   {cat:'reformer',q:'What is an open kinetic chain exercise?',a:'Distal end moves freely. Imprinted position is often used for greater stability.'},
 ];
-
+ 
 const quizData = [
   // ---- 5 PRINCIPLES (14) ----
   {cat:'5principles',q:'In STOTT PILATES, where should the breath emphasis be directed?',options:['Anterior chest and neck','Posterior and lateral aspects of the rib cage','Only into the belly','Upper trapezius area'],correct:1,explanation:'STOTT PILATES emphasizes 3D breathing, especially into the posterior and lateral rib cage, as these are under-utilized areas.'},
@@ -1115,7 +1173,7 @@ const quizData = [
   {cat:'5principles',q:'What cue confirms proper scapular stabilization when lying supine?',options:['Shoulder blades dig into the mat','Shoulder blades float off the mat','Shoulder blades are flat and wide on the mat without gripping','Shoulders pull toward the ears'],correct:2,explanation:'Scapulae should lie flat and wide on the mat without gripping — relaxed yet stable, not winging or elevating.'},
   {cat:'5principles',q:'During a STOTT PILATES exhale, what direction does the rib cage move?',options:['Out and up','Stays neutral','In and down','Laterally only'],correct:2,explanation:'Exhale: rib cage closes IN and DOWN — this promotes spinal flexion and activates deep abdominal stabilizers.'},
   {cat:'5principles',q:'When is anterior pelvic tilt used intentionally in STOTT PILATES?',options:['Never — it is always corrected','During prone extension work to support lumbar extension','During all supine exercises','As an alternative to neutral for everyone'],correct:1,explanation:'Anterior pelvic tilt is intentionally used during prone spinal extension exercises to support the natural lumbar curve.'},
-
+ 
   // ---- ANATOMY (14) ----
   {cat:'anatomy',q:'What type of contraction occurs when a muscle lengthens while producing force?',options:['Concentric','Isometric','Eccentric','Isotonic'],correct:2,explanation:'Eccentric = muscle lengthens while producing force. Controls deceleration in the lowering phases of Pilates.'},
   {cat:'anatomy',q:'Which plane do flexion and extension occur in?',options:['Frontal plane','Transverse plane','Sagittal plane','Oblique plane'],correct:2,explanation:'Flexion and extension occur in the sagittal plane, which divides the body left and right.'},
@@ -1131,7 +1189,7 @@ const quizData = [
   {cat:'anatomy',q:'What is the primary function of the intervertebral disc?',options:['Produce synovial fluid','Act as a shock absorber between vertebrae','Connect the sacrum to the pelvis','Protect the spinal cord'],correct:1,explanation:'Intervertebral discs act as shock absorbers and allow slight movement between vertebrae. They have a nucleus pulposus center and annulus fibrosus outer ring.'},
   {cat:'anatomy',q:'Which term describes movement of a limb toward the midline of the body?',options:['Abduction','Flexion','Adduction','Internal rotation'],correct:2,explanation:'Adduction = moving toward the midline. Abduction = moving away from midline.'},
   {cat:'anatomy',q:'The angle between two body segments decreasing is called?',options:['Extension','Abduction','Flexion','Circumduction'],correct:2,explanation:'Flexion decreases the joint angle. Extension increases the joint angle back to anatomical position (or beyond = hyperextension).'},
-
+ 
   // ---- MUSCLES (14) ----
   {cat:'muscles',q:'Which muscle is the PRIMARY muscle of respiration?',options:['External intercostals','Transversus abdominis','Diaphragm','Serratus posterior'],correct:2,explanation:'The diaphragm is the primary muscle of respiration. It contracts (flattens) on inhalation. Phrenic nerve (C3–C5).'},
   {cat:'muscles',q:'What are the 4 rotator cuff muscles?',options:['Supraspinatus, Infraspinatus, Teres Minor, Subscapularis','Supraspinatus, Infraspinatus, Teres Major, Subscapularis','Deltoid, Infraspinatus, Teres Minor, Subscapularis','Supraspinatus, Pec Minor, Teres Minor, Subscapularis'],correct:0,explanation:'SITS: Supraspinatus, Infraspinatus, Teres Minor, Subscapularis. They stabilize the humeral head in the glenoid.'},
@@ -1147,7 +1205,7 @@ const quizData = [
   {cat:'muscles',q:'Which muscle is the primary wrist flexor?',options:['Extensor carpi radialis','Flexor carpi ulnaris only','Flexor carpi radialis and flexor carpi ulnaris','Palmaris longus only'],correct:2,explanation:'Primary wrist flexors are flexor carpi radialis and flexor carpi ulnaris, assisted by palmaris longus.'},
   {cat:'muscles',q:'The gastrocnemius differs from the soleus because it:',options:['Only plantar flexes','Crosses the knee joint and also flexes it','Is deeper and works more in standing','Has no attachment to the calcaneus'],correct:1,explanation:'Gastrocnemius crosses the knee (attaches above femoral condyles) so it assists knee flexion in addition to plantar flexion.'},
   {cat:'muscles',q:'Which deep hip rotator is commonly involved in piriformis syndrome?',options:['Gluteus maximus','Obturator internus','Piriformis','Quadratus femoris'],correct:2,explanation:'Piriformis is the most commonly hypertonic deep hip rotator. When tight, it can compress the sciatic nerve (piriformis syndrome).'},
-
+ 
   // ---- EXAM PROCESS (8) ----
   {cat:'exam',q:'What is the passing score for the STOTT PILATES exam?',options:['75% overall, 70% per section','80% overall AND 75% minimum per component','90% overall','70% overall'],correct:1,explanation:'80% average AND 75% minimum per component. Both requirements must be met.'},
   {cat:'exam',q:'How long after your last course must you take the exam?',options:['3 months','12 months','6 months','9 months'],correct:2,explanation:'You must take your exam within 6 months of completing your last STOTT PILATES Education course.'},
@@ -1157,7 +1215,7 @@ const quizData = [
   {cat:'exam',q:'Which component is assessed in the STOTT PILATES written exam?',options:['Only exercise technique','Anatomy, principles, and exercise knowledge','Practical teaching only','Client programming'],correct:1,explanation:'The written exam assesses anatomy, biomechanics, the 5 Principles, and exercise knowledge.'},
   {cat:'exam',q:'The Essential Reformer Footwork series uses how many springs?',options:['1 to 2 springs','2 springs only','3 to 4 springs','4 to 5 springs'],correct:2,explanation:'Essential Reformer Footwork is performed with 3 to 4 springs.'},
   {cat:'exam',q:'Running on the Reformer is performed with how many springs and how many reps?',options:['1 spring, 10–20 reps','2–3 springs, 20–60 reps','4 springs, 15 reps','2 springs, 10 reps'],correct:1,explanation:'Running: 2–3 springs, 20–60 reps — the high rep range makes it an effective cardiovascular cool-down exercise.'},
-
+ 
   // ---- CONTRACTIONS — HOW MUSCLES WORK (30) ----
   {cat:'contractions',q:'During the PUSH phase of Footwork on the Reformer, how do the quadriceps work?',options:['Eccentrically — lengthening as you push','Concentrically — shortening to extend the knee','Isometrically — no length change','Contralaterally — opposite side fires'],correct:1,explanation:'Quads contract CONCENTRICALLY during the push (knee extension), shortening to produce force against the spring.'},
   {cat:'contractions',q:'During the RETURN phase of Footwork, how do the quadriceps work?',options:['Concentrically','Isometrically','Eccentrically — controlling knee flexion against spring resistance','Contralaterally'],correct:2,explanation:'On return, the quads work ECCENTRICALLY — they lengthen to control the carriage coming back in against spring resistance.'},
@@ -1189,7 +1247,7 @@ const quizData = [
   {cat:'contractions',q:'During the Frog on the Reformer, the hip external rotators work how at the END of the extension (fully out)?',options:['Concentrically','Eccentrically','Isometrically — holding the rotated position','Contralaterally'],correct:2,explanation:'At the end range, the hip external rotators work ISOMETRICALLY to maintain the turned-out position while other muscles produce the movement.'},
   {cat:'contractions',q:'In Arms Pulling Straps — Airplane, the erector spinae work how to maintain spinal extension?',options:['Concentrically','Eccentrically','Isometrically — sustaining extension against gravity','Contralaterally'],correct:2,explanation:'Erector spinae works ISOMETRICALLY in Airplane — it holds the spine in extension against gravity while the arms move.'},
   {cat:'contractions',q:'During Knee Stretches — Round Back, the abdominals primarily work to hold the flexed position. This is:',options:['Concentric','Eccentric','Isometric','Contralateral'],correct:2,explanation:'Abdominals hold round back position ISOMETRICALLY — the trunk is fixed in flexion while legs push and pull the carriage.'},
-
+ 
   // ---- EXERCISES (20) ----
   {cat:'exercises',q:'Which Reformer exercise works the muscles concentrically during ABDUCTION and eccentrically during ADDUCTION?',options:['Hip Lift','Hundred','Side Splits','Mermaid'],correct:2,explanation:'Side Splits: glutes medius concentrically during abduction (pushing out) and adductors concentrically on return (pulling in), with eccentric control on each phase.'},
   {cat:'exercises',q:'The Short Spine exercise is excellent for which postural correction?',options:['Genu valgum','Kyphosis and stiff thoracic spine','Ankle pronation','Scapular winging'],correct:1,explanation:'Short Spine promotes spinal articulation through the thoracic spine — ideal for kyphosis and thoracic stiffness.'},
@@ -1212,8 +1270,8 @@ const quizData = [
   {cat:'exercises',q:'Coordination (Intermediate) is best described as which motor pattern?',options:['Ipsilateral — same side arm and leg','Contralateral — opposite limbs working together with trunk stabilization','Bilateral — both sides always equal','Isometric — no limb movement'],correct:1,explanation:'Coordination is a CONTRALATERAL pattern: arms pull as legs extend, then legs open/close — a complex dissociation challenge.'},
   {cat:'exercises',q:'Which postural issue is BEST addressed by the Hip Lift in both Essential and Intermediate reformer?',options:['Kyphosis and forward head','Rounded shoulders','Anterior pelvic tilt and weak glutes','Flat-back posture'],correct:2,explanation:'Hip Lift directly targets weak glutes and corrects anterior pelvic tilt — the glutes concentrically lift and eccentrically lower the pelvis.'},
 ];
-
-
+ 
+ 
 // ============================================================
 // PANEL NAV
 // ============================================================
@@ -1224,14 +1282,14 @@ function showPanel(id, btn) {
   if (btn) btn.classList.add('active');
   else document.querySelectorAll('.nav-tab')[0].classList.add('active');
 }
-
+ 
 // ============================================================
 // FLASHCARDS
 // ============================================================
 let filteredCards = [...flashcardData];
 let currentCardIndex = 0;
 let isFlipped = false;
-
+ 
 function filterCards(cat, btn) {
   document.querySelectorAll('#panel-flashcards .pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
@@ -1240,7 +1298,7 @@ function filterCards(cat, btn) {
   document.getElementById('flashcard-inner').classList.remove('flipped');
   renderCard();
 }
-
+ 
 function renderCard() {
   if (!filteredCards.length) return;
   const card = filteredCards[currentCardIndex];
@@ -1251,20 +1309,20 @@ function renderCard() {
   document.getElementById('fc-counter').textContent = `Card ${current} of ${total}`;
   document.getElementById('fc-progress').style.width = `${(current/total)*100}%`;
 }
-
+ 
 function flipCard() { isFlipped = !isFlipped; document.getElementById('flashcard-inner').classList.toggle('flipped', isFlipped); }
 function nextCard() { currentCardIndex = (currentCardIndex+1)%filteredCards.length; isFlipped=false; document.getElementById('flashcard-inner').classList.remove('flipped'); renderCard(); }
 function prevCard() { currentCardIndex = (currentCardIndex-1+filteredCards.length)%filteredCards.length; isFlipped=false; document.getElementById('flashcard-inner').classList.remove('flipped'); renderCard(); }
 function shuffleCards() { filteredCards=filteredCards.sort(()=>Math.random()-.5); currentCardIndex=0; isFlipped=false; document.getElementById('flashcard-inner').classList.remove('flipped'); renderCard(); }
-
+ 
 // ============================================================
 // QUIZ
 // ============================================================
 let quizCategory = 'all';
 let quizQuestions = [], quizIndex = 0, quizScore = 0, quizAnswered = false;
-
+ 
 function setQuizCat(cat, btn) { quizCategory = cat; document.querySelectorAll('#quiz-start .pill').forEach(p=>p.classList.remove('active')); btn.classList.add('active'); }
-
+ 
 function startQuiz() {
   const pool = quizCategory === 'all' ? [...quizData] : quizData.filter(q => q.cat === quizCategory);
   quizQuestions = pool.sort(()=>Math.random()-.5).slice(0, Math.min(100, pool.length));
@@ -1274,7 +1332,7 @@ function startQuiz() {
   document.getElementById('quiz-active').style.display='block';
   renderQuestion();
 }
-
+ 
 function renderQuestion() {
   if (quizIndex >= quizQuestions.length) { showScore(); return; }
   quizAnswered = false;
@@ -1294,7 +1352,7 @@ function renderQuestion() {
     opts.appendChild(btn);
   });
 }
-
+ 
 function selectAnswer(idx) {
   if (quizAnswered) return;
   quizAnswered = true;
@@ -1310,9 +1368,9 @@ function selectAnswer(idx) {
   fb.textContent=(isCorrect?'✓ Correct! ':'✗ Not quite. ')+q.explanation;
   document.getElementById('quiz-next-btn').style.display='inline-block';
 }
-
+ 
 function nextQuestion() { quizIndex++; renderQuestion(); }
-
+ 
 function showScore() {
   document.getElementById('quiz-active').style.display='none';
   document.getElementById('quiz-done').style.display='block';
@@ -1321,13 +1379,13 @@ function showScore() {
   document.getElementById('score-sub').textContent=`${quizScore} correct out of ${quizQuestions.length}`;
   document.getElementById('score-msg').textContent=pct>=80?'🎉 Exam-ready!':pct>=60?'💪 Keep studying!':'📚 More review needed!';
 }
-
+ 
 function showQuizStart() {
   document.getElementById('quiz-active').style.display='none';
   document.getElementById('quiz-done').style.display='none';
   document.getElementById('quiz-start').style.display='block';
 }
-
+ 
 // ============================================================
 // ANATOMY TABLE
 // ============================================================
@@ -1337,7 +1395,7 @@ function filterMuscles(group, btn) {
   const data = group==='all'?muscleData:muscleData.filter(m=>m.group===group);
   renderMuscleTable(data);
 }
-
+ 
 function renderMuscleTable(data) {
   const tbody=document.getElementById('muscle-tbody');
   tbody.innerHTML='';
@@ -1349,12 +1407,12 @@ function renderMuscleTable(data) {
     tbody.appendChild(tr);
   });
 }
-
+ 
 // ============================================================
 // AI TUTOR
 // ============================================================
 const chatHistory = [];
-
+ 
 async function sendChat() {
   const input=document.getElementById('chat-input');
   const msg=input.value.trim();
@@ -1380,7 +1438,7 @@ async function sendChat() {
     chatHistory.push({role:'assistant',content:reply});
   } catch(e) { removeLoading(loadingId); appendMsg('ai','Connection error. Please try again.'); }
 }
-
+ 
 function appendMsg(role,text) {
   const container=document.getElementById('chat-messages');
   const div=document.createElement('div');
@@ -1389,7 +1447,7 @@ function appendMsg(role,text) {
   container.appendChild(div);
   container.scrollTop=container.scrollHeight;
 }
-
+ 
 function appendLoading() {
   const id='loading-'+Date.now();
   const container=document.getElementById('chat-messages');
@@ -1400,10 +1458,10 @@ function appendLoading() {
   container.scrollTop=container.scrollHeight;
   return id;
 }
-
+ 
 function removeLoading(id) { const el=document.getElementById(id); if(el) el.remove(); }
 function quickAsk(text) { document.getElementById('chat-input').value=text; sendChat(); }
-
+ 
 // ============================================================
 // POSTURAL ANALYSIS DATA
 // ============================================================
@@ -1721,14 +1779,14 @@ const paData = {
     },
   ]
 };
-
+ 
 function setPaView(view, btn) {
   document.querySelectorAll('.view-sel-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.pa-view-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('pa-' + view).classList.add('active');
 }
-
+ 
 function togglePaRegion(id) {
   const body = document.getElementById('pa-body-' + id);
   const chevron = document.getElementById('pa-chev-' + id);
@@ -1736,7 +1794,7 @@ function togglePaRegion(id) {
   body.classList.toggle('open', !isOpen);
   chevron.classList.toggle('open', !isOpen);
 }
-
+ 
 function renderPaView(viewKey, gridId) {
   const grid = document.getElementById(gridId);
   if (!grid) return;
@@ -1792,7 +1850,7 @@ function renderPaView(viewKey, gridId) {
     </div>`;
   }).join('');
 }
-
+ 
 // ============================================================
 // WORKOUT REFERENCE DATA
 // ============================================================
@@ -1863,7 +1921,7 @@ const workoutData = [
   {level:'essential',name:'Single Thigh Stretch',group:'Stretch',muscles:'Hip Flexors (Iliopsoas, Rectus Femoris), Quadriceps',posture:'Anterior pelvic tilt; lordosis; hip flexor dominance; kyphosis-lordosis',contractions:['ecc','iso']},
   {level:'essential',name:'Side Splits — Abduction',group:'Side Splits',muscles:'Hip Abductors (Glutes Medius, TFL), Adductors (eccentric control)',posture:'Hip abductor weakness; pelvic drop; genu valgum',contractions:['con','ecc','iso']},
   {level:'essential',name:'Side Splits — Adduction',group:'Side Splits',muscles:'Hip Adductors (Longus, Brevis, Magnus, Gracilis)',posture:'Adductor weakness; hip instability; genu varum',contractions:['con','ecc','iso']},
-
+ 
   // ---- INTERMEDIATE ----
   {level:'intermediate',name:'Footwork 1-2-3-4-5',group:'Footwork',muscles:'Quadriceps, Hamstrings, Glutes, Gastrocnemius, Soleus, Intrinsic Foot',posture:'All footwork postural corrections at greater load/spring variation',contractions:['con','ecc','iso']},
   {level:'intermediate',name:'Second Position 1-2-3',group:'Second Position',muscles:'Glutes (all), Adductors, External/Internal Hip Rotators, Quadriceps',posture:'Hip instability; genu valgum/varum; pelvic obliquity',contractions:['con','ecc','iso']},
@@ -1909,12 +1967,12 @@ const workoutData = [
   {level:'intermediate',name:'Side Splits 1-2-3-4-5-6-7',group:'Side Splits',muscles:'Hip Abductors, Adductors, Core, Lateral Stabilizers',posture:'Hip abductor/adductor imbalance; pelvic drop; genu valgum',contractions:['con','ecc','iso']},
   {level:'intermediate',name:'Star Prep',group:'Balance',muscles:'Glutes (Medius & Maximus), Core, Shoulder Girdle, Lateral Stabilizers',posture:'Lateral trunk weakness; hip abductor weakness; pelvic drop; scoliosis',contractions:['iso','con','ecc']},
 ];
-
+ 
 const ctLabels = {con:'Concentric',ecc:'Eccentric',iso:'Isometric',contra:'Contralateral',ipsi:'Ipsilateral'};
 const ctClass = {con:'ct-con',ecc:'ct-ecc',iso:'ct-iso',contra:'ct-contra',ipsi:'ct-ipsi'};
-
+ 
 let wkActiveLevel = 'all';
-
+ 
 function renderWorkouts() {
   const search = document.getElementById('wk-search') ? document.getElementById('wk-search').value.toLowerCase() : '';
   const tbody = document.getElementById('wk-tbody');
@@ -1936,23 +1994,23 @@ function renderWorkouts() {
       <td><div class="wk-contract">${w.contractions.map(c=>`<span class="ct-tag ${ctClass[c]}">${ctLabels[c]}</span>`).join('')}</div></td>
     </tr>`).join('');
 }
-
+ 
 function filterWorkouts() { renderWorkouts(); }
-
+ 
 function setWkLevel(level, btn) {
   wkActiveLevel = level;
   document.querySelectorAll('.wk-lbtn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderWorkouts();
 }
-
+ 
 // attach search listener after DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   const s = document.getElementById('wk-search');
   if (s) s.addEventListener('input', filterWorkouts);
   renderWorkouts();
 });
-
+ 
 // ============================================================
 // INIT
 // ============================================================
